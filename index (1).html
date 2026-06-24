@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>动中禅修行直播 · Dynamic Meditation Practice Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!--
+========================================================================
+  ✏️ 内容编辑区 —— 只需要修改这一块里"引号内"的文字
+  ------------------------------------------------------------------
+  使用方法：
+  1. 用任何文本编辑器（记事本、VS Code、Notepad++ 都行）打开这个文件
+  2. 找到下面 CONTENT 对象里你想改的那一行
+  3. 只修改引号 " " 里面的文字内容，不要删除引号、逗号、冒号
+  4. 存档后，把整个文件重新拖到 Netlify（或上传到 GitHub）覆盖更新即可
+  5. 中文内容在 zh: { ... } 里，英文内容在 en: { ... } 里，两边要分别改
+  ------------------------------------------------------------------
+  注意：如果某一行文字里本身需要打英文引号 "，必须改成 \" 这种写法
+  （前面加一个反斜杠 \），否则网站会显示错误。不确定就避免用引号。
+========================================================================
+-->
+<script>
+window.CONTENT = {
+
+  zh: {
+    // ---- 顶部导航 ----
+    brand: "动中禅 · 修行记录",
+
+    // ---- 首页大标题区 ----
+    eyebrow: "个人修行 · 公开记录",
+    title_line1: "每一次动作，",
+    title_line2: "都知道自己在动。",
+    subtitle: "这是一个动中禅（隆波田传承）个人修行直播频道的说明网站。记录修行、回应常见问题，不进行宗教比较或辩论。",
+
+    // ---- "这是什么" 板块 ----
+    section_about_label: "关于",
+    section_about_title: "这是什么",
+    about_lead: "动中禅（Mahasati），是已故泰国禅师隆波田所传授的禅修方法，透过一套规律的手部动作，培养对身体动作的纯粹觉知。练习时不需默念、不需分析，只是单纯地\"动一次，知道一次\"。",
+    about_body: "这个法门强调自然、轻松、不刻意，可以与日常生活结合，随时随地练习。直播间里呈现的是真实的练习过程：安静、重复，有专注，也会有妄念生起，如实呈现，不剪辑、不美化。",
+    about_purpose_title: "直播的目的",
+    about_purpose_body: "这个直播有几个并存的目的：督促自己长期、规律地坚持练习；留下完整的修行记录；以及——坦白地说——寻找愿意支持这条修行之路的护持。这几个目的不互相排斥，公开说明，是希望以诚实的方式呈现，而不必假装某个目的不存在。",
+    about_notice: "全程安静练习，不讲解、不开示。不进行宗教比较、辩论或劝说，也不代表任何宗教立场的评判。",
+
+    // ---- 个人修行背景板块 ----
+    section_journey_label: "修行历程",
+    section_journey_title: "我的修行背景",
+    // 下面这段是占位文字，等上传修行历程文档后会替换成详细版本
+    journey_placeholder: "【此处待补充：完整的个人修行历程，包括最初接触佛法的因缘、短期出家经验、内观禅修营经历、以及目前依循隆波田与隆波帕默教导练习的过程。】",
+    journey_years_label: "修行年数",
+    journey_years_value: "近五年",
+
+    // ---- 隆波帕默介绍板块 ----
+    section_pramote_label: "法门背景",
+    section_pramote_title: "关于隆波帕默尊者",
+    pramote_body1: "隆波帕默尊者（Luangpor Pramote Pamojjo）是泰国当代知名的禅修导师，具有丰富的止观（奢摩他与毗婆舍那）修行经验。他以\"观心\"法门闻名，特别适合念头纷杂、生活忙碌的现代人。",
+    pramote_body2: "隆波帕默教导的核心原则是：保持觉性，以安住且中立的心，如实了知身、心的实相——不是紧盯、不是控制，只是单纯地知道。当心生起满意或不满意的反应时，也只是如实知道这个反应本身，让心回到中立、安住的状态。",
+    pramote_body3: "这个法门和动中禅彼此互补：动中禅训练对身体动作的觉知，隆波帕默的教导则更着重训练对心念起伏的觉知。两者合在一起练习，是我目前修行的主要方式。",
+
+    // ---- 支持/护持板块 ----
+    section_support_label: "支持与护持",
+    section_support_title: "关于资助",
+    support_body1: "本频道目前不主动设定任何时间表来开始接受资助，单纯等待有缘人——如果有人认同这件事的价值，自然想提供帮助，那时候再谈。不会因为开播了多久、订阅了多少人，就改变这个态度。",
+    support_body2: "若有个人或团体希望提供日常生活所需的协助，欢迎透过下方联系方式洽谈——但只透过线下、一对一的方式进行，不接受任何附带条件（例如要求加入团体、参与特定活动、配合宣传等），保持修行的独立与自由身。",
+    support_contact_label: "联系方式（非商业用途）：",
+    support_contact_value: "你的邮箱占位@example.com",
+
+    // ---- FAQ 板块 ----
+    section_faq_label: "常见问题",
+    section_faq_title: "常见问题",
+
+    faq_monk_q: "为何不出家？",
+    faq_monk_a: "出家是一种选择，不是唯一正确的修行方式。我评估过实际情况——身体状况无法配合过午不食，以及寺院日常的法会与接待活动对我而言负荷过高——目前在家修行更适合我。出家不是\"更高级\"的修行，重点是找到自己能持续走下去的方式。",
+
+    faq_precepts_q: "为何无法守八戒？",
+    faq_precepts_a: "过午不食这一条，我身体状况无法配合，不是不愿意。我有裂孔疝（hiatal hernia）——胃的上半部分经横膈膜的开口移位到胸腔，容易造成胃酸反流。这种情况下，长时间空腹反而会让胃酸在空胃中持续刺激食道，使反流和不适加重；规律的少量进食，是控制症状的常见方式，过午不食对我而言并非单纯的意志力问题，是身体结构造成的限制。戒律的精神是简化生活、减少贪欲，这个精神我在日常生活中以适合自己身体状况的方式实践，但不勉强做身体无法承受的事——那会让修行变成跟身体对抗。",
+
+    faq_livestream_q: "为何要公开禅修？",
+    faq_livestream_a: "公开直播有几个目的：督促自己长期坚持练习、留下修行记录，也包括寻找认同这件事并愿意提供护持的人。这不是表演，也不是教学——动中禅本身不需要观众，公开只是在原有的修行之上，多加了这几层用途。",
+
+    faq_method_q: "为何用动中禅，而不是其他方法？",
+    faq_method_a: "我接触过不同的禅修方式，最终在隆波田、隆波帕默的传承上持续了近五年。选择一个法门不是\"哪个最正统\"的比较，是\"哪个我真的能长期稳定地练下去\"——这是我自己走了五年验证过的。",
+
+    faq_job_q: "为何不去找正式工作？",
+    faq_job_a: "我一直在积极求职，方向是自动化与 AI 相关岗位，这跟我的学历和技术背景匹配。直播禅修和求职是同时进行的两件事，不是用禅修取代工作。",
+
+    faq_family_q: "为何依赖家人？",
+    faq_family_a: "这是过渡期的暂时安排。我有自己的存款，足够支撑一段时间的生活，家人的支持是额外缓冲，不是唯一来源，也不是长期依赖。",
+
+    faq_escape_q: "这样做是不是在逃避现实？",
+    faq_escape_a: "我同时在积极求职，这不是逃避，是选择用这段过渡期同时安顿自己的身心状态。",
+
+    // ---- 留言规则板块 ----
+    section_rules_label: "规则",
+    section_rules_title: "留言与互动",
+    rule1: "评论区开放善意交流，不开放教义辩论；攻击、嘲讽、传教或针对其他信仰/群体的言论将被隐藏或删除，不另行解释。",
+    rule2: "直播过程中专注练习，可能无法即时回复留言，敬请理解。",
+    rule3: "本频道不公开具体居住地址或位置信息，相关询问不会被回应。",
+
+    // ---- 页脚 ----
+    footer_line: "每一次重复，都是一次新的开始。"
+  },
+
+  en: {
+    brand: "Dynamic Meditation Journal",
+
+    eyebrow: "Personal Practice · Public Record",
+    title_line1: "Each movement,",
+    title_line2: "known as it happens.",
+    subtitle: "A companion site for a personal Mahasati (dynamic meditation, Luangpor Teean lineage) livestream practice. Documenting the practice and answering common questions — not a platform for religious debate or comparison.",
+
+    section_about_label: "ABOUT",
+    section_about_title: "What this is",
+    about_lead: "Mahasati, taught by the late Thai meditation master Luangpor Teean, is a practice of cultivating pure awareness of bodily movement through a set sequence of hand motions. No mantra, no analysis — simply moving, and knowing that you moved.",
+    about_body: "The method emphasizes naturalness and ease over forced concentration, and can be practiced anywhere, integrated into daily life. What you'll see on the livestream is the real process: quiet, repetitive, sometimes focused, sometimes wandering — shown as it is, unedited and unembellished.",
+    about_purpose_title: "Why this livestream exists",
+    about_purpose_body: "This livestream serves a few purposes at once: sustaining long-term, regular practice through accountability; keeping a record of the practice; and — to be direct about it — finding people willing to support this path. These purposes aren't mutually exclusive, and stating them openly is meant to be honest rather than pretending one of them isn't there.",
+    about_notice: "The practice is silent throughout — no narration, no teaching. This is not a space for religious comparison, debate, or persuasion, and does not represent a judgment of any other faith.",
+
+    section_journey_label: "PRACTICE HISTORY",
+    section_journey_title: "My background in practice",
+    journey_placeholder: "[To be completed: full personal practice history, including how I first encountered the Dhamma, a short-term ordination experience, a vipassana retreat, and the ongoing practice under the teachings of Luangpor Teean and Luangpor Pramote.]",
+    journey_years_label: "Years of practice",
+    journey_years_value: "Nearly five years",
+
+    section_pramote_label: "LINEAGE",
+    section_pramote_title: "About Luangpor Pramote",
+    pramote_body1: "Luangpor Pramote Pamojjo is a well-known contemporary Thai meditation teacher with extensive experience in both samatha and vipassana practice. He is known for the \"watching the mind\" (citta) method, particularly suited to people with busy, thought-crowded modern lives.",
+    pramote_body2: "The core principle of his teaching is: maintain awareness, with a settled and neutral mind, to know the reality of body and mind as they truly are — not staring fixedly, not controlling, simply knowing. When the mind reacts with liking or disliking, that reaction itself is simply known, allowing the mind to return to a neutral, settled state.",
+    pramote_body3: "This approach complements Mahasati well: Mahasati trains awareness of bodily movement, while Luangpor Pramote's teaching trains awareness of the mind's rising and passing states. Practicing both together is my main approach currently.",
+
+    section_support_label: "SUPPORT",
+    section_support_title: "On support",
+    support_body1: "This channel does not set any fixed timeline for when support might begin. It simply waits for the right person — if someone recognizes the value of this and naturally wishes to help, that conversation can happen then. This stance won't change based on how long the channel has been running or how many people are watching.",
+    support_body2: "If an individual or group wishes to offer support for daily living needs, you're welcome to reach out via the contact below — but only through offline, one-on-one conversation, with no strings attached (no requirement to join a group, attend events, or provide promotion). Independence of practice comes first.",
+    support_contact_label: "Contact (non-commercial purposes only):",
+    support_contact_value: "your-email-placeholder@example.com",
+
+    section_faq_label: "FAQ",
+    section_faq_title: "Frequently asked",
+
+    faq_monk_q: "Why not become a monk?",
+    faq_monk_a: "Ordination is one path, not the only valid one. I've weighed the realities — my body cannot sustain the no-food-after-noon rule, and monastery life's frequent ceremonies and hosting duties are more than I can sustain. Lay practice isn't a lesser form — what matters is finding a form that's actually sustainable.",
+
+    faq_precepts_q: "Why can't you keep the Eight Precepts?",
+    faq_precepts_a: "The no-food-after-noon rule specifically conflicts with my body, not my willingness. I have a hiatal hernia — part of the upper stomach shifts through an opening in the diaphragm into the chest cavity, which tends to cause acid reflux. With this condition, long gaps without food can let stomach acid continue irritating the esophagus on an empty stomach, worsening reflux and discomfort; regular, smaller meals are a common way to manage the symptoms. Skipping food after noon isn't simply a matter of willpower for me — it's a structural limitation of the body. I practice the spirit of simplicity and reduced craving in ways my body can sustain, rather than forcing a rule that would turn practice into a fight against my own body.",
+
+    faq_livestream_q: "Why livestream meditation publicly?",
+    faq_livestream_a: "The livestream serves several purposes: sustaining long-term practice, keeping a record, and also finding people who recognize this and are willing to offer support. It is not a performance or a teaching session — Mahasati itself needs no audience; going public simply adds these layers on top of the practice.",
+
+    faq_method_q: "Why this method, not another?",
+    faq_method_a: "I've explored different approaches and have sustained the lineage of Luangpor Teean and Luangpor Pramote for nearly five years. Choosing a method isn't about which is most orthodox — it's about which one is actually sustainable, and this is the one I've verified through five years of practice.",
+
+    faq_job_q: "Why not get a regular job?",
+    faq_job_a: "I am actively job hunting, focused on automation and AI-related roles aligned with my background. The livestream and job search happen in parallel — meditation is not a substitute for work.",
+
+    faq_family_q: "Why rely on family support?",
+    faq_family_a: "This is a temporary arrangement during a transition period. I have personal savings covering a period of living costs; family support is an additional buffer, not the sole or permanent source.",
+
+    faq_escape_q: "Isn't this just avoidance?",
+    faq_escape_a: "I'm actively job hunting in parallel — this isn't avoidance, it's choosing to also tend to my wellbeing during a transitional period.",
+
+    section_rules_label: "GUIDELINES",
+    section_rules_title: "Comments & conduct",
+    rule1: "Comments are open for good-faith exchange, not doctrinal debate. Attacks, mockery, proselytizing, or remarks targeting other faiths or groups will be hidden or removed without further explanation.",
+    rule2: "During the livestream, focus stays on practice — replies may not be immediate.",
+    rule3: "This channel does not disclose specific location or address information, and related questions will not be answered.",
+
+    footer_line: "Every repetition is its own beginning."
+  }
+};
+</script>
+<!-- ====================== 内容编辑区结束 ====================== -->
+
+<style>
+  :root{
+    --ink:#1C1B19;
+    --bone:#F2EDE4;
+    --bronze:#8A7355;
+    --moss:#4A5D52;
+    --stone:#C9C3B8;
+    --bone-dim: rgba(242,237,228,0.62);
+    --bone-faint: rgba(242,237,228,0.32);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--bone);
+    font-family:'Inter','Noto Sans SC',sans-serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .serif{font-family:'Fraunces','Noto Serif SC',serif;}
+
+  a{color:var(--bronze); text-decoration:none; border-bottom:1px solid currentColor;}
+  a:hover{color:var(--bone);}
+
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px;
+    background:rgba(28,27,25,0.86);
+    backdrop-filter: blur(8px);
+    border-bottom:1px solid rgba(201,195,184,0.14);
+  }
+  .brand{
+    font-family:'Fraunces','Noto Serif SC',serif;
+    font-size:17px;
+    letter-spacing:0.01em;
+    color:var(--bone);
+  }
+  .lang-switch{
+    display:flex; gap:2px;
+    border:1px solid rgba(201,195,184,0.35);
+    border-radius:999px;
+    padding:3px;
+  }
+  .lang-switch button{
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    letter-spacing:0.04em;
+    padding:6px 14px;
+    border-radius:999px;
+    border:none;
+    background:transparent;
+    color:var(--bone-dim);
+    cursor:pointer;
+    transition:all .2s ease;
+  }
+  .lang-switch button.active{
+    background:var(--bronze);
+    color:var(--ink);
+  }
+
+  .hero{
+    padding:96px 28px 64px;
+    max-width:760px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .tally{
+    display:flex; justify-content:center; gap:7px;
+    margin-bottom:34px;
+    opacity:0.9;
+  }
+  .tally span{
+    width:3px; height:46px;
+    background:var(--bronze);
+    border-radius:1px;
+    transform-origin:bottom;
+    animation:rise .7s ease both;
+  }
+  .tally span:nth-child(1){animation-delay:.02s;}
+  .tally span:nth-child(2){animation-delay:.1s;}
+  .tally span:nth-child(3){animation-delay:.18s;}
+  .tally span:nth-child(4){animation-delay:.26s;}
+  .tally span:nth-child(5){animation-delay:.34s;}
+  @keyframes rise{from{transform:scaleY(0);opacity:0;} to{transform:scaleY(1);opacity:1;}}
+  .tally span:nth-child(4){animation-name:rise-diag; transform:rotate(28deg);}
+  @keyframes rise-diag{from{transform:rotate(28deg) scaleY(0); opacity:0;} to{transform:rotate(28deg) scaleY(1); opacity:1;}}
+
+  .eyebrow{
+    font-size:13px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--bronze);
+    margin-bottom:18px;
+  }
+  h1.title{
+    font-size:clamp(32px,5vw,48px);
+    font-weight:600;
+    margin:0 0 22px;
+    color:var(--bone);
+  }
+  .sub{
+    font-size:17px;
+    color:var(--bone-dim);
+    max-width:560px;
+    margin:0 auto;
+  }
+
+  section{
+    max-width:720px;
+    margin:0 auto;
+    padding:54px 28px;
+  }
+  .divider{
+    display:flex; align-items:center; gap:14px;
+    max-width:720px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+  .divider .line{flex:1; height:1px; background:rgba(201,195,184,0.18);}
+  .divider .mark{
+    font-size:12px; letter-spacing:0.12em;
+    color:var(--bone-faint);
+    font-family:'Inter',sans-serif;
+    white-space:nowrap;
+  }
+
+  h2.h{
+    font-family:'Fraunces','Noto Serif SC',serif;
+    font-size:26px;
+    font-weight:600;
+    color:var(--bone);
+    margin:0 0 22px;
+    display:flex; align-items:baseline; gap:12px;
+  }
+  h2.h .stroke{
+    width:18px; height:2px; background:var(--moss);
+    display:inline-block;
+    flex-shrink:0;
+  }
+  p{color:var(--bone-dim); font-size:16px; margin:0 0 16px;}
+  p.lead{color:var(--bone); font-size:17px;}
+  ul.plain{list-style:none; padding:0; margin:0;}
+  ul.plain li{
+    color:var(--bone-dim);
+    padding:10px 0 10px 22px;
+    border-left:2px solid rgba(138,115,85,0.4);
+    margin-bottom:10px;
+    font-size:15.5px;
+  }
+
+  .notice{
+    border-left:3px solid var(--moss);
+    background:rgba(74,93,82,0.1);
+    padding:18px 22px;
+    border-radius:2px;
+    margin:18px 0;
+  }
+  .notice p{margin:0; color:var(--bone); font-size:15px;}
+
+  .placeholder-box{
+    border:1px dashed rgba(138,115,85,0.5);
+    background:rgba(138,115,85,0.06);
+    padding:22px 24px;
+    border-radius:4px;
+    margin:18px 0;
+  }
+  .placeholder-box p{margin:0; color:var(--bone-faint); font-size:14.5px; font-style:italic;}
+
+  .stat-row{
+    display:flex; gap:32px;
+    margin-top:8px;
+    flex-wrap:wrap;
+  }
+  .stat{
+    border-top:2px solid var(--bronze);
+    padding-top:10px;
+  }
+  .stat .num{
+    font-family:'Fraunces','Noto Serif SC',serif;
+    font-size:22px;
+    color:var(--bone);
+    display:block;
+  }
+  .stat .lbl{
+    font-size:12.5px;
+    color:var(--bone-faint);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+
+  .contact-line{
+    margin-top:18px;
+    padding:16px 20px;
+    background:rgba(242,237,228,0.04);
+    border-radius:4px;
+    font-size:14.5px;
+  }
+  .contact-line .lbl{color:var(--bone-faint); margin-right:8px;}
+  .contact-line .val{color:var(--bronze);}
+
+  footer{
+    text-align:center;
+    padding:48px 28px 64px;
+    color:var(--bone-faint);
+    font-size:13px;
+  }
+  footer .tally{transform:scale(0.55); margin-bottom:14px; opacity:0.5;}
+
+  details{
+    border-bottom:1px solid rgba(201,195,184,0.14);
+    padding:16px 0;
+  }
+  details summary{
+    cursor:pointer;
+    font-family:'Fraunces','Noto Serif SC',serif;
+    color:var(--bone);
+    font-size:16.5px;
+    list-style:none;
+    display:flex; justify-content:space-between; align-items:center;
+    gap:12px;
+  }
+  details summary::-webkit-details-marker{display:none;}
+  details summary::after{
+    content:'+';
+    color:var(--bronze);
+    font-size:20px;
+    margin-left:12px;
+    transition:transform .25s ease;
+    flex-shrink:0;
+  }
+  details[open] summary::after{transform:rotate(45deg);}
+  details .a{color:var(--bone-dim); margin-top:12px; font-size:15px; padding-right:8px;}
+
+  @media (max-width:560px){
+    .hero{padding:64px 20px 48px;}
+    section{padding:40px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand" id="brand-text"></div>
+  <div class="lang-switch">
+    <button data-set="zh" onclick="setLang('zh')">中文</button>
+    <button data-set="en" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="tally"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="eyebrow" id="t-eyebrow"></div>
+  <h1 class="title serif"><span id="t-title1"></span><br><span id="t-title2"></span></h1>
+  <p class="sub" id="t-subtitle"></p>
+</div>
+
+<div class="divider"><div class="line"></div><div class="mark" id="t-about-label"></div><div class="line"></div></div>
+
+<section>
+  <h2 class="h serif"><span class="stroke"></span><span id="t-about-title"></span></h2>
+  <p class="lead" id="t-about-lead"></p>
+  <p id="t-about-body"></p>
+
+  <h2 class="h serif" style="font-size:19px; margin-top:36px;"><span class="stroke"></span><span id="t-purpose-title"></span></h2>
+  <p id="t-purpose-body"></p>
+
+  <div class="notice"><p id="t-about-notice"></p></div>
+</section>
+
+<div class="divider"><div class="line"></div><div class="mark" id="t-journey-label"></div><div class="line"></div></div>
+
+<section>
+  <h2 class="h serif"><span class="stroke"></span><span id="t-journey-title"></span></h2>
+  <div class="stat-row">
+    <div class="stat"><span class="num" id="t-journey-years-val"></span><span class="lbl" id="t-journey-years-lbl"></span></div>
+  </div>
+  <div class="placeholder-box" style="margin-top:20px;">
+    <p id="t-journey-placeholder"></p>
+  </div>
+</section>
+
+<div class="divider"><div class="line"></div><div class="mark" id="t-pramote-label"></div><div class="line"></div></div>
+
+<section>
+  <h2 class="h serif"><span class="stroke"></span><span id="t-pramote-title"></span></h2>
+  <p class="lead" id="t-pramote-body1"></p>
+  <p id="t-pramote-body2"></p>
+  <p id="t-pramote-body3"></p>
+</section>
+
+<div class="divider"><div class="line"></div><div class="mark" id="t-support-label"></div><div class="line"></div></div>
+
+<section>
+  <h2 class="h serif"><span class="stroke"></span><span id="t-support-title"></span></h2>
+  <p id="t-support-body1"></p>
+  <p id="t-support-body2"></p>
+  <div class="contact-line">
+    <span class="lbl" id="t-support-contact-label"></span>
+    <span class="val" id="t-support-contact-value"></span>
+  </div>
+</section>
+
+<div class="divider"><div class="line"></div><div class="mark" id="t-faq-label"></div><div class="line"></div></div>
+
+<section>
+  <h2 class="h serif"><span class="stroke"></span><span id="t-faq-title"></span></h2>
+  <div id="faq-list"></div>
+</section>
+
+<div class="divider"><div class="line"></div><div class="mark" id="t-rules-label"></div><div class="line"></div></div>
+
+<section>
+  <h2 class="h serif"><span class="stroke"></span><span id="t-rules-title"></span></h2>
+  <ul class="plain" id="rules-list"></ul>
+</section>
+
+<footer>
+  <div class="tally"><span></span><span></span><span></span><span></span><span></span></div>
+  <p id="t-footer" style="margin:0;"></p>
+</footer>
+
+<script>
+  var FAQ_KEYS = ['monk','precepts','livestream','method','job','family','escape'];
+
+  function render(lang){
+    var c = window.CONTENT[lang];
+
+    document.getElementById('brand-text').textContent = c.brand;
+    document.getElementById('t-eyebrow').textContent = c.eyebrow;
+    document.getElementById('t-title1').textContent = c.title_line1;
+    document.getElementById('t-title2').textContent = c.title_line2;
+    document.getElementById('t-subtitle').textContent = c.subtitle;
+
+    document.getElementById('t-about-label').textContent = c.section_about_label;
+    document.getElementById('t-about-title').textContent = c.section_about_title;
+    document.getElementById('t-about-lead').textContent = c.about_lead;
+    document.getElementById('t-about-body').textContent = c.about_body;
+    document.getElementById('t-purpose-title').textContent = c.about_purpose_title;
+    document.getElementById('t-purpose-body').textContent = c.about_purpose_body;
+    document.getElementById('t-about-notice').textContent = c.about_notice;
+
+    document.getElementById('t-journey-label').textContent = c.section_journey_label;
+    document.getElementById('t-journey-title').textContent = c.section_journey_title;
+    document.getElementById('t-journey-years-val').textContent = c.journey_years_value;
+    document.getElementById('t-journey-years-lbl').textContent = c.journey_years_label;
+    document.getElementById('t-journey-placeholder').textContent = c.journey_placeholder;
+
+    document.getElementById('t-pramote-label').textContent = c.section_pramote_label;
+    document.getElementById('t-pramote-title').textContent = c.section_pramote_title;
+    document.getElementById('t-pramote-body1').textContent = c.pramote_body1;
+    document.getElementById('t-pramote-body2').textContent = c.pramote_body2;
+    document.getElementById('t-pramote-body3').textContent = c.pramote_body3;
+
+    document.getElementById('t-support-label').textContent = c.section_support_label;
+    document.getElementById('t-support-title').textContent = c.section_support_title;
+    document.getElementById('t-support-body1').textContent = c.support_body1;
+    document.getElementById('t-support-body2').textContent = c.support_body2;
+    document.getElementById('t-support-contact-label').textContent = c.support_contact_label;
+    document.getElementById('t-support-contact-value').textContent = c.support_contact_value;
+
+    document.getElementById('t-faq-label').textContent = c.section_faq_label;
+    document.getElementById('t-faq-title').textContent = c.section_faq_title;
+
+    var faqHtml = '';
+    FAQ_KEYS.forEach(function(key, i){
+      var q = c['faq_' + key + '_q'];
+      var a = c['faq_' + key + '_a'];
+      faqHtml += '<details' + (i === 0 ? ' open' : '') + '>' +
+        '<summary>' + q + '</summary>' +
+        '<p class="a">' + a + '</p>' +
+        '</details>';
+    });
+    document.getElementById('faq-list').innerHTML = faqHtml;
+
+    document.getElementById('t-rules-label').textContent = c.section_rules_label;
+    document.getElementById('t-rules-title').textContent = c.section_rules_title;
+    document.getElementById('rules-list').innerHTML =
+      '<li>' + c.rule1 + '</li>' +
+      '<li>' + c.rule2 + '</li>' +
+      '<li>' + c.rule3 + '</li>';
+
+    document.getElementById('t-footer').textContent = c.footer_line;
+
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh' : 'en');
+  }
+
+  function setLang(l){
+    render(l);
+    document.querySelectorAll('.lang-switch button').forEach(function(btn){
+      btn.classList.toggle('active', btn.dataset.set === l);
+    });
+    try { localStorage.setItem('site-lang', l); } catch(e){}
+  }
+
+  (function(){
+    var saved = null;
+    try { saved = localStorage.getItem('site-lang'); } catch(e){}
+    var lang = saved || 'zh';
+    setLang(lang);
+  })();
+</script>
+
+</body>
+</html>
