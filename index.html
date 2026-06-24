@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>动中禅修行直播 · Dynamic Meditation Practice Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1C1B19;
+    --bone:#F2EDE4;
+    --bronze:#8A7355;
+    --moss:#4A5D52;
+    --stone:#C9C3B8;
+    --bone-dim: rgba(242,237,228,0.62);
+    --bone-faint: rgba(242,237,228,0.32);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--bone);
+    font-family:'Inter','Noto Sans SC',sans-serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .serif{font-family:'Fraunces','Noto Serif SC',serif;}
+  [lang-zh]{display:none;}
+  [lang-en]{display:none;}
+  html[data-lang="zh"] [lang-zh]{display:initial;}
+  html[data-lang="zh"] span[lang-zh]{display:inline;}
+  html[data-lang="zh"] div[lang-zh], html[data-lang="zh"] p[lang-zh], html[data-lang="zh"] li[lang-zh]{display:block;}
+  html[data-lang="en"] [lang-en]{display:initial;}
+  html[data-lang="en"] span[lang-en]{display:inline;}
+  html[data-lang="en"] div[lang-en], html[data-lang="en"] p[lang-en], html[data-lang="en"] li[lang-en]{display:block;}
+
+  a{color:var(--bronze); text-decoration:none; border-bottom:1px solid currentColor;}
+  a:hover{color:var(--bone);}
+
+  /* ---- top bar ---- */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px;
+    background:rgba(28,27,25,0.86);
+    backdrop-filter: blur(8px);
+    border-bottom:1px solid rgba(201,195,184,0.14);
+  }
+  .brand{
+    font-family:'Fraunces','Noto Serif SC',serif;
+    font-size:17px;
+    letter-spacing:0.01em;
+    color:var(--bone);
+  }
+  .lang-switch{
+    display:flex; gap:2px;
+    border:1px solid rgba(201,195,184,0.35);
+    border-radius:999px;
+    padding:3px;
+  }
+  .lang-switch button{
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    letter-spacing:0.04em;
+    padding:6px 14px;
+    border-radius:999px;
+    border:none;
+    background:transparent;
+    color:var(--bone-dim);
+    cursor:pointer;
+    transition:all .2s ease;
+  }
+  html[data-lang="zh"] .lang-switch button[data-set="zh"],
+  html[data-lang="en"] .lang-switch button[data-set="en"]{
+    background:var(--bronze);
+    color:var(--ink);
+  }
+
+  /* ---- hero: tally signature ---- */
+  .hero{
+    padding:96px 28px 64px;
+    max-width:760px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .tally{
+    display:flex; justify-content:center; gap:7px;
+    margin-bottom:34px;
+    opacity:0.9;
+  }
+  .tally span{
+    width:3px; height:46px;
+    background:var(--bronze);
+    border-radius:1px;
+    transform-origin:bottom;
+    animation:rise .7s ease both;
+  }
+  .tally span:nth-child(1){animation-delay:.02s;}
+  .tally span:nth-child(2){animation-delay:.1s;}
+  .tally span:nth-child(3){animation-delay:.18s;}
+  .tally span:nth-child(4){animation-delay:.26s; transform:rotate(28deg) translateX(2px);}
+  .tally span:nth-child(5){animation-delay:.34s;}
+  @keyframes rise{from{transform:scaleY(0);opacity:0;} to{transform:scaleY(1);opacity:1;}}
+  .tally span:nth-child(4){animation-name:rise-diag;}
+  @keyframes rise-diag{from{transform:rotate(28deg) scaleY(0); opacity:0;} to{transform:rotate(28deg) scaleY(1); opacity:1;}}
+
+  .eyebrow{
+    font-size:13px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--bronze);
+    margin-bottom:18px;
+  }
+  h1.title{
+    font-size:clamp(32px,5vw,48px);
+    font-weight:600;
+    margin:0 0 22px;
+    color:var(--bone);
+  }
+  .sub{
+    font-size:17px;
+    color:var(--bone-dim);
+    max-width:560px;
+    margin:0 auto;
+  }
+
+  /* ---- section shell ---- */
+  section{
+    max-width:720px;
+    margin:0 auto;
+    padding:54px 28px;
+  }
+  .divider{
+    display:flex; align-items:center; gap:14px;
+    max-width:720px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+  .divider .line{flex:1; height:1px; background:rgba(201,195,184,0.18);}
+  .divider .mark{
+    font-size:12px; letter-spacing:0.12em;
+    color:var(--bone-faint);
+    font-family:'Inter',sans-serif;
+    white-space:nowrap;
+  }
+
+  h2.h{
+    font-family:'Fraunces','Noto Serif SC',serif;
+    font-size:26px;
+    font-weight:600;
+    color:var(--bone);
+    margin:0 0 22px;
+    display:flex; align-items:baseline; gap:12px;
+  }
+  h2.h .stroke{
+    width:18px; height:2px; background:var(--moss);
+    display:inline-block;
+  }
+  p{color:var(--bone-dim); font-size:16px; margin:0 0 16px;}
+  p.lead{color:var(--bone); font-size:17px;}
+  ul.plain{list-style:none; padding:0; margin:0;}
+  ul.plain li{
+    color:var(--bone-dim);
+    padding:10px 0 10px 22px;
+    border-left:2px solid rgba(138,115,85,0.4);
+    margin-bottom:10px;
+    font-size:15.5px;
+  }
+  .card{
+    background:rgba(242,237,228,0.04);
+    border:1px solid rgba(201,195,184,0.12);
+    border-radius:4px;
+    padding:22px 24px;
+    margin-bottom:14px;
+  }
+  .card .q{
+    font-family:'Fraunces','Noto Serif SC',serif;
+    font-size:16.5px;
+    color:var(--bronze);
+    margin-bottom:10px;
+    font-weight:600;
+  }
+  .card .a{color:var(--bone-dim); font-size:15.5px; margin:0;}
+
+  .notice{
+    border-left:3px solid var(--moss);
+    background:rgba(74,93,82,0.1);
+    padding:18px 22px;
+    border-radius:2px;
+    margin:18px 0;
+  }
+  .notice p{margin:0; color:var(--bone); font-size:15px;}
+
+  footer{
+    text-align:center;
+    padding:48px 28px 64px;
+    color:var(--bone-faint);
+    font-size:13px;
+  }
+  footer .tally{transform:scale(0.55); margin-bottom:14px; opacity:0.5;}
+
+  details{
+    border-bottom:1px solid rgba(201,195,184,0.14);
+    padding:16px 0;
+  }
+  details summary{
+    cursor:pointer;
+    font-family:'Fraunces','Noto Serif SC',serif;
+    color:var(--bone);
+    font-size:16.5px;
+    list-style:none;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  details summary::-webkit-details-marker{display:none;}
+  details summary::after{
+    content:'+';
+    color:var(--bronze);
+    font-size:20px;
+    margin-left:12px;
+    transition:transform .25s ease;
+  }
+  details[open] summary::after{transform:rotate(45deg);}
+  details .a{color:var(--bone-dim); margin-top:12px; font-size:15px; padding-right:8px;}
+
+  @media (max-width:560px){
+    .hero{padding:64px 20px 48px;}
+    section{padding:40px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span lang-zh>动中禅 · 修行记录</span><span lang-en>Dynamic Meditation Journal</span></div>
+  <div class="lang-switch">
+    <button data-set="zh" onclick="setLang('zh')">中文</button>
+    <button data-set="en" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="tally"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="eyebrow"><span lang-zh>个人修行 · 公开记录</span><span lang-en>Personal Practice · Public Record</span></div>
+  <h1 class="title serif">
+    <span lang-zh>每一次动作，<br>都知道自己在动。</span>
+    <span lang-en>Each movement,<br>known as it happens.</span>
+  </h1>
+  <p class="sub">
+    <span lang-zh>这是一个动中禅（隆波田传承）个人修行直播频道的说明网站。记录修行、回应常见问题，不进行宗教比较或辩论。</span>
+    <span lang-en>A companion site for a personal Mahasati (dynamic meditation, Luangpor Teean lineage) livestream practice. Documenting the practice and answering common questions — not a platform for religious debate or comparison.</span>
+  </p>
+</div>
+
+<div class="divider"><div class="line"></div><div class="mark" lang-zh>关于</div><div class="mark" lang-en>ABOUT</div><div class="line"></div></div>
+
+<section>
+  <h2 class="h serif"><span class="stroke"></span><span lang-zh>这是什么</span><span lang-en>What this is</span></h2>
+  <p class="lead" lang-zh>动中禅（Mahasati），是已故泰国禅师隆波田所传授的禅修方法，透过一套规律的手部动作，培养对身体动作的纯粹觉知。练习时不需默念、不需分析，只是单纯地"动一次，知道一次"。</p>
+  <p class="lead" lang-en>Mahasati, taught by the late Thai meditation master Luangpor Teean, is a practice of cultivating pure awareness of bodily movement through a set sequence of hand motions. No mantra, no analysis — simply moving, and knowing that you moved.</p>
+  <p lang-zh>这个法门强调自然、轻松、不刻意，可以与日常生活结合，随时随地练习。直播的目的是借助"被记录、被看见"这件事，督促自己长期、规律地坚持练习——不是表演，也不是教学。直播间里呈现的是真实的练习过程：安静、重复，有专注，也会有妄念生起，如实呈现，不剪辑、不美化。</p>
+  <p lang-en>The method emphasizes naturalness and ease over forced concentration, and can be practiced anywhere, integrated into daily life. The livestream exists to use accountability — being seen, being recorded — as a tool for sustaining long-term, regular practice. It is not a performance or a teaching session. What you'll see is the real process: quiet, repetitive, sometimes focused, sometimes wandering — shown as it is, unedited and unembellished.</p>
+
+  <div class="notice">
+    <p lang-zh>全程安静练习，不讲解、不开示。不进行宗教比较、辩论或劝说，也不代表任何宗教立场的评判。</p>
+    <p lang-en>The practice is silent throughout — no narration, no teaching. This is not a space for religious comparison, debate, or persuasion, and does not represent a judgment of any other faith.</p>
+  </div>
+</section>
+
+<div class="divider"><div class="line"></div><div class="mark" lang-zh>支持与护持</div><div class="mark" lang-en>SUPPORT</div><div class="line"></div></div>
+
+<section>
+  <h2 class="h serif"><span class="stroke"></span><span lang-zh>关于资助</span><span lang-en>On support</span></h2>
+  <p lang-zh>本频道开播起算四个月内，不接受任何形式的金钱打赏、线上资助或实物供养。这段时间纯粹是练习与记录，不希望任何"被资助"的压力影响练习本身。</p>
+  <p lang-en>For the first four months of this channel, no monetary tips, online funding, or material gifts will be accepted, in any form. This period is purely for practice and documentation — the pressure of being financially supported should not shape the practice itself.</p>
+  <p lang-zh>四个月后，若有个人或团体认同这件事、希望提供日常生活所需的协助，会另行考虑——但只透过线下、一对一的方式洽谈，不接受任何附带条件（例如要求加入团体、参与特定活动、配合宣传等），保持修行的独立与自由。</p>
+  <p lang-en>After four months, if anyone wishes to offer support for daily living needs, that will be considered case by case — but only through offline, one-on-one conversation, with no strings attached (no requirement to join a group, attend events, or provide promotion). Independence of practice comes first.</p>
+</section>
+
+<div class="divider"><div class="line"></div><div class="mark" lang-zh>常见问题</div><div class="mark" lang-en>FAQ</div><div class="line"></div></div>
+
+<section>
+  <h2 class="h serif"><span class="stroke"></span><span lang-zh>常见问题</span><span lang-en>Frequently asked</span></h2>
+
+  <details open>
+    <summary><span lang-zh>为何不出家？</span><span lang-en>Why not become a monk?</span></summary>
+    <p class="a" lang-zh>出家是一种选择，不是唯一正确的修行方式。我评估过实际情况——过午不食的身体限制，以及寺院日常的法会与接待活动对我而言负荷过高——目前在家修行更适合我。出家不是"更高级"的修行，重点是找到自己能持续走下去的方式。</p>
+    <p class="a" lang-en>Ordination is one path, not the only valid one. I've weighed the realities — my body cannot sustain the no-food-after-noon rule, and monastery life's frequent ceremonies and hosting duties are more than I can sustain. Lay practice isn't a lesser form — what matters is finding a form that's actually sustainable.</p>
+  </details>
+
+  <details>
+    <summary><span lang-zh>为何无法守八戒？</span><span lang-en>Why can't you keep the Eight Precepts?</span></summary>
+    <p class="a" lang-zh>过午不食这一条，我身体状况无法配合，不是不愿意。戒律的精神是简化生活、减少贪欲，这个精神我在日常生活中以适合自己身体状况的方式实践，但不勉强做身体无法承受的事——那会让修行变成跟身体对抗。</p>
+    <p class="a" lang-en>The no-food-after-noon rule specifically conflicts with my body's needs — this isn't unwillingness. I practice the spirit of simplicity and reduced craving in ways my body can sustain, rather than forcing a rule that would turn practice into a fight against my own body.</p>
+  </details>
+
+  <details>
+    <summary><span lang-zh>为何要公开禅修？</span><span lang-en>Why livestream meditation publicly?</span></summary>
+    <p class="a" lang-zh>公开直播是为了督促自己长期坚持练习，不是为了表演或弘法。动中禅本身不需要观众，闭门练也完全成立——公开只是给自己多一点外部督促力。</p>
+    <p class="a" lang-en>The livestream is an accountability tool for sustaining long-term practice — not a performance or outreach effort. The practice itself needs no audience; going public simply adds a layer of external accountability for myself.</p>
+  </details>
+
+  <details>
+    <summary><span lang-zh>为何用动中禅，而不是其他方法？</span><span lang-en>Why this method, not another?</span></summary>
+    <p class="a" lang-zh>我接触过不同的禅修方式，最终在隆波田、隆波帕默的动中禅传承上持续了近五年。选择一个法门不是"哪个最正统"的比较，是"哪个我真的能长期稳定地练下去"——这是我自己走了五年验证过的。</p>
+    <p class="a" lang-en>I've explored different approaches and have sustained the Mahasati lineage of Luangpor Teean and Luangpor Pramote for nearly five years. Choosing a method isn't about which is most orthodox — it's about which one is actually sustainable, and this is the one I've verified through five years of practice.</p>
+  </details>
+
+  <details>
+    <summary><span lang-zh>为何不去找正式工作？</span><span lang-en>Why not get a regular job?</span></summary>
+    <p class="a" lang-zh>我一直在积极求职，方向是自动化与 AI 相关岗位，这跟我的学历和技术背景匹配。直播禅修和求职是同时进行的两件事，不是用禅修取代工作。</p>
+    <p class="a" lang-en>I am actively job hunting, focused on automation and AI-related roles aligned with my background. The livestream and job search happen in parallel — meditation is not a substitute for work.</p>
+  </details>
+
+  <details>
+    <summary><span lang-zh>为何依赖家人？</span><span lang-en>Why rely on family support?</span></summary>
+    <p class="a" lang-zh>这是过渡期的暂时安排。我有自己的存款,足够支撑至少半年的生活，家人的支持是额外缓冲，不是唯一来源，也不是长期依赖。</p>
+    <p class="a" lang-en>This is a temporary arrangement during a transition period. I have personal savings covering at least six months; family support is an additional buffer, not the sole or permanent source.</p>
+  </details>
+
+  <details>
+    <summary><span lang-zh>这样做是不是在逃避现实？</span><span lang-en>Isn't this just avoidance?</span></summary>
+    <p class="a" lang-zh>我同时在积极求职，这不是逃避，是选择用这段过渡期同时安顿自己的身心状态。</p>
+    <p class="a" lang-en>I'm actively job hunting in parallel — this isn't avoidance, it's choosing to also tend to my wellbeing during a transitional period.</p>
+  </details>
+</section>
+
+<div class="divider"><div class="line"></div><div class="mark" lang-zh>规则</div><div class="mark" lang-en>GUIDELINES</div><div class="line"></div></div>
+
+<section>
+  <h2 class="h serif"><span class="stroke"></span><span lang-zh>留言与互动</span><span lang-en>Comments &amp; conduct</span></h2>
+  <ul class="plain">
+    <li lang-zh>评论区开放善意交流，不开放教义辩论；攻击、嘲讽、传教或针对其他信仰/群体的言论将被隐藏或删除，不另行解释。</li>
+    <li lang-en>Comments are open for good-faith exchange, not doctrinal debate. Attacks, mockery, proselytizing, or remarks targeting other faiths or groups will be hidden or removed without further explanation.</li>
+    <li lang-zh>直播过程中专注练习，可能无法即时回复留言，敬请理解。</li>
+    <li lang-en>During the livestream, focus stays on practice — replies may not be immediate.</li>
+    <li lang-zh>本频道不公开具体居住地址或位置信息，相关询问不会被回应。</li>
+    <li lang-en>This channel does not disclose specific location or address information, and related questions will not be answered.</li>
+  </ul>
+</section>
+
+<footer>
+  <div class="tally"><span></span><span></span><span></span><span></span><span></span></div>
+  <p lang-zh style="margin:0;">每一次重复，都是一次新的开始。</p>
+  <p lang-en style="margin:0;">Every repetition is its own beginning.</p>
+</footer>
+
+<script>
+  function setLang(l){
+    document.documentElement.setAttribute('data-lang', l);
+    localStorage.setItem('site-lang', l);
+  }
+  (function(){
+    var saved = null;
+    try { saved = localStorage.getItem('site-lang'); } catch(e){}
+    var lang = saved || (navigator.language && navigator.language.startsWith('zh') ? 'zh' : 'zh');
+    document.documentElement.setAttribute('data-lang', lang);
+  })();
+</script>
+
+</body>
+</html>
