@@ -13,14 +13,10 @@
   ✏️ 内容编辑区 —— 只需要修改这一块里"引号内"的文字
   ------------------------------------------------------------------
   使用方法：
-  1. 用任何文本编辑器（记事本、VS Code、Notepad++ 都行）打开这个文件
-  2. 找到下面 CONTENT 对象里你想改的那一行
-  3. 只修改引号 " " 里面的文字内容，不要删除引号、逗号、冒号
-  4. 存档后，把整个文件重新拖到 Netlify（或上传到 GitHub）覆盖更新即可
-  5. 中文内容在 zh: { ... } 里，英文内容在 en: { ... } 里，两边要分别改
-  ------------------------------------------------------------------
-  注意：如果某一行文字里本身需要打英文引号 "，必须改成 \" 这种写法
-  （前面加一个反斜杠 \），否则网站会显示错误。不确定就避免用引号。
+  1. 找到下面 CONTENT 对象里你想改的那一行，只修改引号 " " 里面的内容。
+  2. 对于极长的文章（如 journey_full_text），使用了数组 [ "段落1", "段落2" ] 
+     的格式，请在每一行的引号内修改，不要删掉末尾的逗号。
+  3. 中英文内容分别在 zh: { ... } 和 en: { ... } 里。
 ========================================================================
 -->
 <script>
@@ -48,9 +44,50 @@ window.CONTENT = {
     // ---- 个人修行背景板块 ----
     section_journey_label: "修行历程",
     section_journey_title: "我的修行背景",
-    journey_placeholder: "<b>契机：</b>我的修行之路始于大学毕业后不久。那段时间，一位朋友骤然离世，这份对无常的直接体验促使我开始认真探问生命的意义。<br><br><b>北传自修与内观启蒙：</b>最初几年以北传法门自修为主，依靠信心与仪轨的熏修让心安定。后来参加了葛印卡（Goenka）十日内观禅修营，这是我接触南传内观的启蒙，让我第一次体会到“如实观察”的意义。<br><br><b>短期出家：</b>在这之后，我曾在槟城 Pak Auk 道场短期出家修行一个月。这段经历让我对“以戒为基础、止观并重”的体系有了身体力行的体会。<br><br><b>现在的修行方向：</b>目前依循隆波帕默尊者的教导，着重在日常生活中保持觉知、如实观照身心的生灭变化。把修行从蒲团带回日常的每一个当下——走路、吃饭、工作都是觉知的对象。<br><br><b>实际操作（动中禅）：</b>我主要透过隆波田动中禅来落实。以规律的手部动作作为觉知的所缘，动作的中断或迟疑是提醒自己回到当下的信号。隆波帕默的教导是方向与心态，动中禅则是具体方法与日常工具。<br><br><b>原则与生活实践：</b>在这条路上，我坚持以戒为基、用“看”取代“想”、不压抑也不放纵，并接受修行不是线性的。求职的等待、人际的疲惫，都是练习如实观照的素材。<br><br><b>走过的弯路：</b>多年来我也犯过错——曾误以为必须坚守某一种止禅方法、误把“特殊体验”当成进步、刻意维持“进度”、生起虚荣与我慢、执着于双盘姿势、追求平静本身，以及产生不必要的怀疑。但透过一次次的误认与修正，才慢慢看清什么是真正的觉知。<br><br><b>结语：</b>除了静坐与日常练习，我也尝试将体会融入中文歌词与AI影像创作中。走过这几年，我逐渐确定自己想走一条扎实、长期、不浮躁的修行道路，不急于求成，而是把它当作一生的功课，踏实地走下去。",
-    journey_years_label: "修行年数",
-    journey_years_value: "近五年",
+    journey_years_label: "修行时长",
+    journey_years_value: "整体近五年（当前法门近一年）",
+    
+    // 完整的 PDF 内容，使用数组拼接便于阅读和修改
+    journey_full_text: [
+      "<h3 class='serif'>契机</h3>",
+      "<p>我的修行之路始于大学毕业后不久。那段时间，一位中学同桌的朋友骤然离世，毫无预警地走了。这件事对我造成很大的冲击——原来生命可以在毫无征兆的情况下，瞬间画下句点。这份对无常的直接体验，不是从经典或道理上理解的“无常”，而是切身感受到的震动，促使我开始认真探问生命的意义，并从此踏上修行的道路，至今整体已将近五年。</p>",
+      
+      "<h3 class='serif'>北传自修</h3>",
+      "<p>最初几年，我以北传法门自修为主，包括抄写经文、持诵大悲咒，也曾参与佛七禅修营，在念佛与共修的氛围中，慢慢建立起对修行生活的基本认识与定力基础。这段时期更多是依靠信心与仪轨上的熏修，让浮躁的心逐渐安定下来。</p>",
+
+      "<h3 class='serif'>内观启蒙 · 葛印卡十日营</h3>",
+      "<p>后来，我参加了葛印卡（Goenka）十日内观禅修营，这是我正式接触南传内观法门的启蒙。十天止语、严格作息、纯粹观察身体感受的训练，让我第一次体会到“如实观察”与单纯诵念、祈求之间的根本差异——修行可以不假外求，而是直接在身心当下用功。这次经验之后，我对南传内观产生了更深的兴趣与信心，也促使我进一步探索出家修行的可能。</p>",
+
+      "<h3 class='serif'>短期出家 · 槟城 Pak Auk 道场</h3>",
+      "<p>在这之后，我曾在槟城 Pak Auk 道场短期出家，受戒修行一个月，之后还俗。这段僧团生活让我亲身体验了戒律、禅坐、出坡劳动与过堂用斋的完整次第，也让我对“以戒为基础、止观并重”的南传修行体系，有了不只是理论上的理解，而是身体力行的体会。</p>",
+
+      "<h3 class='serif'>现在的修行方向 · 隆波帕默尊者</h3>",
+      "<p>经过这些阶段的探索与积累，我目前的修行方向以南传上座部的内观（vipassana）为主，依循隆波帕默尊者的教导，着重在日常生活中保持觉知、如实观照身心的生灭变化，而不刻意追求特定的境界或感受。这个方法的核心，是把修行从禅坐的蒲团上带回到日常生活的每一个当下——走路、吃饭、说话、工作，都是觉知的对象。</p>",
+      "<p>隆波帕默尊者强调“不要去造作”，意思是不刻意压抑念头，也不刻意追逐某种平静或殊胜的体验，只是单纯地、一次又一次地觉知身心当下正在发生的事。这种“如实观照”的训练，让我慢慢学会和自己的情绪、念头保持一个健康的距离——看着它们生起、变化、消失，而不立刻被卷入其中，也不急着评判或压制。这个过程并不轻松，常常需要在挫折、烦躁、甚至自我怀疑中，一次又一次地重新提起觉知，但正因为如此，这条路走得越久，越能感受到内心确实在变得稳定与柔软。</p>",
+
+      "<h3 class='serif'>实际操作 · 隆波田动中禅与隆波帕默的结合</h3>",
+      "<p>在实际操作上，我主要透过隆波田的动中禅来落实隆波帕默尊者所教导的观念。这两者的结合是经过近一年的专精练习后，我找到的最适合自己的模式。</p>",
+      "<p>隆波帕默尊者强调“以安住且中立的心，如实了知身心”，这是一种高阶的心法。但对于初学者或充满烦恼的心而言，常常很难凭空找到“安住”的抓手。动中禅以规律的手部或肢体动作作为觉知的所缘，恰好弥补了这一点。具体的操作是：透过一连串清楚、刻意放慢的十四个手部动作，让心有一个具体、持续的对象可以安住。手每翻动一次、移动一次，心就轻轻地“知道”一次。这里的知道，不是死死盯住，正是隆波帕默所提倡的“轻柔的觉知”。</p>",
+      "<p>当念头生起、心不可避免地跑掉时，动作的中断或变得迟疑、机械化，往往是最先察觉到的信号。这就形成了一个天然的警报器。此时，隆波帕默的“观心”法门就完美介入了——我们不需要因为走神而生气，也不需要咬紧牙关把心硬拉回来，而是单纯地“知道心刚才跑掉了”。一旦这个“知道”发生，迷失的当下就断开了，心自然回到了中立与安住的状态，手部的动作又能重新恢复自然。换句话说，隆波帕默的“如实观照”是修行的方向与心态，而隆波田动中禅则是我用来落实这个方向的具体方法。身法（动中）负责提供定点，心法（观心）负责处理迷失，两者相得益彰。</p>",
+
+      "<h3 class='serif'>修行不可退让的几个原则</h3>",
+      "<p>在这条路上，有几个原则是我始终提醒自己不能妥协的。第一，戒是修行的地基，没有持戒的基本约束，禅修很容易流于自我安慰或情绪管理，而不是真正的智慧增长。第二，修行不能用“想”来完成，只能用“看”来完成——任何企图用思考、分析、说服自己来达到平静的方式，本质上都只是换一种造作，而不是观照。第三，觉知不是压抑，也不是放纵：压抑是把不想要的念头推开，放纵是任由念头主导行为，而觉知是不推不拉地看着它，让它自然地生、自然地灭。第四，进步从来不是线性的：退步、烦恼重新现起、甚至对修行本身产生怀疑，都是过程的一部分，不代表方法错了或自己不行，重点是能不能在退步发生的当下，依然保持如实观照，而不是陷入自我谴责。</p>",
+
+      "<h3 class='serif'>在生活中的实践</h3>",
+      "<p>修行的真实考验，往往不在禅堂里，而在生活的细节中。求职过程中的等待与不确定、与人互动时的疲惫与摩擦、独处时浮现的迷茫与自我怀疑，都是练习如实观照最直接的素材。比如，在等待结果时，焦虑感生起，我练习的不是说服自己“不要焦虑”，而是单纯地知道“现在有焦虑”，让这份觉知本身把心稳住，而不是被焦虑带着跑。又比如，在高密度的人际互动后感到疲惫，我练习的是承认这份疲惫的真实存在，而不是责怪自己“不够坚强”。这些练习都很微小，常常也不“成功”——心还是会乱、还是会被卷走——但每一次能够认出“心乱了”的那个瞬间，本身就已经是觉知在工作。</p>",
+
+      "<h3 class='serif'>修行路上犯过的错误</h3>",
+      "<p>在多年的练习中，我也走过不少偏差，这些偏差本身后来也成为很重要的学习。第一个错误，是误以为某一种特定的止禅方法才是必须坚守的——例如执着于腹部起伏、持咒、观呼吸，好像换了方法就是退步或不专一。后来才明白，这些不过是不同的“所缘”，重点从来不是所缘本身，而是有没有透过这个所缘，培养出持续的觉知。</p>",
+      "<p>第二个错误，是误把“特殊体验”当成进步的标志——觉得有殊胜的感受、深刻的宁静出现，才代表修行有所突破。实际上，状态本来就是起伏不定的，有时清明，有时昏沉，这些起落都只是如实的现象，不代表必须出现某种体验才算前进。</p>",
+      "<p>第三个错误，是想要刻意维持修行的“进度”，一旦生活中出现变化、打乱原本的节奏，就立刻感到焦躁不安，甚至因此生气。这暴露出一种隐藏的执取——把“保持稳定的修行状态”也变成了一种造作，而忘了觉知本来就应该能够安住在任何节奏的变化之中。</p>",
+      "<p>第四到第七个错误，包括虚荣心与我慢的生起（暗自评判别人修得不够好）、误以为姿势很重要（执着于双盘以喂养自我感）、追求平静本身（越想要平静，反而越远离了平静），以及对修行生起不必要的怀疑（总觉得自己走错了方向）。这些错误现在回看，都不是修行路上的弯路，而是修行本身的一部分——透过一次次的误认与修正，才慢慢看清楚什么是真正的觉知，什么只是觉知的替代品。</p>",
+
+      "<h3 class='serif'>修行融入创作</h3>",
+      "<p>除了静坐与日常的觉知练习，我也尝试将修行融入创作——用中文写歌词，探讨无常、放下、自心本净等主题，并透过 AI 工具制作配套的音乐影像。写歌和修行并不是两件分开的事：每一次提笔，其实也是在梳理自己对某个法义的理解是否通透。这个过程让我感受到，修行不一定要脱离生活才能进行，反而可以成为观察自己、消化生活经验的方式。</p>",
+
+      "<h3 class='serif'>结语</h3>",
+      "<p>走过这几年，我逐渐确定自己想走一条扎实、长期、不浮躁的修行道路，不急于求成，也不期待修行能立刻解决生活中的所有问题，而是把它当作一生的功课，慢慢地、踏实地走下去。</p>"
+    ].join(""),
 
     // ---- 隆波帕默介绍板块 ----
     section_pramote_label: "法门背景",
@@ -81,16 +118,16 @@ window.CONTENT = {
     faq_livestream_a: "公开直播有几个目的：督促自己长期坚持练习、留下修行记录，也包括寻找认同这件事并愿意提供护持的人。这不是表演，也不是教学——动中禅本身不需要观众，公开只是在原有的修行之上，多加了这几层用途。",
 
     faq_method_q: "为何用动中禅，而不是其他方法？",
-    faq_method_a: "我接触过不同的禅修方式，最终在隆波田、隆波帕默的传承上持续了近五年。选择一个法门不是\"哪个最正统\"的比较，是\"哪个我真的能长期稳定地练下去\"——这是我自己走了五年验证过的。",
+    faq_method_a: "我接触过不同的禅修方式（整体修行近五年），但真正在隆波田、隆波帕默的传承上持续练习，其实只有近一年的时间。选择一个法门不是比较“哪个最正统”，而是“哪个我能真正在生活中用起来”。隆波帕默尊者教导以中立的心如实“观心”；而动中禅提供了一个极佳的“锚点”。这完美结合了心法与身法：身体负责规律地动，心负责轻松地知道，一旦发现心跑了，不自责，只需借由动作的停顿觉察迷失，重新回到当下。这是我验证过能真正长久走下去的道路。",
 
     faq_job_q: "为何不去找正式工作？",
-    faq_job_a: "我一直在积极求职，方向是自动化与 AI 相关岗位，这跟我的学历和技术背景匹配。直播禅修和求职是同时进行的两件事，不是用禅修取代工作。",
+    faq_job_a: "我一直在积极求职，方向是自动化与 AI 相关岗位，这跟我的学历和技术背景匹配。直播禅修和求职是同时进行的两件事，不是用禅修取代工作。不过，我个人倾向于，如果未来身心状态良好变好、且外在条件允许，我会选择长期闭关进行全职禅修。",
 
     faq_family_q: "为何依赖家人？",
-    faq_family_a: "这是过渡期的暂时安排。我有自己的存款，足够支撑一段时间的生活，家人的支持是额外缓冲，不是唯一来源，也不是长期依赖。",
+    faq_family_a: "这是过渡期的暂时安排。我有自己的存款，足够支撑一段时间的生活，家人的支持是额外缓冲，不是唯一来源，也不是长期依赖。修行的最终目标是实现身心的完全独立。因此，我正在积极寻求工作机会或外部独立的护持，以期尽早结束这种过渡状态，不给家人增添长期的负担。",
 
     faq_escape_q: "这样做是不是在逃避现实？",
-    faq_escape_a: "我同时在积极求职，这不是逃避，是选择用这段过渡期同时安顿自己的身心状态。",
+    faq_escape_a: "我同时在积极求职，这不是逃避，是选择用这段过渡期同时安顿自己的身心状态。事实上，真正的内观修行根本无法逃避现实。禅修要求我们直面内心深处所有的焦虑、恐惧、贪婪与抗拒，不转移注意力，不自我麻醉。直面身心的实相，是最深层次的面对，这往往比投入忙碌的工作来麻痹自己需要更多的勇气。",
 
     // ---- 留言规则板块 ----
     section_rules_label: "规则",
@@ -121,16 +158,56 @@ window.CONTENT = {
 
     section_journey_label: "PRACTICE HISTORY",
     section_journey_title: "My background in practice",
-    journey_placeholder: "<b>The Catalyst:</b> My path began shortly after college. The sudden passing of a friend gave me a direct, visceral experience of impermanence, prompting me to deeply question the meaning of life.<br><br><b>Early Practice & Vipassana:</b> I started with Mahayana self-practice, building a foundation of concentration. Later, I attended a 10-day Goenka Vipassana retreat, which introduced me to the Theravada tradition and the profound difference between 'observing reality as it is' and merely reciting.<br><br><b>Short-term Ordination:</b> Following this, I ordained temporarily at the Pa-Auk Tawya in Penang for a month. This monastic experience gave me a practical understanding of a system built on precepts, samatha, and vipassana.<br><br><b>Current Direction:</b> My practice currently focuses on Vipassana under the teachings of Luangpor Pramote Pamojjo. The emphasis is on maintaining awareness in daily life—observing the arising and passing of physical and mental phenomena without fabrication. Practice is brought off the cushion and into walking, eating, and working.<br><br><b>Practical Application (Mahasati):</b> I use Luangpor Teean’s dynamic meditation (Mahasati) to anchor this. Rhythmic hand movements serve as the object of awareness. While Luangpor Pramote’s teaching provides the mindset, Mahasati provides the tangible, daily tool.<br><br><b>Principles & Daily Life:</b> I adhere to core principles: precepts as the foundation, 'seeing' instead of 'thinking', knowing rather than suppressing or indulging, and accepting that progress isn't linear. The anxieties of job hunting and social fatigue are all raw materials for practice.<br><br><b>Mistakes Made:</b> I’ve taken detours—clinging to specific methods, mistaking 'special experiences' for progress, getting frustrated when routines break, developing spiritual pride, obsessing over sitting postures, chasing peace, and harboring unnecessary self-doubt. Yet, recognizing these mistakes has clarified what true awareness is.<br><br><b>Conclusion:</b> Alongside formal practice, I also integrate these realizations into songwriting and AI visual creation. I am committed to a grounded, long-term path. I don't expect immediate solutions to life's problems; rather, it is a lifelong assignment to be walked steadily.",
-    journey_years_label: "Years of practice",
-    journey_years_value: "Nearly five years",
+    journey_years_label: "Time practicing",
+    journey_years_value: "Nearly 5 yrs overall (~1 yr in current lineage)",
 
+    journey_full_text: [
+      "<h3 class='serif'>The Catalyst</h3>",
+      "<p>My path of practice began shortly after graduating from university. During that time, a friend passed away suddenly without any warning. This visceral, direct experience of impermanence—not just an intellectual understanding from texts, but a deep psychological shock—compelled me to seriously question the meaning of life. It was this event that set me on the spiritual path nearly five years ago.</p>",
+      
+      "<h3 class='serif'>Early Mahayana Practice</h3>",
+      "<p>In the first few years, my practice was rooted in the Mahayana tradition. I spent my time copying sutras, chanting mantras, and attending intensive Buddha-name recitation retreats. Through faith and ritualistic practice, my restless mind gradually found a foundation of stability and focus.</p>",
+
+      "<h3 class='serif'>Vipassana Awakening: Goenka 10-Day Retreat</h3>",
+      "<p>Later, I attended a 10-day Goenka Vipassana meditation retreat, which served as my formal introduction to the Theravada Vipassana tradition. The strict silence, rigorous schedule, and training in purely observing physical sensations allowed me to experience the profound difference between 'observing reality as it is' and merely reciting or praying. I realized that practice does not require seeking outward, but working directly with the body and mind in the present moment. This sparked a deep interest in the Theravada tradition and eventually led me to explore monastic life.</p>",
+
+      "<h3 class='serif'>Short-Term Ordination: Pa-Auk Tawya, Penang</h3>",
+      "<p>Following this, I underwent a short-term ordination for a month at the Pa-Auk Tawya monastery in Penang. Living as part of the Sangha allowed me to physically experience the full progression of monastic life: observing strict precepts, formal sitting, manual labor, and mindful eating. It gave me a practical, lived understanding of the Theravada system, which is firmly built on precepts as a foundation for both Samatha (tranquility) and Vipassana (insight).</p>",
+
+      "<h3 class='serif'>Current Direction: Luangpor Pramote Pamojjo</h3>",
+      "<p>Through these explorations, my current practice is firmly centered on Theravada Vipassana, following the teachings of Luangpor Pramote Pamojjo. The focus is on maintaining awareness in everyday life—observing the continuous arising and passing away of physical and mental phenomena without chasing specific profound states. The core of this method is bringing practice off the meditation cushion and into every moment of daily life: walking, eating, talking, and working.</p>",
+      "<p>Luangpor Pramote emphasizes 'non-fabrication.' This means not deliberately suppressing thoughts, nor chasing after peace. It is simply about knowing what is happening in the body and mind in the present moment, over and over again. This training of 'observing reality as it is' has taught me to maintain a healthy distance from my own emotions and thoughts—watching them arise, change, and vanish without immediately getting entangled or rushing to judge them. It’s not an easy process; it often involves repeatedly re-establishing awareness amidst frustration and self-doubt. But because of this realism, the longer I walk this path, the more stable and softer my mind genuinely becomes.</p>",
+
+      "<h3 class='serif'>Practical Application: The Synergy of Mahasati and Citta-Nupassana</h3>",
+      "<p>In terms of practical application, I primarily use Luangpor Teean's Dynamic Meditation (Mahasati) to actualize Luangpor Pramote’s teachings. This combination is the model I found most suitable after dedicating nearly a year specifically to this lineage.</p>",
+      "<p>Luangpor Pramote teaches us to 'know the body and mind as they are with a neutral, settled mind.' This is an advanced internal principle. For beginners, or when the mind is highly restless, it is incredibly difficult to find a stable anchor out of thin air. Mahasati fills this gap perfectly. Using a standardized sequence of 14 rhythmic hand movements, the mind is given a concrete, continuous object to rest upon. Every time the hand flips or moves, the mind lightly 'knows' it once. This is exactly the 'soft, light awareness' advocated by Luangpor Pramote.</p>",
+      "<p>When thoughts arise and the mind inevitably wanders, the physical movement often unintentionally pauses, hesitates, or becomes robotic. This serves as a natural, built-in alarm system. At this exact moment, Luangpor Pramote's 'Watching the Mind' (Citta-Nupassana) steps in seamlessly: there is no need to get angry for losing focus, nor do we aggressively drag the mind back. We simply 'know that the mind just wandered.' The moment this 'knowing' happens, the state of being lost is cut off, the mind naturally returns to neutrality, and the physical movements resume fluidly. The physical method provides the anchor and the alarm; the mental method provides the neutral attitude to handle the wandering mind. They complement each other perfectly.</p>",
+
+      "<h3 class='serif'>Non-Negotiable Principles of Practice</h3>",
+      "<p>On this path, there are several principles I refuse to compromise on. First, precepts are the foundation. Without basic moral restraint, meditation easily devolves into mere emotional management rather than true cultivation of wisdom. Second, practice can only be done through 'seeing,' not 'thinking'—any attempt to rationalize or force the mind into calmness is just another form of fabrication. Third, awareness is neither suppression nor indulgence. It is watching thoughts arise and pass naturally without pushing or pulling. Fourth, progress is never linear: setbacks, returning hindrances, and even doubts about the practice are all part of the process. What matters is the ability to maintain observation even in the midst of a regression, rather than falling into self-condemnation.</p>",
+
+      "<h3 class='serif'>Practice in Daily Life</h3>",
+      "<p>The true test of practice rarely happens in the meditation hall, but in the friction of daily life. The anxiety of waiting during a job hunt, the fatigue of social interactions, the confusion when alone—these are the most direct materials for practice. For instance, when anxiety arises while waiting for an interview result, I don't try to convince myself 'not to be anxious.' Instead, I simply know 'anxiety is present,' allowing awareness itself to stabilize the mind rather than being dragged away by the emotion. Recognizing 'the mind is messy' in the moment is, in itself, awareness at work.</p>",
+
+      "<h3 class='serif'>Mistakes Made on the Path</h3>",
+      "<p>Over the years, I've taken many detours, which have become invaluable lessons. The first was dogmatic attachment to a single method—believing that if I wasn't watching the breath or using the hand movements perfectly, I was regressing. I eventually realized methods are just anchors; what matters is cultivating continuous awareness through them.</p>",
+      "<p>Other mistakes included chasing 'special experiences' as markers of progress, becoming frustrated when life disrupted my 'practice schedule,' developing spiritual pride, obsessing over the full-lotus posture to feed the ego, desiring peace so much that the desire itself destroyed the peace, and entertaining unnecessary self-doubt. Looking back, these weren't wasted time, but necessary parts of the journey—clarifying the difference between true awareness and its mere imitations.</p>",
+
+      "<h3 class='serif'>Integrating Practice with Creation</h3>",
+      "<p>Beyond sitting and daily awareness, I also integrate practice into creative work—writing Chinese lyrics exploring themes of impermanence and letting go, and pairing them with AI-generated visuals. Writing forces me to evaluate whether my understanding of the Dhamma is truly digested or merely conceptual. It proves that practice doesn't require withdrawing from the world; creative expression and daily pressures alike can serve as raw material for observing reality.</p>",
+
+      "<h3 class='serif'>Conclusion</h3>",
+      "<p>Through these years, I have resolved to walk a grounded, long-term, and patient spiritual path. I don't rush for enlightenment, nor do I expect meditation to instantly solve all worldly problems. Instead, I view it as a lifelong assignment, stepping forward steadily, one movement at a time.</p>"
+    ].join(""),
+
+    // ---- 隆波帕默介绍板块 ----
     section_pramote_label: "LINEAGE",
     section_pramote_title: "About Luangpor Pramote",
     pramote_body1: "Luangpor Pramote Pamojjo is a well-known contemporary Thai meditation teacher with extensive experience in both samatha and vipassana practice. He is known for the \"watching the mind\" (citta) method, particularly suited to people with busy, thought-crowded modern lives.",
     pramote_body2: "The core principle of his teaching is: maintain awareness, with a settled and neutral mind, to know the reality of body and mind as they truly are — not staring fixedly, not controlling, simply knowing. When the mind reacts with liking or disliking, that reaction itself is simply known, allowing the mind to return to a neutral, settled state.",
     pramote_body3: "This approach complements Mahasati well: Mahasati trains awareness of bodily movement, while Luangpor Pramote's teaching trains awareness of the mind's rising and passing states. Practicing both together is my main approach currently.",
 
+    // ---- 支持/护持板块 ----
     section_support_label: "SUPPORT",
     section_support_title: "On support",
     support_body1: "This channel does not set any fixed timeline for when support might begin. It simply waits for the right person — if someone recognizes the value of this and naturally wishes to help, that conversation can happen then. This stance won't change based on how long the channel has been running or how many people are watching.",
@@ -138,6 +215,7 @@ window.CONTENT = {
     support_contact_label: "Contact (non-commercial purposes only):",
     support_contact_value: "kaixiantkx11@gmail.com",
 
+    // ---- FAQ 板块 ----
     section_faq_label: "FAQ",
     section_faq_title: "Frequently asked",
 
@@ -151,16 +229,16 @@ window.CONTENT = {
     faq_livestream_a: "The livestream serves several purposes: sustaining long-term practice, keeping a record, and also finding people who recognize this and are willing to offer support. It is not a performance or a teaching session — Mahasati itself needs no audience; going public simply adds these layers on top of the practice.",
 
     faq_method_q: "Why this method, not another?",
-    faq_method_a: "I've explored different approaches and have sustained the lineage of Luangpor Teean and Luangpor Pramote for nearly five years. Choosing a method isn't about which is most orthodox — it's about which one is actually sustainable, and this is the one I've verified through five years of practice.",
+    faq_method_a: "I've explored different approaches (practicing for nearly 5 years overall), but my dedicated practice in the combined lineage of Luangpor Teean and Luangpor Pramote is actually only about a year. Choosing a method isn't about which is 'most orthodox', but 'which can I practically apply in daily life.' Luangpor Pramote teaches watching the mind neutrally; Mahasati provides an excellent physical anchor. The body moves rhythmically, the mind lightly acknowledges it, and when the mind wanders, a pause in the hand movement serves as a gentle alarm to return. This synergy is the path I have verified as sustainable for me.",
 
     faq_job_q: "Why not get a regular job?",
-    faq_job_a: "I am actively job hunting, focused on automation and AI-related roles aligned with my background. The livestream and job search happen in parallel — meditation is not a substitute for work.",
+    faq_job_a: "I am actively job hunting, focused on automation and AI-related roles aligned with my background. The livestream and job search happen in parallel — meditation is not a substitute for work. However, my personal inclination is that if my physical and mental condition improves and external circumstances permit, I would choose to go into long-term retreat and practice full-time.",
 
     faq_family_q: "Why rely on family support?",
-    faq_family_a: "This is a temporary arrangement during a transition period. I have personal savings covering a period of living costs; family support is an additional buffer, not the sole or permanent source.",
+    faq_family_a: "This is a temporary arrangement during a transition period. I have personal savings covering a period of living costs; family support is an additional buffer, not the sole or permanent source. The ultimate goal of practice is complete independence of both body and mind. Therefore, I am actively seeking employment or independent external support to end this transitional phase as soon as possible, ensuring I do not become a long-term burden on my family.",
 
     faq_escape_q: "Isn't this just avoidance?",
-    faq_escape_a: "I'm actively job hunting in parallel — this isn't avoidance, it's choosing to also tend to my wellbeing during a transitional period.",
+    faq_escape_a: "I'm actively job hunting in parallel — this isn't avoidance, it's choosing to also tend to my wellbeing during a transitional period. In fact, true vipassana practice makes escaping reality impossible. Meditation requires facing all deep-seated anxieties, fears, cravings, and resistance directly, without distraction or self-anesthesia. Facing the absolute reality of body and mind is the deepest form of confrontation, which often requires far more courage than simply losing oneself in a busy work life to numb the mind.",
 
     section_rules_label: "GUIDELINES",
     section_rules_title: "Comments & conduct",
@@ -335,16 +413,6 @@ window.CONTENT = {
   }
   .notice p{margin:0; color:var(--bone); font-size:15px;}
 
-  .placeholder-box{
-    border:1px dashed rgba(138,115,85,0.5);
-    background:rgba(138,115,85,0.06);
-    padding:22px 24px;
-    border-radius:4px;
-    margin:18px 0;
-  }
-  .placeholder-box p{margin:0; color:var(--bone-faint); font-size:14.5px; line-height: 1.8;}
-  .placeholder-box p b{color:var(--bone-dim); font-weight:600;}
-
   .stat-row{
     display:flex; gap:32px;
     margin-top:8px;
@@ -356,7 +424,7 @@ window.CONTENT = {
   }
   .stat .num{
     font-family:'Fraunces','Noto Serif SC',serif;
-    font-size:22px;
+    font-size:18px;
     color:var(--bone);
     display:block;
   }
@@ -365,6 +433,26 @@ window.CONTENT = {
     color:var(--bone-faint);
     text-transform:uppercase;
     letter-spacing:0.08em;
+  }
+
+  /* ---- 文章内容样式 ---- */
+  .article-content {
+    margin-top: 36px;
+    padding-top: 36px;
+    border-top: 1px solid rgba(201,195,184,0.1);
+  }
+  .article-content h3 {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--bone);
+    margin: 32px 0 16px;
+  }
+  .article-content p {
+    font-size: 15.5px;
+    line-height: 1.8;
+    color: var(--bone-dim);
+    margin-bottom: 20px;
+    text-align: justify;
   }
 
   .contact-line{
@@ -408,7 +496,7 @@ window.CONTENT = {
     flex-shrink:0;
   }
   details[open] summary::after{transform:rotate(45deg);}
-  details .a{color:var(--bone-dim); margin-top:12px; font-size:15px; padding-right:8px;}
+  details .a{color:var(--bone-dim); margin-top:12px; font-size:15px; padding-right:8px; line-height: 1.7;}
 
   @media (max-width:560px){
     .hero{padding:64px 20px 48px;}
@@ -453,9 +541,8 @@ window.CONTENT = {
   <div class="stat-row">
     <div class="stat"><span class="num" id="t-journey-years-val"></span><span class="lbl" id="t-journey-years-lbl"></span></div>
   </div>
-  <div class="placeholder-box" style="margin-top:20px;">
-    <p id="t-journey-placeholder"></p>
-  </div>
+  
+  <div class="article-content" id="t-journey-full"></div>
 </section>
 
 <div class="divider"><div class="line"></div><div class="mark" id="t-pramote-label"></div><div class="line"></div></div>
@@ -522,7 +609,7 @@ window.CONTENT = {
     document.getElementById('t-journey-title').textContent = c.section_journey_title;
     document.getElementById('t-journey-years-val').textContent = c.journey_years_value;
     document.getElementById('t-journey-years-lbl').textContent = c.journey_years_label;
-    document.getElementById('t-journey-placeholder').innerHTML = c.journey_placeholder;
+    document.getElementById('t-journey-full').innerHTML = c.journey_full_text;
 
     document.getElementById('t-pramote-label').textContent = c.section_pramote_label;
     document.getElementById('t-pramote-title').textContent = c.section_pramote_title;
