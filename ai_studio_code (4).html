@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, initial-scale=1.0">
+    <title>Live Inner Observation Overlay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+           QUICK SETTINGS
+           ============================================================ */
+        :root {
+            --accent: #ffd866;
+            --accent-glow: #ffd86633;
+            --live-red: #e6453c;
+            --text: #f3ecdf;
+            --btn-bg: rgba(255, 216, 102, 0.12);
+            --btn-border: rgba(255, 216, 102, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 1920px;
+            height: 1080px;
+            background: transparent;
+            font-family: 'Inter', Arial, sans-serif;
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        /* ---------- MAIN LAYOUT ---------- */
+        .main-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* ---------- LEFT AREA ---------- */
+        .left-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 50px 0 50px 60px;
+            position: relative;
+            min-width: 0;
+        }
+
+        .left-area::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(10, 9, 7, 0.30) 0%, rgba(10, 9, 7, 0.05) 100%);
+            backdrop-filter: blur(3px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 12px;
+            padding-top: 10px;
+        }
+
+        /* ---------- TOP BADGE ---------- */
+        .live-row {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            font-size: 44px;
+            font-weight: 600;
+            letter-spacing: 4px;
+        }
+
+        .live-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--live-red);
+            box-shadow: 0 0 0 0 rgba(230, 69, 60, 0.7);
+            animation: pulse 1.6s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(230, 69, 60, 0.55); }
+            70% { box-shadow: 0 0 0 36px rgba(230, 69, 60, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(230, 69, 60, 0); }
+        }
+
+        #clock {
+            font-size: 56px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #ffffff;
+            text-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
+            margin-top: 4px;
+        }
+
+        /* ---------- TIMER SECTION (Hover-Reveal for OBS) ---------- */
+        .timer-section {
+            background: rgba(0, 0, 0, 0.50);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 24px 34px;
+            border: 1px solid rgba(255, 216, 102, 0.12);
+            display: inline-flex;
+            align-items: center;
+            margin-top: 6px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+
+        .timer-display {
+            font-size: 52px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+        }
+
+        .timer-display span {
+            color: var(--accent);
+            font-weight: 700;
+            text-shadow: 0 0 30px rgba(255, 216, 102, 0.15);
+        }
+
+        /* 隐藏的控制按钮，仅在鼠标悬停时展开 */
+        .timer-controls {
+            display: flex;
+            gap: 12px;
+            opacity: 0;
+            max-width: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            pointer-events: none;
+        }
+
+        .timer-section:hover .timer-controls {
+            opacity: 1;
+            max-width: 300px; /* 展开足够的宽度 */
+            margin-left: 24px;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        .timer-controls button {
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', Arial, sans-serif;
+            white-space: nowrap;
+        }
+
+        .timer-controls button:hover {
+            background: rgba(255, 216, 102, 0.25);
+            border-color: var(--accent);
+        }
+
+        .timer-controls button.reset-btn {
+            border-color: rgba(230, 69, 60, 0.25);
+        }
+
+        .timer-controls button.reset-btn:hover {
+            background: rgba(230, 69, 60, 0.25);
+            border-color: var(--live-red);
+        }
+
+        /* ---------- WEBSITE LINE ---------- */
+        #website-line {
+            font-size: 32px;
+            opacity: 0.9;
+            margin-top: 6px;
+            color: #ffffff;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        #website-line .url {
+            font-weight: 600;
+            color: var(--accent);
+            text-shadow: 0 0 30px rgba(255, 216, 102, 0.15);
+        }
+
+        /* ---------- STATUS INDICATOR ---------- */
+        .status-indicator {
+            font-size: 20px;
+            opacity: 0.6;
+            margin-top: 4px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-indicator .status-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .status-dot.running { background: #4caf50; }
+        .status-dot.paused { background: #ff9800; }
+
+        /* ---------- RIGHT: VERTICAL TICKER ---------- */
+        .right-ticker {
+            width: 480px;
+            flex-shrink: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+            background: linear-gradient(180deg, rgba(10, 9, 7, 0.60) 0%, rgba(10, 9, 7, 0.30) 100%);
+            backdrop-filter: blur(6px);
+            border-left: 1px solid rgba(255, 216, 102, 0.08);
+        }
+
+        .right-ticker::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(255, 216, 102, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .ticker-track-vertical {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+            mask-image: linear-gradient(180deg, transparent 0, black 60px, black calc(100% - 60px), transparent 100%);
+            -webkit-mask-image: linear-gradient(180deg, transparent 0, black 60px, black calc(100% - 60px), transparent 100%);
+        }
+
+        .ticker-content-vertical {
+            display: flex;
+            flex-direction: column;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 40px;
+            line-height: 1.9;
+            padding: 60px 0;
+            gap: 32px;
+            will-change: transform;
+        }
+
+        .ticker-content-vertical .seg {
+            padding: 6px 0;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.85);
+            color: #f0ece6;
+            letter-spacing: 0.5px;
+            word-break: break-word;
+            white-space: normal;
+            will-change: transform, opacity;
+        }
+
+        .ticker-content-vertical .seg .src {
+            font-family: 'Inter', Arial, sans-serif;
+            font-size: 26px;
+            opacity: 0.55;
+            margin-left: 14px;
+            font-weight: 400;
+            display: inline-block;
+        }
+
+        .ticker-content-vertical .pali-seg {
+            font-size: 38px;
+            color: #ffd866;
+            text-shadow: 0 0 40px rgba(255, 216, 102, 0.12);
+            letter-spacing: 1px;
+        }
+
+        .ticker-content-vertical .pali-seg .src {
+            color: #ccc;
+            opacity: 0.7;
+        }
+
+        /* 句子进入动画：放缓至2秒，更加舒缓 */
+        @keyframes slideInUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .slide-in {
+            animation: slideInUp 2s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <!-- LEFT AREA -->
+        <div class="left-area">
+            <div class="left-content">
+                <!-- LIVE badge -->
+                <div class="live-row">
+                    <div class="live-dot"></div>
+                    <span>LIVE · INNER OBSERVATION</span>
+                </div>
+
+                <!-- Clock -->
+                <div id="clock"></div>
+
+                <!-- Timer Section -->
+                <!-- 在 OBS 里右键 -> 交互 (Interact) -> 鼠标移入此框即可弹出按钮 -->
+                <div class="timer-section" title="OBS Interact: 悬停显示按钮">
+                    <div class="timer-display">
+                        Today's Live · <span id="timer-value">00:00:00</span>
+                    </div>
+                    <div class="timer-controls">
+                        <button id="btn-toggle">⏸ Pause</button>
+                        <button class="reset-btn" id="btn-reset">↻ Reset</button>
+                    </div>
+                </div>
+
+                <!-- Website -->
+                <div id="website-line">
+                    Website： <span class="url" id="website-url">https://kaixiantkx.github.io/kaixianyoutube-live/</span>
+                </div>
+
+                <!-- Status -->
+                <div class="status-indicator">
+                    <span class="status-dot running" id="status-dot"></span>
+                    <span id="status-text">Running</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT AREA -->
+        <div class="right-ticker">
+            <div class="ticker-track-vertical">
+                <div class="ticker-content-vertical" id="ticker-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bg-audio" preload="auto" autoplay loop></audio>
+
+    <script>
+        // ==========================================
+        // QUOTES DATA
+        // ==========================================
+        const chineseQuotes = [
+            { text: "诸比丘，任何人如此修习四念处七年，可望得到两种成果之一：今生证得阿罗汉果（究竟智）；若烦恼未尽，则证得阿那含果（不还果）。", source: "——《大念处经》" },
+            { text: "别说七年，六年、五年、四年，三年、二年、一年，乃至七月、六月、五月，四月、三月、二月、一月、半月——", source: "" },
+            { text: "乃至仅仅七天，如此修习四念处者，同样可望得到这两种成果之一。", source: "——《大念处经》" },
+            { text: "念头跑了，知道跑了，那一刻，就是觉知", source: "" },
+            { text: "手在动，知道在动；心在想，知道在想", source: "" },
+            { text: "看见，但不抓住；觉知，但不评判", source: "" },
+            { text: "唯一真实的时间，只有现在这一刻", source: "" },
+            { text: "一切生起的，终将灭去；不必抓紧，也不必推开", source: "" },
+            { text: "忘记了，没关系；记得回来，就是修行", source: "" },
+            { text: "看见念头，如云飘过天空，不必跟随", source: "" },
+            { text: "苦由不知而生，觉知，让苦自然松开", source: "" },
+            { text: "一举一动，都是练习觉知的机会", source: "" },
+            { text: "不是要控制念头，只是如实看见它", source: "" },
+            { text: "不急、不迫，只是持续地，回到当下", source: "" },
+            { text: "身体的感受最真实，心念只是访客", source: "" },
+            { text: "放下不是用力推开，而是不再紧抓", source: "" },
+            { text: "看的本身，就已经在修行了", source: "" },
+            { text: "身心如流水，刹那生灭，无人能抓住", source: "" },
+            { text: "吃饭、走路、呼吸，都可以是禅修", source: "" },
+            { text: "平常心，不是没有念头，而是不被念头带走", source: "" },
+            { text: "每一次的「知道」，都是一次苏醒", source: "" },
+            { text: "愿一切如实观照的人，都能渐次看见身心实相", source: "" }
+        ];
+
+        const paliQuotes = [
+            { text: "Idam me puññam āsavakkhaya-vahaṃ hotu", source: "愿我所造的善业（功德），成为断除一切烦恼（漏）的助缘。", type: "pali" }
+        ];
+
+        const englishQuotes = [
+            { text: "Bhikkhus, whoever develops the four foundations of mindfulness for seven years, can expect one of two fruits: final knowledge in this very life, or if there is a trace of clinging left, non-return.", source: "——Satipaṭṭhāna Sutta" },
+            { text: "Not just seven years, but six, five, four, three, two, one year, or even seven months, six months, five, four, three, two, one month, half a month——", source: "" },
+            { text: "Even just seven days, one who develops the four foundations of mindfulness can expect one of these two fruits.", source: "——Satipaṭṭhāna Sutta" },
+            { text: "When a thought wanders, know that it wanders — that moment is awareness itself", source: "" },
+            { text: "The hand moves, know it moves; the mind thinks, know it thinks", source: "" },
+            { text: "See, but don't grasp; be aware, but don't judge", source: "" },
+            { text: "The only real time is this present moment", source: "" },
+            { text: "All that arises will pass away; don't cling, don't push away", source: "" },
+            { text: "Forgotten? No problem; remembering to come back is the practice", source: "" },
+            { text: "See thoughts like clouds drifting across the sky — don't follow them", source: "" },
+            { text: "Suffering arises from unknowing; awareness naturally releases it", source: "" },
+            { text: "Every movement is an opportunity to practice awareness", source: "" },
+            { text: "Not about controlling thoughts, just seeing them as they are", source: "" },
+            { text: "Not rushed, not forced, just continuously returning to the present", source: "" },
+            { text: "Physical sensations are most real; thoughts are merely visitors", source: "" },
+            { text: "Letting go isn't pushing away forcefully, it's simply not clinging anymore", source: "" },
+            { text: "The act of seeing itself is already practice", source: "" },
+            { text: "Body and mind flow like water, arising and ceasing in an instant — no one can hold onto them", source: "" },
+            { text: "Eating, walking, breathing — all can be meditation", source: "" },
+            { text: "Ordinary mind isn't about having no thoughts, it's about not being carried away by them", source: "" },
+            { text: "Every moment of 'knowing' is an awakening", source: "" },
+            { text: "May all who practice clear observation gradually see the true nature of body and mind", source: "" }
+        ];
+
+        // 合并语录顺序
+        const allQuotes = [];
+        chineseQuotes.forEach(q => allQuotes.push({ ...q, type: 'cn' }));
+        paliQuotes.forEach(q => allQuotes.push(q));
+        englishQuotes.forEach(q => allQuotes.push({ ...q, type: 'en' }));
+
+        // ==========================================
+        // TIME & CLOCK
+        // ==========================================
+        const clockEl = document.getElementById('clock');
+        function pad(n) { return String(n).padStart(2, '0'); }
+        function updateClock() {
+            const now = new Date();
+            clockEl.textContent = `${now.getFullYear()}年${pad(now.getMonth() + 1)}月${pad(now.getDate())}日  ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ==========================================
+        // ROBUST ACCUMULATIVE TIMER FOR OBS
+        // ==========================================
+        const timerEl = document.getElementById('timer-value');
+        const statusDot = document.getElementById('status-dot');
+        const statusText = document.getElementById('status-text');
+        
+        // 使用当天的日期作为 Key，过午夜 12 点自动计算为新的一天
+        const todayKey = new Date().toDateString();
+        
+        // 检查 localStorage
+        if (localStorage.getItem('live_date') !== todayKey) {
+            localStorage.setItem('live_date', todayKey);
+            localStorage.setItem('live_acc', '0');
+            localStorage.setItem('live_paused', 'false');
+        }
+
+        let accumulatedTime = parseInt(localStorage.getItem('live_acc')) || 0;
+        let isPaused = localStorage.getItem('live_paused') === 'true';
+        let lastTimestamp = Date.now();
+
+        // 初始化状态显示
+        function updateStatusUI() {
+            if (isPaused) {
+                statusDot.className = 'status-dot paused';
+                statusText.textContent = 'Paused';
+                document.getElementById('btn-toggle').textContent = '▶ Resume';
+            } else {
+                statusDot.className = 'status-dot running';
+                statusText.textContent = 'Running';
+                document.getElementById('btn-toggle').textContent = '⏸ Pause';
+            }
+        }
+        updateStatusUI();
+
+        // 核心计时逻辑：只计算循环时的差值，完美忽略 OBS 关闭期间的时间
+        function tickTimer() {
+            let now = Date.now();
+            if (!isPaused) {
+                let delta = now - lastTimestamp;
+                accumulatedTime += delta;
+                localStorage.setItem('live_acc', accumulatedTime.toString());
+            }
+            lastTimestamp = now;
+
+            // 渲染时间
+            const totalSecs = Math.floor(accumulatedTime / 1000);
+            const h = Math.floor(totalSecs / 3600);
+            const m = Math.floor((totalSecs % 3600) / 60);
+            const s = totalSecs % 60;
+            timerEl.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+        }
+        setInterval(tickTimer, 1000);
+        tickTimer(); // 立即执行一次
+
+        // 按钮控制逻辑
+        document.getElementById('btn-toggle').addEventListener('click', () => {
+            isPaused = !isPaused;
+            localStorage.setItem('live_paused', isPaused.toString());
+            // 确保恢复时不会把暂停的时间算进去
+            lastTimestamp = Date.now(); 
+            updateStatusUI();
+            tickTimer();
+        });
+
+        document.getElementById('btn-reset').addEventListener('click', () => {
+            accumulatedTime = 0;
+            isPaused = false;
+            localStorage.setItem('live_acc', '0');
+            localStorage.setItem('live_paused', 'false');
+            lastTimestamp = Date.now();
+            updateStatusUI();
+            tickTimer();
+        });
+
+
+        // ==========================================
+        // DISCRETE TICKER LOGIC (MAX 5 ITEMS, SLOWED DOWN)
+        // ==========================================
+        const tickerContainer = document.getElementById('ticker-content');
+        let quoteIndex = 0;
+        let visibleCount = 0;
+        const MAX_VISIBLE = 5;
+
+        function createQuoteElement(quote) {
+            const div = document.createElement('div');
+            let classNames = 'seg';
+            if (quote.type === 'pali') classNames += ' pali-seg';
+            div.className = classNames;
+
+            const text = quote.text.replace(/\n/g, ' ');
+            let html = `${text}`;
+            if (quote.source) {
+                html += `<span class="src">${quote.source}</span>`;
+            }
+            div.innerHTML = html;
+            return div;
+        }
+
+        function processTicker() {
+            if (visibleCount < MAX_VISIBLE) {
+                // 列表未满 5 条时，自然推入并带有上升动画
+                const el = createQuoteElement(allQuotes[quoteIndex]);
+                quoteIndex = (quoteIndex + 1) % allQuotes.length;
+                
+                el.classList.add('slide-in');
+                tickerContainer.appendChild(el);
+                visibleCount++;
+            } else {
+                // 列表满 5 条时，插入第6条并将整个容器上推
+                const el = createQuoteElement(allQuotes[quoteIndex]);
+                quoteIndex = (quoteIndex + 1) % allQuotes.length;
+                
+                el.style.opacity = '0';
+                el.style.transition = 'opacity 2s ease';
+                tickerContainer.appendChild(el);
+                
+                // 强制重绘
+                void el.offsetWidth;
+                el.style.opacity = '1';
+                
+                const firstChild = tickerContainer.firstElementChild;
+                const shiftStyle = window.getComputedStyle(tickerContainer);
+                const gap = parseInt(shiftStyle.gap) || 32;
+                const shift = firstChild.offsetHeight + gap;
+                
+                // 顶层引言淡出 (缓慢)
+                firstChild.style.transition = 'opacity 1.5s ease';
+                firstChild.style.opacity = '0';
+                
+                // 整个容器平滑上推 (放慢至 2s)
+                tickerContainer.style.transition = 'transform 2s cubic-bezier(0.25, 0.8, 0.25, 1)';
+                tickerContainer.style.transform = `translateY(-${shift}px)`;
+            }
+        }
+
+        // 监听容器上推完成事件，清除被顶掉的节点
+        tickerContainer.addEventListener('transitionend', (e) => {
+            if (e.target === tickerContainer && e.propertyName === 'transform') {
+                tickerContainer.style.transition = 'none';
+                tickerContainer.style.transform = 'translateY(0)';
+                if (tickerContainer.firstElementChild) {
+                    tickerContainer.firstElementChild.remove();
+                }
+            }
+        });
+
+        // 立即展示第一条
+        processTicker();
+        // 核心更新：每句话停留间隔延长至 15 秒 (15000ms)，让阅读节奏舒缓下来
+        setInterval(processTicker, 15000);
+
+
+        // ==========================================
+        // AUDIO 
+        // ==========================================
+        const PLAYLIST = [
+            { name: "Track 1", file: "audio/lofi-1.mp3" },
+            { name: "Track 2", file: "audio/lofi-2.mp3" },
+            { name: "Track 3", file: "audio/lofi-3.mp3" },
+            { name: "Track 4", file: "audio/lofi-4.mp3" }
+        ];
+        const AUDIO_VOLUME = 0.18;
+
+        const audioEl = document.getElementById('bg-audio');
+        audioEl.volume = AUDIO_VOLUME;
+        audioEl.loop = false;
+
+        let order = PLAYLIST.map((_, i) => i);
+        for (let i = order.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [order[i], order[j]] = [order[j], order[i]];
+        }
+        let oi = 0;
+
+        function playTrack() {
+            if (PLAYLIST.length === 0) return;
+            const track = PLAYLIST[order[oi % order.length]];
+            audioEl.src = track.file;
+            audioEl.play().catch(() => {});
+            oi++;
+        }
+        audioEl.addEventListener('ended', playTrack);
+        playTrack();
+    </script>
+</body>
+</html>
