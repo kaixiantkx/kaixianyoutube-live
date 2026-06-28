@@ -372,28 +372,29 @@
         // QUOTES DATA
         // ==========================================
         const chineseQuotes = [
-            { text: "诸比丘，任何人如此修习四念处七年，可望得到两种成果之一：今生证得阿罗汉果（究竟智）；若烦恼未尽，则证得阿那含果（不还果）。", source: "——《大念处经》" },
+            // ---- 保留部分 ----
+            { text: "诸比丘，任何人如此修习四念处七年，可望得到两种成果之一：今生证得阿罗汉果（究竟智）；若烦恼未尽，则证得阿那含果（不还果）。", source: "——《大念处经》" }, 
             { text: "别说七年，六年、五年、四年，三年、二年、一年，乃至七月、六月、五月，四月、三月、二月、一月、半月——", source: "" },
             { text: "乃至仅仅七天，如此修习四念处者，同样可望得到这两种成果之一。", source: "——《大念处经》" },
             { text: "念头跑了，知道跑了，那一刻，就是觉知", source: "" },
-            { text: "手在动，知道在动；心在想，知道在想", source: "" },
-            { text: "看见，但不抓住；觉知，但不评判", source: "" },
-            { text: "唯一真实的时间，只有现在这一刻", source: "" },
-            { text: "一切生起的，终将灭去；不必抓紧，也不必推开", source: "" },
-            { text: "忘记了，没关系；记得回来，就是修行", source: "" },
-            { text: "看见念头，如云飘过天空，不必跟随", source: "" },
-            { text: "苦由不知而生，觉知，让苦自然松开", source: "" },
-            { text: "一举一动，都是练习觉知的机会", source: "" },
-            { text: "不是要控制念头，只是如实看见它", source: "" },
-            { text: "不急、不迫，只是持续地，回到当下", source: "" },
-            { text: "身体的感受最真实，心念只是访客", source: "" },
-            { text: "放下不是用力推开，而是不再紧抓", source: "" },
-            { text: "看的本身，就已经在修行了", source: "" },
-            { text: "身心如流水，刹那生灭，无人能抓住", source: "" },
-            { text: "吃饭、走路、呼吸，都可以是禅修", source: "" },
-            { text: "平常心，不是没有念头，而是不被念头带走", source: "" },
-            { text: "每一次的「知道」，都是一次苏醒", source: "" },
-            { text: "愿一切如实观照的人，都能渐次看见身心实相", source: "" }
+            
+            // ---- 隆波帕默尊者 核心法语精华 ----
+            { text: "有觉性，以安住且中立的心，了知身心现象的实相。", source: "——隆波帕默尊者" }, // 尊者最核心的一句总结
+            { text: "我们不需要去寻找一颗宁静的心，只需要去知道那颗不宁静的心。", source: "——隆波帕默尊者" },
+            { text: "觉知的秘诀在于：不要只执着于一次长时间的练习，而要在生活中频繁地培养觉知。", source: "——隆波帕默尊者" },
+            { text: "修行不是去改变什么，而是去看见什么。如实看见了，心自己会放下。", source: "——隆波帕默尊者" },
+            { text: "不要试图去控制或消灭烦恼，只要如实地知道它的存在，它自然会灭去。", source: "——隆波帕默尊者" },
+            { text: "无论生起的是快乐还是痛苦，都要以中立的心去知道，不欢迎，也不抗拒。", source: "——隆波帕默尊者" },
+            { text: "迷失在念头里很久没关系，最重要的是，一旦迷失了，要立刻知道。", source: "——隆波帕默尊者" },
+            { text: "修行一定要带着轻松、自然的心态。如果感到憋闷、紧绷，那就是修错了。", source: "——隆波帕默尊者" },
+            { text: "就像坐在台下看戏，心是观众，身心的感受和念头只是台上的演员。", source: "——隆波帕默尊者" },
+            { text: "身体不是我，心也不是我。它们只是因缘和合而生灭的现象。", source: "——隆波帕默尊者" },
+            
+            // ---- 修正与保留的优质禅修短语 ----
+            { text: "每一次的「知道」，都是觉性的生起。", source: "" }, // 修正了原来的“苏醒”
+            { text: "一切生起的，终将灭去；不必抓紧，也不必推开。", source: "" },
+            { text: "只有现在这一刻，才是唯一可以修行的真实时间。", source: "" },
+            { text: "吃饭、走路、呼吸，只要带着觉知，就都是禅修。", source: "" }
         ];
 
         const paliQuotes = [
@@ -401,28 +402,29 @@
         ];
 
         const englishQuotes = [
+            // ---- 对应保留部分 ----
             { text: "Bhikkhus, whoever develops the four foundations of mindfulness for seven years, can expect one of two fruits: final knowledge in this very life, or if there is a trace of clinging left, non-return.", source: "——Satipaṭṭhāna Sutta" },
             { text: "Not just seven years, but six, five, four, three, two, one year, or even seven months, six months, five, four, three, two, one month, half a month——", source: "" },
             { text: "Even just seven days, one who develops the four foundations of mindfulness can expect one of these two fruits.", source: "——Satipaṭṭhāna Sutta" },
-            { text: "When a thought wanders, know that it wanders — that moment is awareness itself", source: "" },
-            { text: "The hand moves, know it moves; the mind thinks, know it thinks", source: "" },
-            { text: "See, but don't grasp; be aware, but don't judge", source: "" },
-            { text: "The only real time is this present moment", source: "" },
-            { text: "All that arises will pass away; don't cling, don't push away", source: "" },
-            { text: "Forgotten? No problem; remembering to come back is the practice", source: "" },
-            { text: "See thoughts like clouds drifting across the sky — don't follow them", source: "" },
-            { text: "Suffering arises from unknowing; awareness naturally releases it", source: "" },
-            { text: "Every movement is an opportunity to practice awareness", source: "" },
-            { text: "Not about controlling thoughts, just seeing them as they are", source: "" },
-            { text: "Not rushed, not forced, just continuously returning to the present", source: "" },
-            { text: "Physical sensations are most real; thoughts are merely visitors", source: "" },
-            { text: "Letting go isn't pushing away forcefully, it's simply not clinging anymore", source: "" },
-            { text: "The act of seeing itself is already practice", source: "" },
-            { text: "Body and mind flow like water, arising and ceasing in an instant — no one can hold onto them", source: "" },
-            { text: "Eating, walking, breathing — all can be meditation", source: "" },
-            { text: "Ordinary mind isn't about having no thoughts, it's about not being carried away by them", source: "" },
-            { text: "Every moment of 'knowing' is an awakening", source: "" },
-            { text: "May all who practice clear observation gradually see the true nature of body and mind", source: "" }
+            { text: "When a thought wanders, knowing that it has wandered — in that moment, awareness is present.", source: "" },
+            
+            // ---- 对应 隆波帕默尊者 ----
+            { text: "Have mindfulness to know the reality of body and mind in the present moment, with a mind that is settled and neutral.", source: "——Luang Por Pramote Pamojjo" }, // Official translation of his core teaching
+            { text: "We do not need to search for a peaceful mind; we only need to know the mind that is not peaceful.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "The secret to awareness is this: do not practice for a long time at once, but practice frequently.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "Practice is not about changing anything, but seeing things as they are. Once seen, the mind lets go on its own.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "Do not try to control or eliminate defilements. Just know them as they are, and they will pass away naturally.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "Whether happiness or suffering arises, know it with a neutral mind — without welcoming it, and without resisting it.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "It doesn't matter if you have been lost in thought for a long time. What matters most is to know immediately once you realize you were lost.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "Practice must be done with a relaxed and natural state of mind. If you feel tense or heavily focused, you are practicing wrongly.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "It's like sitting in the audience watching a play: the mind is the spectator, while physical sensations and thoughts are merely actors on the stage.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "The body is not 'me', and the mind is not 'me'. They are merely phenomena arising and passing away according to causes and conditions.", source: "——Luang Por Pramote Pamojjo" },
+            
+            // ---- 对应 修正与保留的禅修短语 ----
+            { text: "Every single moment of 'knowing' is the arising of awareness (Sati).", source: "" },
+            { text: "All that arises will eventually pass away; there is no need to cling, nor to push away.", source: "" },
+            { text: "The present moment is the only real time we have to practice.", source: "" },
+            { text: "Eating, walking, breathing — as long as there is awareness, it is all meditation.", source: "" }
         ];
 
         // 合并语录顺序
