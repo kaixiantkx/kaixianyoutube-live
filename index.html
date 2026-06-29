@@ -1363,7 +1363,7 @@ window.CONTENT = {
   <p class="doc-subtitle" lang-zh>个人的修行记录与体悟</p>
   <p class="doc-subtitle" lang-en>Personal practice logs and reflections</p>
 
-  <div class="log-card">
+  <div id="logs-container"></div>
     <span class="log-date" id="t-log-date-1"></span>
     <p class="log-text" id="t-log-text-1"></p>
   </div>
@@ -1467,9 +1467,42 @@ window.CONTENT = {
     document.getElementById('t-docnav-self').textContent = c.docnav_self;
     document.getElementById('t-docnav-essay').textContent = c.docnav_essay;
 
-    // "近期体悟" Logs text binding for the new independent page
-    document.getElementById('t-log-date-1').textContent = c.log_date_1;
-    document.getElementById('t-log-text-1').textContent = c.log_text_1;
+// 动态生成"近期体悟" (无限读取、缺失英文时退回中文、自动将最新/数字最大的排在最上面)
+    var logsHtml = '';
+    var zhContent = window.CONTENT['zh'];
+    var logIndices = [];
+    
+    // 1. 自动扫描所有以 'log_date_' 开头的条目，提取它们的数字
+    for (var key in zhContent) {
+      if (key.indexOf('log_date_') === 0) {
+        var num = parseInt(key.replace('log_date_', ''), 10);
+        if (!isNaN(num)) {
+          logIndices.push(num);
+        }
+      }
+    }
+    
+    // 2. 将数字从大到小排序 (比如 3, 2, 1)，确保最新的体悟显示在最上面
+    logIndices.sort(function(a, b) { return b - a; });
+    
+    // 3. 根据排序好的数字，无限循环生成卡片
+    for (var j = 0; j < logIndices.length; j++) {
+      var i = logIndices[j];
+      var logDate = c['log_date_' + i] || zhContent['log_date_' + i];
+      var logText = c['log_text_' + i] || zhContent['log_text_' + i];
+      
+      if (logDate && logText) {
+        logsHtml += '<div class="log-card">' +
+                      '<span class="log-date">' + logDate + '</span>' +
+                      '<p class="log-text">' + logText + '</p>' +
+                    '</div>';
+      }
+    }
+    
+    var logsContainer = document.getElementById('logs-container');
+    if (logsContainer) {
+      logsContainer.innerHTML = logsHtml;
+    }
 
     document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh' : 'en');
     document.documentElement.setAttribute('data-lang', lang === 'zh' ? 'zh' : 'en');
