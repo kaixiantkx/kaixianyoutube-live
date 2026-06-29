@@ -1466,6 +1466,11 @@ window.CONTENT = {
     document.getElementById('t-docnav-essay').textContent = c.docnav_essay;
 
     // "近期体悟" Logs text binding for the new independent page
+    document.getElementById('t-logs-label').textContent = c.section_logs_label;
+    if(document.getElementById('t-logs-label-en')) document.getElementById('t-logs-label-en').textContent = c.section_logs_label;
+    
+    document.getElementById('t-logs-title').textContent = c.section_logs_title;
+    if(document.getElementById('t-logs-title-en')) document.getElementById('t-logs-title-en').textContent = c.section_logs_title;
     document.getElementById('t-log-date-1').textContent = c.log_date_1;
     document.getElementById('t-log-text-1').textContent = c.log_text_1;
 
