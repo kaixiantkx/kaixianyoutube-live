@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -16,30 +17,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 
-<!--
-========================================================================
-  ✏️ 内容编辑区 
-  ------------------------------------------------------------------
-  使用方法：
-  1. 找到下面 CONTENT 对象里你想改的那一行，只修改引号 " " 里面的内容。
-  2. 对于极长的文章（如 journey_full_text），使用了数组 [ "段落1", "段落2" ] 
-     的格式，请在每一行的引号内修改，不要删掉末尾的逗号。
-  3. 中英文内容分别在 zh: { ... } 和 en: { ... } 里。
-========================================================================
--->
 <script>
 window.CONTENT = {
 
   zh: {
     // ---- 顶部导航 ----
     brand: "动中禅 · 修行记录",
+    docs_menu_label: "文档",
+    docnav_logs: "近期体悟",
+    docnav_support: "护持说明书",
+    docnav_family: "给家人的说明",
+    docnav_self: "如果想放弃的话",
+    docnav_essay: "觉知作为时代焦虑的抵抗",
 
     // ---- 首页大标题区 ----
     eyebrow: "个人修行 · 公开记录",
     title_line1: "每一次动作，",
     title_line2: "都知道自己在动。",
     subtitle: "这是一个动中禅（隆波田传承）个人修行直播频道的说明网站。记录修行、回应常见问题，不进行宗教比较或辩论。",
-    
+
     // YouTube 跳转按钮与柔和欢迎语
     btn_youtube: "前往 YouTube 直播间",
     welcome_msg: "不管你是碰巧点进来，还是出于好奇停留，都欢迎你在这个喧嚣的互联网角落，陪我安静地坐一会儿。如果你也对动中禅或内观感兴趣，欢迎安静陪伴；如果这不是你感兴趣的内容，也完全没关系，欢迎自行划走，祝你今天安好。",
@@ -65,7 +61,7 @@ window.CONTENT = {
     schedule_4: "<b>晚课：</b>晚间睡前。不强求，若体力不足可省略。",
     schedule_note: "注：具体的开播情况完全视每日身心状态而定，不设强制排期。若某天少播或漏播，累计天数仍按序递增，不刻意“补播”或重新计数。直播时长尽力而为，顺其自然。",
 
-    // ---- 近期体悟 (动态更新区) ----
+    // ---- 独立页面：近期体悟 (动态更新区) ----
     section_logs_label: "修行动态",
     section_logs_title: "近期体悟",
     log_date_1: "记录于 2026 年6月", 
@@ -100,7 +96,7 @@ window.CONTENT = {
       "<p>当念头生起、心不可避免地跑掉时，动作的中断或变得迟疑、机械化，往往是最先察觉到的信号。这就形成了一个天然的警报器。此时，隆波帕默的“观心”法门就完美介入了——我们不需要因为走神而生气，也不需要咬紧牙关把心硬拉回来，而是单纯地“知道心刚才跑掉了”。一旦这个“知道”发生，迷失的当下就断开了，心自然回到了中立与安住的状态，手部的动作又能重新恢复自然。换句话说，隆波帕默的“如实观照”是修行的方向与心态，而隆波田动中禅则是我用来落实这个方向的具体方法。身法（动中）负责提供定点，心法（观心）负责处理迷失，两者相得益彰。</p>",
 
       "<h3 class='serif'>修行不可退让的几个原则</h3>",
-      "<p>在这条路上，有几个原则是我始终提醒自己不能妥协的。第一，戒是修行的地基，没有持戒的基本约束，禅修很容易流于自我安慰或情绪管理，而不是真正的智慧增长。第二，修行不能用“想”来完成，只能用“看”来完成——任何企图用思考、分析、说服自己来达到平静的方式，本质上都只是换一种造作，而不是观照。第三，觉知不是压抑，也不是放纵：压抑是把不想要的念头推开，放纵是任由念头主导行为，而觉知是不推不拉地看着它，让它自然地生、自然地灭。第四，进步从来不是线性的：退步、烦恼重新现起、甚至对修行本身产生怀疑，都是过程的一部分，不代表方法错了或自己不行，重点是能不能在退步发生的当下，依然保持如实观照，而不是陷入自我谴责。</p>",
+      "<p>在这条路上，有几个原则是我始终提醒自己不能妥协的。第一，戒是修行的地基，没有持戒的基本约束，禅修很容易流于自我安慰或情绪管理，而不是真正的智慧增长。第二，修行不能用“想”来完成，只能用“看”来完成——任何企图用思考、分析、说服自己来达到平静的方式，本质上都只是换一种造作，而不是观照。第三，觉知不是压抑，也不是放纵：压抑是把不想要的念头推开，放纵是任由念头主导行为，而觉知是不推不拉地看着它，让自然地生、自然地灭。第四，进步从来不是线性的：退步、烦恼重新现起、甚至对修行本身产生怀疑，都是过程的一部分，不代表方法错了或自己不行，重点是能不能在退步发生的当下，依然保持如实观照，而不是陷入自我谴责。</p>",
 
       "<h3 class='serif'>在生活中的实践</h3>",
       "<p>修行的真实考验，往往不在禅堂里，而在生活的细节中。求职过程中的等待与不确定、与人互动时的疲惫与摩擦、独处时浮现的迷茫与自我怀疑，都是练习如实观照最直接的素材。比如，在等待结果时，焦虑感生起，我练习的不是说服自己“不要焦虑”，而是单纯地知道“现在有焦虑”，让这份觉知本身把心稳住，而不是被焦虑带着跑。又比如，在高密度的人际互动后感到疲惫，我练习的是承认这份疲惫的真实存在，而不是责怪自己“不够坚强”。这些练习都很微小，常常也不“成功”——心还是会乱、还是会被卷走——但每一次能够认出“心乱了”的那个瞬间，本身就已经是觉知在工作。</p>",
@@ -129,14 +125,14 @@ window.CONTENT = {
     pramote_body2: "隆波帕默教导的核心原则是：保持觉性，以安住且中立的心，如实了知身、心的实相——不是紧盯、不是控制，只是单纯地知道。当心生起满意或不满意的反应时，也只是如实知道这个反应本身，让心回到中立、安住的状态。",
     pramote_body3: "这个法门和动中禅彼此互补：动中禅训练对身体动作的觉知，隆波帕默的教导则更着重训练对心念起伏的觉知。两者合在一起练习，是我目前修行的主要方式。",
 
-    // ---- CN: 支持/护持板块 ----
+    // ---- 支持/护持板块 ----
     section_support_label: "支持与护持",
     section_support_title: "关于“护持”的坦白",
     support_body1: "坦诚地说，作为一名全职修行者，我目前的修行之路有些“非传统”。由于我个人的胃部健康问题，无法严格持守南传道场“过午不食”的戒律，这使我暂时无法依托现有的僧团体制。因此，我正在探索一条不依赖传统体制的独立求道之路。在此直播，不仅是为了静心，也是在等待能在修行理念上产生共鸣的“有缘人”，以谦卑和开放的心态，寻找外部独立护持的机会。",
     support_body2: "在佛教传统中，护持（Dana）是一种珍贵的结缘。我所期盼的护持，并非单方面的施舍，而是一种基于对修行价值深刻认同的相互成就。如果您能在我的直播中感受到共鸣与宁静，愿意提供维持基本生存的协助（如简单的食宿庇护），我将充满感恩。为了保持修行的纯粹，我期盼这是一种简单、不附带世俗条件（如强制加入团体、配合宣传等）的互助。而在接受这份善意的同时，我的最终目标，依然是走向身心与现实生活的完全独立。",
     support_contact_label: "联系方式（探讨护持可能与修行交流）：",
     support_contact_value: "kaixiantkx11@gmail.com",
-    
+
     // ---- FAQ 板块 ----
     section_faq_label: "常见问题",
     section_faq_title: "常见问题",
@@ -159,8 +155,8 @@ window.CONTENT = {
     faq_method_q: "为何用动中禅，而不是其他方法？",
     faq_method_a: "我接触过不同的禅修方式（整体修行近五年），但真正在隆波田、隆波帕默的传承上持续练习，其实只有近一年的时间。选择一个法门不是比较“哪个最正统”，而是“哪个我能真正在生活中用起来”。隆波帕默尊者教导以中立的心如实“观心”；而动中禅提供了一个极佳的“锚点”。这完美结合了心法与身法：身体负责规律地动，心负责轻松地知道，一旦发现心跑了，不自责，只需借由动作的停顿觉察迷失，重新回到当下。这是我验证过能真正长久走下去的道路。",
 
-    faq_method_q: "为什么你的手一直在动？这是什么修行方法？",
-    faq_method_a: "我修习的是南传佛教中的‘动中禅’（正念动中禅 / Mahasati Meditation），由泰国隆波田尊者所传。它通过一套规律的手部动作，让心有一个清晰的‘锚点’。很多人以为禅修必须静坐不动，但实际上，修行不在于身体的静止，而在于‘觉知’的连续。在动作中保持觉知，能有效对治昏沉与妄念。这也是为什么你会在镜头里看到我持续在做这套动作。",
+    faq_method2_q: "为什么你的手一直在动？这是什么修行方法？",
+    faq_method2_a: "我修习的是南传佛教中的‘动中禅’（正念动中禅 / Mahasati Meditation），由泰国隆波田尊者所传。它通过一套规律的手部动作，让心有一个清晰的‘锚点’。很多人以为禅修必须静坐不动，但实际上，修行不在于身体的静止，而在于‘觉知’的连续。在动作中保持觉知，能有效对治昏沉与妄念。这也是为什么你会在镜头里看到我持续在做这套动作。",
 
     faq_job_q: "为何不去找正式工作？",
     faq_job_a: "自动化与 AI 是我的专业背景，但我内心最真实的渴望，是探索生命的本质。在权衡之后，我决定遵从内心的指引，选择将长期闭关和全职禅修作为当下的重心。与其在职场中带着内心的迷茫去写代码，我更愿意先花时间把‘自己’这台精密仪器的底层代码理清楚。未来如果因缘需要我去工作，我会随时回归；但当下，禅修就是我唯一专注的事。",
@@ -186,12 +182,18 @@ window.CONTENT = {
 
   en: {
     brand: "Dynamic Meditation Journal",
+    docs_menu_label: "Documents",
+    docnav_logs: "Practice Logs",
+    docnav_support: "Support Note",
+    docnav_family: "Note to Family",
+    docnav_self: "If You Want to Give Up",
+    docnav_essay: "Awareness as Resistance",
 
     eyebrow: "Personal Practice · Public Record",
     title_line1: "Each movement,",
     title_line2: "known as it happens.",
     subtitle: "A companion site for a personal Mahasati (dynamic meditation, Luangpor Teean lineage) livestream practice. Documenting the practice and answering common questions — not a platform for religious debate or comparison.",
-    
+
     btn_youtube: "Join the YouTube Livestream",
     welcome_msg: "Whether you clicked here by chance or stayed out of curiosity, you are welcome to sit quietly with me in this noisy corner of the internet. If you are interested in vipassana meditation, you are welcome to keep me quiet company; if not, no worries at all, feel free to scroll away and wishing you a peaceful day.",
 
@@ -204,7 +206,6 @@ window.CONTENT = {
     
     about_notice: "The practice is silent throughout — no narration, no teaching. This is not a space for religious comparison, debate, or persuasion.<br><br><b>Disclaimer:</b> The Vipassana practice demonstrated on this channel is rooted in the Buddhist tradition. Due to fundamental theological differences, this practice may not align with the core doctrines of monotheistic faiths, such as Islam. Muslims and followers of other specific faiths are respectfully advised to exercise personal discretion or consult the guidelines of their respective religious scholars to avoid any doctrinal conflict.",
 
-    // ---- 直播时段 (Schedule) ----
     section_schedule_label: "SCHEDULE",
     section_schedule_title: "Daily Practice Sessions",
     schedule_lead: "The daily livestream is divided into several main sessions based on natural daily routines, typically named as 'Day N | Session':",
@@ -275,7 +276,6 @@ window.CONTENT = {
     pramote_body2: "The core principle of his teaching is: maintain awareness, with a settled and neutral mind, to know the reality of body and mind as they truly are — not staring fixedly, not controlling, simply knowing. When the mind reacts with liking or disliking, that reaction itself is simply known, allowing the mind to return to a neutral, settled state.",
     pramote_body3: "This approach complements Mahasati well: Mahasati trains awareness of bodily movement, while Luangpor Pramote's teaching trains awareness of the mind's rising and passing states. Practicing both together is my main approach currently.",
 
-    // ---- EN: 支持/护持板块 ----
     section_support_label: "SUPPORT & DANA",
     section_support_title: "A Candid Note on Support",
     support_body1: "To be fully transparent, as a full-time practitioner, my current path is somewhat 'unconventional'. Due to personal stomach health issues, I cannot adhere strictly to the traditional Theravada rule of fasting after noon, which temporarily prevents me from relying on the established monastic system. Therefore, I am exploring an independent path of practice outside traditional institutions. I stream here not only to maintain my inner peace but also to wait for kindred spirits who resonate with my values, seeking opportunities for independent external support with a humble and open heart.",
@@ -304,8 +304,8 @@ window.CONTENT = {
     faq_method_q: "Why this method, not another?",
     faq_method_a: "I've explored different approaches (practicing for nearly 5 years overall), but my dedicated practice in the combined lineage of Luangpor Teean and Luangpor Pramote is actually only about a year. Choosing a method isn't about which is 'most orthodox', but 'which can I practically apply in daily life.' Luangpor Pramote teaches watching the mind neutrally; Mahasati provides an excellent physical anchor. The body moves rhythmically, the mind lightly acknowledges it, and when the mind wanders, a pause in the hand movement serves as a gentle alarm to return. This synergy is the path I have verified as sustainable for me.",
 
-    faq_method_q_en: "Why are your hands constantly moving? What is this practice?",
-    faq_method_a_en: "I am practicing 'Dynamic Meditation' (Mahasati Meditation), a Theravada Buddhist method developed by the Thai master Luang Por Teean. It uses a rhythmic series of hand movements to provide a clear 'anchor' for the mind. Many people think meditation requires sitting completely still, but true practice is not about physical stillness—it's about the continuity of awareness. Maintaining awareness through movement is highly effective in overcoming sleepiness and wandering thoughts. That is why you see me performing these movements on stream.",
+    faq_method2_q: "Why are your hands constantly moving? What is this practice?",
+    faq_method2_a: "I am practicing 'Dynamic Meditation' (Mahasati Meditation), a Theravada Buddhist method developed by the Thai master Luang Por Teean. It uses a rhythmic series of hand movements to provide a clear 'anchor' for the mind. Many people think meditation requires sitting completely still, but true practice is not about physical stillness—it's about the continuity of awareness. Maintaining awareness through movement is highly effective in overcoming sleepiness and wandering thoughts. That is why you see me performing these movements on stream.",
     
     faq_job_q: "Why not get a regular job?",
     faq_job_a: "Automation and AI are my professional background, but my truest inner desire is to explore the essence of life. After careful consideration, I've decided to follow my inner guidance and make long-term retreat and full-time meditation my current focus. Rather than writing code in the corporate world while carrying inner confusion, I prefer to first take the time to sort out the 'source code' of this complex instrument called 'myself'. If future circumstances require me to return to work, I am ready to do so; but right now, meditation is my sole focus.",
@@ -340,8 +340,27 @@ window.CONTENT = {
     --bone-dim: rgba(242,237,228,0.62);
     --bone-faint: rgba(242,237,228,0.32);
   }
+  .page{ width:100%; }
+  .page[hidden]{ display:none !important; }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
+
+  [lang-zh]{display:none !important;}
+  [lang-en]{display:none !important;}
+  html[data-lang="zh"] [lang-zh]{display:initial !important;}
+  html[data-lang="zh"] span[lang-zh]{display:inline !important;}
+  html[data-lang="zh"] div[lang-zh], html[data-lang="zh"] p[lang-zh],
+  html[data-lang="zh"] li[lang-zh], html[data-lang="zh"] td[lang-zh],
+  html[data-lang="zh"] th[lang-zh]{display:block !important;}
+  html[data-lang="zh"] td[lang-zh], html[data-lang="zh"] th[lang-zh]{display:table-cell !important;}
+  html[data-lang="zh"] .doc-h2[lang-zh], html[data-lang="zh"] .doc-h3[lang-zh]{display:block !important;}
+  html[data-lang="en"] [lang-en]{display:initial !important;}
+  html[data-lang="en"] span[lang-en]{display:inline !important;}
+  html[data-lang="en"] div[lang-en], html[data-lang="en"] p[lang-en],
+  html[data-lang="en"] li[lang-en], html[data-lang="en"] td[lang-en],
+  html[data-lang="en"] th[lang-en]{display:block !important;}
+  html[data-lang="en"] td[lang-en], html[data-lang="en"] th[lang-en]{display:table-cell !important;}
+  html[data-lang="en"] .doc-h2[lang-en], html[data-lang="en"] .doc-h3[lang-en]{display:block !important;}
   body{
     margin:0;
     background:var(--ink);
@@ -392,6 +411,48 @@ window.CONTENT = {
     color:var(--ink);
   }
 
+  .topbar-right{
+    display:flex; align-items:center; gap:18px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+  }
+
+  .docs-row{
+    display:flex; align-items:center; gap:4px;
+    flex-wrap:wrap;
+  }
+  .docs-link{
+    font-family:'Inter',sans-serif;
+    font-size:12.5px;
+    letter-spacing:0.01em;
+    padding:7px 12px;
+    border-radius:999px;
+    border:1px solid transparent;
+    background:transparent;
+    color:var(--bone-dim);
+    cursor:pointer;
+    transition:all .18s ease;
+    white-space:nowrap;
+  }
+  .docs-link:hover{
+    border-color:rgba(138,115,85,0.5);
+    color:var(--bone);
+    background:rgba(138,115,85,0.1);
+  }
+  .docs-link.active{
+    border-color:var(--bronze);
+    color:var(--bone);
+    background:rgba(138,115,85,0.18);
+  }
+  .brand{ cursor:pointer; }
+
+  @media (max-width:760px){
+    .topbar{ padding:14px 16px; flex-wrap:wrap; gap:10px; }
+    .topbar-right{ width:100%; justify-content:flex-start; }
+    .docs-row{ width:100%; overflow-x:auto; flex-wrap:nowrap; padding-bottom:4px; }
+    .docs-link{ flex-shrink:0; font-size:12px; padding:6px 10px; }
+  }
+
   .hero{
     padding:86px 28px 64px;
     max-width:760px;
@@ -438,7 +499,7 @@ window.CONTENT = {
     max-width:560px;
     margin:0 auto;
   }
-  
+
   /* YouTube 按钮与欢迎语 */
   .hero-actions {
     margin-top: 36px;
@@ -526,7 +587,7 @@ window.CONTENT = {
   .notice p{margin:0; color:var(--bone); font-size:15px; line-height: 1.7;}
   .notice p b { color: var(--bronze); font-weight: 600;}
 
-  /* 动态更新区 (Recent Logs) */
+  /* 动态更新区 (Recent Logs) - 独立页面专用 CSS */
   .log-card {
     border-left: 2px solid var(--bronze);
     padding-left: 20px;
@@ -561,7 +622,7 @@ window.CONTENT = {
   }
   .stat .num{
     font-family:'Fraunces','Noto Serif SC',serif;
-    font-size:18px;
+    font-size:22px;
     color:var(--bone);
     display:block;
   }
@@ -635,28 +696,162 @@ window.CONTENT = {
   details[open] summary::after{transform:rotate(45deg);}
   details .a{color:var(--bone-dim); margin-top:12px; font-size:15px; padding-right:8px; line-height: 1.7;}
 
+  /* ---- 文档区块样式 ---- */
+  .doc-section{
+    max-width:760px;
+    margin:0 auto;
+    padding:64px 28px 30px;
+    scroll-margin-top:84px;
+  }
+  .doc-kicker{
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--bronze);
+    margin-bottom:14px;
+  }
+  .doc-title{
+    font-family:'Fraunces','Noto Serif SC',serif;
+    font-size:clamp(26px,4vw,34px);
+    font-weight:700;
+    color:var(--bone);
+    margin:0 0 10px;
+  }
+  .doc-subtitle{
+    font-size:16px;
+    color:var(--bronze);
+    font-style:italic;
+    margin:0 0 28px;
+  }
+  .doc-h2{
+    font-family:'Fraunces','Noto Serif SC',serif;
+    font-size:21px;
+    font-weight:700;
+    color:var(--bone);
+    margin:34px 0 14px;
+    padding-bottom:8px;
+    border-bottom:2px solid var(--bronze);
+    display:block;
+    width:fit-content;
+  }
+  .doc-h3{
+    font-family:'Fraunces','Noto Serif SC',serif;
+    font-size:17px;
+    font-weight:700;
+    color:var(--bronze);
+    margin:24px 0 10px;
+  }
+  .doc-p{
+    color:var(--bone-dim);
+    font-size:16px;
+    line-height:1.75;
+    margin:0 0 16px;
+  }
+  .doc-p.strong{ color:var(--bone); font-weight:600; }
+  .doc-p.quiet{ color:var(--bone-faint); font-style:italic; font-size:15px; }
+  .doc-list{ list-style:none; padding:0; margin:0 0 16px; }
+  .doc-list li{
+    color:var(--bone-dim);
+    font-size:16px;
+    line-height:1.7;
+    padding:6px 0 6px 22px;
+    position:relative;
+  }
+  .doc-list li::before{
+    content:"—"; position:absolute; left:0; color:var(--bronze);
+  }
+  .doc-list.numbered{ counter-reset:docnum; }
+  .doc-list.numbered li{ counter-increment:docnum; }
+  .doc-list.numbered li::before{ content:counter(docnum) "."; }
+
+  .doc-table{
+    width:100%; border-collapse:collapse;
+    margin:14px 0 20px;
+    font-size:14.5px;
+  }
+  .doc-table th, .doc-table td{
+    border:1px solid rgba(201,195,184,0.16);
+    padding:10px 14px;
+    text-align:left;
+    color:var(--bone-dim);
+  }
+  .doc-table th{
+    background:rgba(138,115,85,0.18);
+    color:var(--bone);
+    font-weight:600;
+  }
+  .doc-table tr:nth-child(even) td{ background:rgba(242,237,228,0.025); }
+
+  .doc-callout{
+    border-left:3px solid var(--bronze);
+    background:rgba(138,115,85,0.07);
+    padding:16px 20px;
+    border-radius:2px;
+    margin:18px 0;
+  }
+  .doc-callout p{ margin:0; color:var(--bone); font-size:15px; }
+
+  .doc-callout.moss{
+    border-left-color:var(--moss);
+    background:rgba(74,93,82,0.1);
+  }
+
+  .doc-divider-sm{
+    border:none;
+    border-top:1px solid rgba(201,195,184,0.16);
+    margin:36px 0;
+  }
+
+  .doc-refs{ font-size:13.5px; color:var(--bone-faint); line-height:1.8; }
+  .doc-refs li{ margin-bottom:6px; }
+
+  .doc-back{
+    display:inline-block;
+    margin-top:30px;
+    font-size:13px;
+    color:var(--bone-faint);
+    border-bottom:1px solid rgba(201,195,184,0.3);
+  }
+  .doc-back:hover{ color:var(--bronze); border-color:var(--bronze); }
+
   @media (max-width:560px){
     .hero{padding:64px 20px 48px;}
     section{padding:40px 20px;}
+    .doc-section{ padding:48px 18px 20px; }
+    .doc-table{ font-size:13px; }
+    .doc-table th, .doc-table td{ padding:8px 10px; }
   }
 </style>
 </head>
-<body>
+<body id="top">
 
 <div class="topbar">
-  <div class="brand" id="brand-text"></div>
-  <div class="lang-switch">
-    <button data-set="zh" onclick="setLang('zh')">中文</button>
-    <button data-set="en" onclick="setLang('en')">EN</button>
+  <div class="brand" id="brand-text" onclick="goHome()"></div>
+  <div class="topbar-right">
+    <nav class="docs-row">
+      <!-- 新增：近期体悟的导航入口 -->
+      <button class="docs-link" data-page="page-doc-logs" onclick="goToDoc('logs')"><span id="t-docnav-logs"></span></button>
+      
+      <button class="docs-link" data-page="page-doc-support" onclick="goToDoc('doc-support')"><span id="t-docnav-support"></span></button>
+      <button class="docs-link" data-page="page-doc-family" onclick="goToDoc('doc-family')"><span id="t-docnav-family"></span></button>
+      <button class="docs-link" data-page="page-doc-self" onclick="goToDoc('doc-self')"><span id="t-docnav-self"></span></button>
+      <button class="docs-link" data-page="page-doc-essay" onclick="goToDoc('doc-essay')"><span id="t-docnav-essay"></span></button>
+    </nav>
+    <div class="lang-switch">
+      <button data-set="zh" onclick="setLang('zh')">中文</button>
+      <button data-set="en" onclick="setLang('en')">EN</button>
+    </div>
   </div>
 </div>
+
+<div class="page" id="page-home">
 
 <div class="hero">
   <div class="tally"><span></span><span></span><span></span><span></span><span></span></div>
   <div class="eyebrow" id="t-eyebrow"></div>
   <h1 class="title serif"><span id="t-title1"></span><br><span id="t-title2"></span></h1>
   <p class="sub" id="t-subtitle"></p>
-  
+
   <div class="hero-actions">
     <a href="https://www.youtube.com/@kaixian1315" target="_blank" class="btn-primary" id="t-btn-youtube"></a>
     <p class="welcome-text" id="t-welcome-msg"></p>
@@ -676,6 +871,7 @@ window.CONTENT = {
   <div class="notice"><p id="t-about-notice"></p></div>
 </section>
 
+<!-- 新增：直播时段 (Schedule) -->
 <div class="divider"><div class="line"></div><div class="mark" id="t-schedule-label"></div><div class="line"></div></div>
 
 <section>
@@ -685,16 +881,6 @@ window.CONTENT = {
   <p id="t-schedule-note" style="margin-top:20px; font-size:14.5px; color:var(--bone-faint); font-style:italic;"></p>
 </section>
 
-<div class="divider"><div class="line"></div><div class="mark" id="t-logs-label"></div><div class="line"></div></div>
-
-<section>
-  <h2 class="h serif"><span class="stroke"></span><span id="t-logs-title"></span></h2>
-  <div class="log-card">
-    <span class="log-date" id="t-log-date-1"></span>
-    <p class="log-text" id="t-log-text-1"></p>
-  </div>
-</section>
-
 <div class="divider"><div class="line"></div><div class="mark" id="t-journey-label"></div><div class="line"></div></div>
 
 <section>
@@ -702,7 +888,7 @@ window.CONTENT = {
   <div class="stat-row">
     <div class="stat"><span class="num" id="t-journey-years-val"></span><span class="lbl" id="t-journey-years-lbl"></span></div>
   </div>
-  
+  <!-- 历程全文：替换了先前的 placeholder -->
   <div class="article-content" id="t-journey-full"></div>
 </section>
 
@@ -741,13 +927,453 @@ window.CONTENT = {
   <ul class="plain" id="rules-list"></ul>
 </section>
 
+<div class="divider"><div class="line"></div><div class="line"></div></div>
+
 <footer>
   <div class="tally"><span></span><span></span><span></span><span></span><span></span></div>
   <p id="t-footer" style="margin:0;"></p>
 </footer>
 
+</div><!-- /page-home -->
+
+<!-- ============================================================ -->
+<!-- 文档一：护持说明书 -->
+<!-- ============================================================ -->
+<div class="page" id="page-doc-support" hidden>
+<section class="doc-section" id="doc-support">
+  <div class="doc-kicker" lang-zh>完整文档 · 之一</div>
+  <div class="doc-kicker" lang-en>FULL DOCUMENT · ONE</div>
+  <h2 class="doc-title serif"><span lang-zh>护持说明书</span><span lang-en>A Note on Supporting This Practice</span></h2>
+  <p class="doc-subtitle" lang-zh>写给可能在未来提供护持的人</p>
+  <p class="doc-subtitle" lang-en>For anyone who may, in the future, consider offering support</p>
+
+  <p class="doc-p" lang-zh>本说明书的目的，是让任何考虑提供护持的人，在做出决定之前，能够清楚了解这件事的全貌——而不是一时感动后才发现细节不符预期。</p>
+  <p class="doc-p" lang-en>This note exists so that anyone considering offering support can understand the full picture before deciding — rather than discovering mismatched expectations after an initial moment of goodwill.</p>
+
+  <div class="doc-h2" lang-zh>一、这是什么</div>
+  <div class="doc-h2" lang-en>1. What this is</div>
+  <p class="doc-p" lang-zh>这不是一个商业项目，也不是一个募资活动。这是一份个人修行的护持说明，写给可能在未来某个时间点，认同这件事的价值、并自愿想提供帮助的人。</p>
+  <p class="doc-p" lang-en>This is not a business project or a fundraising campaign. It is a note about supporting a personal practice, written for anyone who, at some point, may recognize its value and wish to help of their own accord.</p>
+  <p class="doc-p" lang-zh>我目前在 YouTube 上直播动中禅（隆波田传承）的个人修行练习，并搭配隆波帕默尊者的"观心"教导。直播全程安静，不讲解、不开示，呈现的是真实、不剪辑的练习过程。这件事有三个并存的目的：督促自己长期、规律地坚持练习；留下完整的修行记录；以及寻找愿意支持这条修行之路的护持。</p>
+  <p class="doc-p" lang-en>I currently livestream my personal Mahasati (Luangpor Teean lineage) practice on YouTube, alongside Luangpor Pramote's mind-watching teachings. The stream is silent throughout — no narration, no teaching — showing the real, unedited process. This serves three purposes at once: sustaining long-term regular practice through accountability, keeping a record of the practice, and finding people willing to support this path.</p>
+  <p class="doc-p strong" lang-zh>这份文件诚实地说明：我目前的处境是什么、这条路为什么走得通、护持具体会用在哪里、以及——同样重要的——你不会得到什么。</p>
+  <p class="doc-p strong" lang-en>This document explains honestly: my current circumstances, why this path is workable, exactly where support would go, and — just as important — what you would not get.</p>
+
+  <div class="doc-h2" lang-zh>二、我目前的处境</div>
+  <div class="doc-h2" lang-en>2. My current circumstances</div>
+  <div class="doc-h3" lang-zh>背景</div>
+  <div class="doc-h3" lang-en>Background</div>
+  <p class="doc-p" lang-zh>我持有商业数学学士学位（优等），技术背景涵盖自动化（RPA）、计算机视觉、OCR、SAP 数据处理等，曾在企业自动化解决方案领域有实务经验。目前处于职业过渡期，一边积极求职（方向为自动化、AI 相关岗位），一边在这段时间维持规律的修行练习。</p>
+  <p class="doc-p" lang-en>I hold a Bachelor's degree (Honours) in Business Mathematics, with a technical background spanning automation (RPA), computer vision, OCR, and SAP data processing, with hands-on experience in enterprise automation. I'm currently in a career transition, actively job hunting in automation/AI roles while maintaining regular practice.</p>
+  <div class="doc-h3" lang-zh>修行年限</div>
+  <div class="doc-h3" lang-en>Years of practice</div>
+  <p class="doc-p" lang-zh>依循隆波田、隆波帕默传承练习动中禅近五年，期间也曾有短期出家及内观禅修营的经验。这不是一时兴起的尝试，是经过五年验证、确认能长期坚持的修行方式。</p>
+  <p class="doc-p" lang-en>I've practiced Mahasati in the Luangpor Teean and Luangpor Pramote lineage for nearly five years, including a short-term ordination and a vipassana retreat. This isn't a recent whim — it's a method verified through five years of sustained practice.</p>
+  <div class="doc-h3" lang-zh>财务现况</div>
+  <div class="doc-h3" lang-en>Financial situation</div>
+  <p class="doc-p" lang-zh>目前有个人存款，可支撑一段时间的基本生活所需；同时有家人提供的过渡期协助，作为额外缓冲，而非长期依赖。这意味着：护持不是这件事能否继续的先决条件，而是锦上添花。这一点很重要——它确保了即使暂时没有任何护持出现，修行与直播本身也能持续，不会因为"等不到资助"而被迫中断。</p>
+  <p class="doc-p" lang-en>I have personal savings covering a period of basic living costs, plus family support as an additional buffer rather than a permanent dependency. This matters: support isn't a precondition for this to continue — it's a welcome addition. Even with no support at all, the practice and livestream continue.</p>
+
+  <div class="doc-h2" lang-zh>三、为何是这条路</div>
+  <div class="doc-h2" lang-en>3. Why this path</div>
+  <p class="doc-p" lang-zh>我曾认真评估过出家这条路，包括实地了解寺院生活、短期出家体验。最终判断在家修行更适合我目前的现实状况，原因有二：</p>
+  <p class="doc-p" lang-en>I seriously weighed ordination, including direct exposure to monastery life and a short-term ordination experience. I concluded lay practice better fits my current reality, for two reasons:</p>
+  <ol class="doc-list numbered">
+    <li lang-zh>身体状况——我有裂孔疝（hiatal hernia），无法配合过午不食的戒律，长时间空腹会加重胃酸反流；</li>
+    <li lang-en>Physical condition — I have a hiatal hernia, making the no-food-after-noon precept unsustainable; prolonged fasting worsens acid reflux;</li>
+    <li lang-zh>生活方式——寺院日常的法会与接待活动，对我的身心状态而言负荷过高，长期处在高频互动环境中是消耗而非滋养。</li>
+    <li lang-en>Lifestyle — the frequent ceremonies and hosting duties of monastery life are more than I can sustain; prolonged high-interaction environments deplete rather than nourish me.</li>
+  </ol>
+  <p class="doc-p" lang-zh>公开直播，则是借助"被记录、被看见"这件事，为长期坚持练习增加一层外部督促力，同时让这件事被更多人知道——这两者结合，才有了"护持"这个可能性的存在基础。</p>
+  <p class="doc-p" lang-en>The public livestream uses accountability — being recorded, being seen — to help sustain long-term practice, while also letting more people know about it. Together, these create the basis for the possibility of support.</p>
+
+  <div class="doc-h2" lang-zh>四、护持具体会用在哪里</div>
+  <div class="doc-h2" lang-en>4. Where support would actually go</div>
+  <p class="doc-p" lang-zh>护持的用途单纯而具体，全部用于维持基本生活所需，不涉及任何商业投入：</p>
+  <p class="doc-p" lang-en>The use of support is simple and specific — entirely for basic living needs, with no commercial component:</p>
+  <table class="doc-table">
+    <tr><th lang-zh>用途</th><th lang-en>Purpose</th><th lang-zh>说明</th><th lang-en>Detail</th></tr>
+    <tr><td lang-zh>基本饮食</td><td lang-en>Basic meals</td><td lang-zh>规律三餐，符合身体状况（裂孔疝）所需的少量多餐方式</td><td lang-en>Regular small, frequent meals suited to my hiatal hernia</td></tr>
+    <tr><td lang-zh>居住与水电</td><td lang-en>Housing & utilities</td><td lang-zh>维持现有住处的基本开销</td><td lang-en>Basic costs of my current residence</td></tr>
+    <tr><td lang-zh>直播与练习相关设备</td><td lang-en>Stream/practice equipment</td><td lang-zh>手机/平板续航、网络费用、设备维护或更换</td><td lang-en>Device power, internet, maintenance or replacement</td></tr>
+    <tr><td lang-zh>不可预期的基本开支</td><td lang-en>Unforeseen basics</td><td lang-zh>如医疗、交通等必要但非固定的支出</td><td lang-en>Necessary but irregular costs like medical or transport</td></tr>
+  </table>
+  <p class="doc-p" lang-zh>这不是一个会扩张的"项目"，没有团队、没有营运成本、没有要扩大规模的计划。所有护持都直接转化为让这一个人能持续修行、持续直播的基本生活支撑，没有中间环节。</p>
+  <p class="doc-p" lang-en>This isn't a growing "project" — no team, no operating costs, no plan to scale. All support converts directly into basic living support for one person to keep practicing and streaming, with no intermediary.</p>
+
+  <div class="doc-h2" lang-zh>五、护持方式与边界</div>
+  <div class="doc-h2" lang-en>5. How support works, and its boundaries</div>
+  <div class="doc-h3" lang-zh>怎么进行</div>
+  <div class="doc-h3" lang-en>How it works</div>
+  <ul class="doc-list">
+    <li lang-zh>不设定任何时间表或目标金额，单纯等待真正认同这件事的人，自然发生，不主动催促；</li>
+    <li lang-en>No timeline or target amount — simply waiting for the right person, with no active solicitation;</li>
+    <li lang-zh>只透过线下、一对一的方式洽谈，不使用任何平台打赏、众筹或自动化收款工具；</li>
+    <li lang-en>Only through offline, one-on-one conversation — no platform tipping, crowdfunding, or automated payment tools;</li>
+    <li lang-zh>具体形式（金钱、生活物资等）双方当面商议，没有固定模板。</li>
+    <li lang-en>The specific form (money, goods, etc.) is discussed in person, with no fixed template.</li>
+  </ul>
+  <div class="doc-h3" lang-zh>不接受的条件</div>
+  <div class="doc-h3" lang-en>What I won't accept</div>
+  <p class="doc-p strong" lang-zh>这是这份说明书最重要的部分。为了保持修行的独立与自由，以下情况无论护持金额多少，都不会接受：</p>
+  <p class="doc-p strong" lang-en>This is the most important part of this note. To preserve independence of practice, the following will not be accepted regardless of the amount offered:</p>
+  <ul class="doc-list">
+    <li lang-zh>要求加入任何团体、组织或宗派；</li>
+    <li lang-en>Requirements to join any group, organization, or sect;</li>
+    <li lang-zh>要求参与特定活动、法会或仪式；</li>
+    <li lang-en>Requirements to attend specific events, ceremonies, or rituals;</li>
+    <li lang-zh>要求配合宣传、代言或公开感谢致辞；</li>
+    <li lang-en>Requirements for promotion, endorsement, or public acknowledgment;</li>
+    <li lang-zh>要求改变修行方式、直播时段或形式；</li>
+    <li lang-en>Requirements to change the practice method, stream schedule, or format;</li>
+    <li lang-zh>要求提供具体居住地址或可识别个人位置的信息。</li>
+    <li lang-en>Requirements to disclose a specific address or identifying location information.</li>
+  </ul>
+
+  <div class="doc-h2" lang-zh>六、坦白说：你会、与不会得到什么</div>
+  <div class="doc-h2" lang-en>6. To be candid: what you will and won't get</div>
+  <table class="doc-table">
+    <tr><th lang-zh>你会得到的</th><th lang-en>You will get</th><th lang-zh>你不会得到的</th><th lang-en>You will not get</th></tr>
+    <tr><td lang-zh>一份诚实、透明的修行记录可以持续关注</td><td lang-en>An honest, transparent practice record to follow</td><td lang-zh>任何形式的财务回报或投资收益</td><td lang-en>Any financial return or investment yield</td></tr>
+    <tr><td lang-zh>知道护持被用在哪里（基本生活所需）</td><td lang-en>Visibility into where support goes (basic living needs)</td><td lang-zh>对修行方式、直播内容的任何决定权</td><td lang-en>Any say over the practice method or stream content</td></tr>
+    <tr><td lang-zh>一份不附带条件的善意被尊重</td><td lang-en>Unconditional goodwill, respected as such</td><td lang-zh>团体身份、会员资格或专属权益</td><td lang-en>Membership status or exclusive perks</td></tr>
+    <tr><td lang-zh>可以随时停止护持，没有任何后续义务</td><td lang-en>The freedom to stop supporting anytime, no obligations</td><td lang-zh>持续催促或营销式的感谢与回访</td><td lang-en>Ongoing solicitation or marketing-style follow-ups</td></tr>
+  </table>
+
+  <div class="doc-h2" lang-zh>七、为何这条路走得通</div>
+  <div class="doc-h2" lang-en>7. Why this is workable</div>
+  <p class="doc-p" lang-zh>这不是依赖单一收入来源的赌注。即便完全没有任何护持出现，下面三层结构本身就能支撑：</p>
+  <p class="doc-p" lang-en>This isn't a bet on a single income source. Even with zero support, three layers already provide a foundation:</p>
+  <ol class="doc-list numbered">
+    <li lang-zh>个人存款与家人协助，提供基本生活的现实缓冲；</li>
+    <li lang-en>Personal savings and family help, as a real-world buffer;</li>
+    <li lang-zh>同步进行的求职与自由职业（自动化、AI 相关），是主要、独立于护持的收入路径；</li>
+    <li lang-en>Concurrent job hunting and freelance work (automation/AI), the primary income path independent of support;</li>
+    <li lang-zh>护持只是第三层、完全自愿、没有压力的可能性——它存在与否，都不影响前两层是否成立。</li>
+    <li lang-en>Support is only a third, fully voluntary, pressure-free layer — its presence or absence doesn't affect the first two.</li>
+  </ol>
+  <p class="doc-p quiet" lang-zh>正因为护持不是"必须发生"的事，它才能保持单纯——不需要为了维系它而改变这件事的本质。</p>
+  <p class="doc-p quiet" lang-en>Because support doesn't have to happen, it can stay simple — there's no need to alter the nature of this to sustain it.</p>
+
+  <div class="doc-h2" lang-zh>八、如何联系</div>
+  <div class="doc-h2" lang-en>8. How to reach out</div>
+  <p class="doc-p" lang-zh>若你认同这件事的价值，并希望进一步了解或洽谈，欢迎透过以下方式联系，非商业、非紧急用途：</p>
+  <p class="doc-p" lang-en>If you recognize the value in this and wish to learn more, feel free to reach out — for non-commercial, non-urgent purposes:</p>
+  <p class="doc-p strong" lang-zh>邮箱：kaixiantkx11@gmail.com</p>
+  <p class="doc-p strong" lang-en>Email: kaixiantkx11@gmail.com</p>
+
+  <hr class="doc-divider-sm">
+  <p class="doc-p quiet" lang-zh>感谢你愿意花时间读到这里。无论最终是否提供护持，这份诚实的说明本身，希望也是一种尊重的表达。</p>
+  <p class="doc-p quiet" lang-en>Thank you for taking the time to read this far. Whether or not you ultimately offer support, I hope this honesty is itself a form of respect.</p>
+  <button class="doc-back" onclick="goHome()"><span lang-zh>← 回到首页</span><span lang-en>← Back to home</span></button>
+</section>
+</div><!-- /page-doc-support -->
+
+<!-- ============================================================ -->
+<!-- 文档二：给家人的说明 -->
+<!-- ============================================================ -->
+<div class="page" id="page-doc-family" hidden>
+<section class="doc-section" id="doc-family">
+  <div class="doc-kicker" lang-zh>完整文档 · 之二</div>
+  <div class="doc-kicker" lang-en>FULL DOCUMENT · TWO</div>
+  <h2 class="doc-title serif"><span lang-zh>这段时间，我在做什么、为什么这样安排</span><span lang-en>What I'm Doing, and Why</span></h2>
+  <p class="doc-subtitle" lang-zh>写给家人的一份说明</p>
+  <p class="doc-subtitle" lang-en>A note for my family</p>
+
+  <p class="doc-p" lang-zh>我想把这段时间的安排，完整地跟你们说清楚——包括我在做什么、为什么这样安排，以及目前还需要哪方面的协助。希望这份说明能让大家安心，知道我是认真想过的，不是没有方向地耗着。</p>
+  <p class="doc-p" lang-en>I want to lay out this period clearly — what I'm doing, why, and what kind of help I might still need. I hope this gives everyone peace of mind: this is a considered plan, not aimless drifting.</p>
+
+  <div class="doc-h2" lang-zh>一、这段时间我在做什么</div>
+  <div class="doc-h2" lang-en>1. What I'm doing right now</div>
+  <div class="doc-h3" lang-zh>求职</div>
+  <div class="doc-h3" lang-en>Job hunting</div>
+  <p class="doc-p" lang-zh>我一直在积极投递工作，方向是自动化、AI 相关的岗位，跟我的学历和过去的技术经验（自动化、计算机视觉、SAP 数据处理等）是匹配的。这部分没有停下来，求职和接下来要说的修行直播是同时进行的，不是用一个取代另一个。</p>
+  <p class="doc-p" lang-en>I've been actively applying for automation and AI-related roles, matching my education and technical background. This hasn't stopped — it runs in parallel with the meditation livestream below, not in place of it.</p>
+  <div class="doc-h3" lang-zh>动中禅修行直播</div>
+  <div class="doc-h3" lang-en>Mahasati livestream practice</div>
+  <p class="doc-p" lang-zh>另外，我开始在 YouTube 上直播一种叫"动中禅"的禅修方式——这是我练习将近五年的方法，透过规律的手部动作培养觉知，是泰国禅师隆波田所传授的修行方法,我也同时依循隆波帕默尊者"观心"的教导。</p>
+  <p class="doc-p" lang-en>I've also started livestreaming a practice called Mahasati — a method I've practiced for nearly five years, cultivating awareness through repeated hand movements, taught by the Thai teacher Luangpor Teean. I also follow Luangpor Pramote's mind-watching teachings.</p>
+  <p class="doc-p" lang-zh>直播全程是安静练习，没有讲解、没有传教，就是真实记录我每天的练习过程。我做这件事主要有三个原因：</p>
+  <p class="doc-p" lang-en>The stream is silent practice throughout — no narration, no preaching, just an honest record of daily practice. I'm doing this for three main reasons:</p>
+  <ol class="doc-list numbered">
+    <li lang-zh>督促自己——公开记录能给自己一点外部的压力，帮助我长期、规律地坚持练习，不会三天两头就荒废；</li>
+    <li lang-en>Self-accountability — being public adds outside pressure to keep practicing consistently;</li>
+    <li lang-zh>留下记录——把这段修行的过程留下来，对我自己是有意义的；</li>
+    <li lang-en>Keeping a record — preserving this period of practice matters to me personally;</li>
+    <li lang-zh>看是否会有认同这件事、愿意提供帮助的人出现——这是其中一个可能性，但不是非达成不可的目标，下面会再说明。</li>
+    <li lang-en>Seeing if anyone who resonates with this wants to help — one possibility among several, not a requirement, explained further below.</li>
+  </ol>
+  <p class="doc-p quiet" lang-zh>我知道"直播打坐"听起来可能有点特别，如果你们有任何疑问，我都很愿意解释，这不是什么秘密，也不是一时兴起的怪点子。</p>
+  <p class="doc-p quiet" lang-en>I know "livestreaming meditation" might sound unusual. I'm happy to explain further — this isn't a secret, nor a passing whim.</p>
+
+  <div class="doc-h2" lang-zh>二、为何是这样的安排</div>
+  <div class="doc-h2" lang-en>2. Why this arrangement</div>
+  <div class="doc-h3" lang-zh>为何不直接找工作上班，要花时间在修行上？</div>
+  <div class="doc-h3" lang-en>Why not just get a job, instead of spending time on practice?</div>
+  <p class="doc-p" lang-zh>我没有放弃找工作，这两件事是同时在做的。会想保留修行的时间，是因为我很清楚自己在高强度、高互动的环境（比如之前的客服工作）里很容易感到疲惫、难以长期支撑。这段过渡期，我想用比较稳定、规律的方式调整自己的状态，同时不间断地求职，而不是硬逼自己接受一个会让自己很快又想离开的工作。</p>
+  <p class="doc-p" lang-en>I haven't given up on job hunting — both happen together. I keep time for practice because I know high-intensity, high-interaction environments (like my previous customer service role) wear me down quickly. I'd rather steady myself while job hunting continuously, than force myself into a role I'd want to leave again soon.</p>
+  <div class="doc-h3" lang-zh>为何不出家？</div>
+  <div class="doc-h3" lang-en>Why not become a monk?</div>
+  <p class="doc-p" lang-zh>这条路我认真想过、也实际了解过，但评估下来不适合我目前的状况：一是我有裂孔疝（胃部的问题），身体没办法配合过午不食；二是寺院日常的法会、接待活动频繁，对我来说负荷会太大。在家修行，对我来说是更现实、更能长久走下去的方式。</p>
+  <p class="doc-p" lang-en>I seriously considered this and looked into it directly, but it doesn't fit my situation: I have a hiatal hernia and can't sustain the no-food-after-noon rule, and monastery ceremonies and hosting duties would be too much for me. Lay practice is the more realistic, sustainable path for me.</p>
+  <div class="doc-h3" lang-zh>这是不是在逃避现实？</div>
+  <div class="doc-h3" lang-en>Isn't this just avoiding reality?</div>
+  <p class="doc-p" lang-zh>我理解这个疑虑，换作是你们也会担心。但我能给的最实在的回答是：求职一直在进行，没有停下来；这段安排是有期限意识、有检视点的（见下一节），不是"先躲着再说"。如果到了某个时间点，情况显示这样的安排不可行，我会调整，不会一条路走到底不回头。</p>
+  <p class="doc-p" lang-en>I understand the concern — I'd worry too in your position. My honest answer: job hunting hasn't stopped, and this plan has checkpoints (next section), not an open-ended hideaway. If it's clearly not working at some point, I'll adjust rather than stubbornly continue.</p>
+
+  <div class="doc-h2" lang-zh>三、目前的财务状况与需要的协助</div>
+  <div class="doc-h2" lang-en>3. Current finances and the help I may need</div>
+  <div class="doc-h3" lang-zh>我自己的存款</div>
+  <div class="doc-h3" lang-en>My own savings</div>
+  <p class="doc-p" lang-zh>我目前有自己的存款，本来就计划用来支撑这段过渡期，这是第一层，不是完全靠家人才能生活。</p>
+  <p class="doc-p" lang-en>I have my own savings, already meant to cover this transition — the first layer, not total dependence on family.</p>
+  <div class="doc-h3" lang-zh>需要协助的部分</div>
+  <div class="doc-h3" lang-en>Where I may need help</div>
+  <p class="doc-p" lang-zh>我想坦白说明，这段过渡期我可能需要家人在生活费上的协助，主要是住宿和饮食这两项基本开销。这不是长期的安排，是希望能撑过这段求职和调整状态的时间，我也会持续更新进度，不会让这件事变成一个没有交代的无限期状态。</p>
+  <p class="doc-p" lang-en>To be candid, I may need help with living costs during this period — mainly housing and food. This isn't meant to be permanent; I'll keep updating everyone on progress rather than leaving this open-ended and unexplained.</p>
+
+  <table class="doc-table">
+    <tr><th lang-zh>项目</th><th lang-en>Item</th><th lang-zh>来源</th><th lang-en>Source</th><th lang-zh>说明</th><th lang-en>Note</th></tr>
+    <tr><td lang-zh>住宿</td><td lang-en>Housing</td><td lang-zh>希望协助的部分</td><td lang-en>Hoping for help</td><td lang-zh>维持现有住处的基本开销</td><td lang-en>Basic cost of current residence</td></tr>
+    <tr><td lang-zh>三餐饮食</td><td lang-en>Meals</td><td lang-zh>希望协助的部分</td><td lang-en>Hoping for help</td><td lang-zh>规律三餐，符合身体状况所需</td><td lang-en>Regular meals suited to my condition</td></tr>
+    <tr><td lang-zh>其他生活杂支</td><td lang-en>Other living costs</td><td lang-zh>主要靠自己存款</td><td lang-en>Mainly my own savings</td><td lang-zh>交通、日用品等</td><td lang-en>Transport, daily goods, etc.</td></tr>
+    <tr><td lang-zh>设备/网络（直播用）</td><td lang-en>Equipment/internet</td><td lang-zh>主要靠自己存款</td><td lang-en>Mainly my own savings</td><td lang-zh>手机续航、网络费用等</td><td lang-en>Device power, internet costs</td></tr>
+  </table>
+
+  <p class="doc-p" lang-zh>如果未来有人认同这个修行直播、自愿提供护持，那部分也会算进来，减少需要家人协助的份量——但这不是我现在敢拿来当作"肯定会有"的保证，所以财务规划上，我还是以"可能完全没有这部分收入"来打底，不会让这件事的不确定性变成家人的负担。</p>
+  <p class="doc-p en" lang-en>If anyone offers support for the livestream in the future, that would reduce the help I need from family — but I'm not counting on it. My planning assumes zero such income, so this uncertainty doesn't become a burden on family.</p>
+
+  <div class="doc-h2" lang-zh>四、这段时间大概多久</div>
+  <div class="doc-h2" lang-en>4. How long this might take</div>
+  <p class="doc-p" lang-zh>老实说，我没有给自己一个硬性的截止日期，因为求职这件事本身就不完全是我能控制的。但这不代表没有方向——我会用以下几个检视点，确保这件事不会无限期拖着：</p>
+  <p class="doc-p" lang-en>Honestly, I haven't set a hard deadline, since job hunting isn't entirely within my control. But that doesn't mean no direction — these checkpoints keep this from dragging on indefinitely:</p>
+  <ul class="doc-list">
+    <li lang-zh>定期（比如每一两个月）主动跟家人更新求职进度和现况，不会让大家被动等消息；</li>
+    <li lang-en>Regular updates (every month or two) on job hunting progress, rather than leaving everyone waiting passively;</li>
+    <li lang-zh>如果存款消耗到一定程度、求职又持续没有进展，会重新考虑是否要降低标准、先接受一份能支撑生活的工作，而不是坚持非理想职位不可；</li>
+    <li lang-en>If savings run low with no progress, I'll reconsider lowering my standards and take any job that covers living costs, rather than holding out for an ideal role;</li>
+    <li lang-zh>修行直播这件事，如果发现完全没有帮助、反而成为负担，我也会调整或暂停，不会为了"已经开始了"而硬撑。</li>
+    <li lang-en>If the livestream turns out to be a burden rather than a help, I'll adjust or pause it, rather than persisting just because it's already started.</li>
+  </ul>
+  <p class="doc-p quiet" lang-zh>我希望这段说明能让大家知道：我不是没有规划地在拖延，而是认真地、一步一步在处理这段过渡期。也谢谢你们一直以来的理解和支持。</p>
+  <p class="doc-p quiet" lang-en>I hope this shows that I'm not drifting without a plan, but working through this transition deliberately, step by step. Thank you for your understanding and support.</p>
+
+  <button class="doc-back" onclick="goHome()"><span lang-zh>← 回到首页</span><span lang-en>← Back to home</span></button>
+</section>
+</div><!-- /page-doc-family -->
+
+<!-- ============================================================ -->
+<!-- 文档三：给自己的提醒 -->
+<!-- ============================================================ -->
+<div class="page" id="page-doc-self" hidden>
+<section class="doc-section" id="doc-self">
+  <div class="doc-kicker" lang-zh>完整文档 · 之三</div>
+  <div class="doc-kicker" lang-en>FULL DOCUMENT · THREE</div>
+  <h2 class="doc-title serif"><span lang-zh>如果想放弃的话</span><span lang-en>If You Want to Give Up</span></h2>
+  <p class="doc-subtitle" lang-zh>给那个想停下来的自己</p>
+  <p class="doc-subtitle" lang-en>For the self that wants to stop</p>
+
+  <p class="doc-p quiet" lang-zh>如果你正在读这一段，说明某个念头已经生起了。先知道它生起，不急着回应。</p>
+  <p class="doc-p quiet" lang-en>If you're reading this, a thought has already arisen. Just know that it arose. No need to respond yet.</p>
+
+  <div class="doc-h2" lang-zh>一、念头只是念头</div>
+  <div class="doc-h2" lang-en>1. A thought is just a thought</div>
+  <p class="doc-p" lang-zh>"想放弃"是一个念头，不是事实，也不是命令。</p>
+  <p class="doc-p" lang-en>"I want to give up" is a thought — not a fact, not a command.</p>
+  <p class="doc-p" lang-zh>动一下手，知道自己在动。这个念头来了，知道它来了——就像每一个曾经生起又灭去的念头一样。</p>
+  <p class="doc-p" lang-en>Move your hand, know that you're moving. This thought has come — know that it came, just like every thought before it that rose and passed.</p>
+  <p class="doc-p strong" lang-zh>不需要现在就决定要不要听它的。</p>
+  <p class="doc-p strong" lang-en>You don't need to decide right now whether to listen to it.</p>
+
+  <div class="doc-h2" lang-zh>二、记得为什么开始</div>
+  <div class="doc-h2" lang-en>2. Remember why you started</div>
+  <p class="doc-p" lang-zh>近五年了。不是这几个月才决定的事。</p>
+  <p class="doc-p" lang-en>Nearly five years. This wasn't decided a few months ago.</p>
+  <p class="doc-p" lang-zh>出家这条路认真想过、实地了解过，最后发现在家修行才是自己真正能走下去的路——不是因为退缩，是因为诚实地看清楚了身体和心的限制，然后选了一条真实可行的路，而不是一条听起来更崇高但自己撑不住的路。</p>
+  <p class="doc-p" lang-en>You seriously considered ordination, looked into it directly, and found that lay practice was the path you could truly sustain — not retreat, but an honest look at the body's and mind's limits, choosing what's real and workable over what merely sounds more noble.</p>
+  <p class="doc-p" lang-zh>直播这件事，本质上是"督促自己"的工具，不是目的本身。工具可以累，目的不会变。</p>
+  <p class="doc-p en" lang-en>The livestream is, at its core, a tool for self-accountability — not the goal itself. A tool can get tiring. The goal doesn't change.</p>
+
+  <div class="doc-h2" lang-zh>三、辛苦是真的，但不等于错</div>
+  <div class="doc-h2" lang-en>3. The hardship is real, but it's not the same as being wrong</div>
+  <p class="doc-p" lang-zh>镖头开着会累，长时间保持节奏会累，等不到回应会累，这些都是真的，不需要否认或压下去。</p>
+  <p class="doc-p" lang-en>The camera being on is tiring. Keeping the rhythm for long stretches is tiring. Waiting without response is tiring. All of this is real — no need to deny or suppress it.</p>
+  <p class="doc-p" lang-zh>但"这件事很累"和"这件事是错的"，是两件不同的事，不要混在一起。累，知道累，继续动。</p>
+  <p class="doc-p" lang-en>But "this is tiring" and "this is wrong" are two different things — don't mix them. Tired, know that you're tired, keep moving.</p>
+  <p class="doc-p" lang-zh>隆波田说的自然、不刻意，也包括不刻意逼自己撑住——累了就休息，但休息不是放弃，是这条路本来就会有的节奏。</p>
+  <p class="doc-p en" lang-en>Luangpor Teean's naturalness, his ease without force, includes not forcing yourself to push through. Rest when tired — rest isn't giving up, it's the natural rhythm of this path.</p>
+
+  <div class="doc-h2" lang-zh>四、护持没出现，不代表这件事没价值</div>
+  <div class="doc-h2" lang-en>4. No support showing up doesn't mean this has no value</div>
+  <p class="doc-p" lang-zh>如果想放弃的念头，是因为"等不到人来护持"——先把这两件事分开看。</p>
+  <p class="doc-p" lang-en>If the urge to quit comes from "no one has offered support yet" — separate these two things first.</p>
+  <p class="doc-p" lang-zh>督促自己练习，留下修行记录，这两个目的从第一天就完全独立于有没有人资助。它们没有因为没人资助而失败，它们本来就不需要任何人来验证。</p>
+  <p class="doc-p" lang-en>Self-accountability and keeping a record were independent of support from day one. They haven't failed for lack of funding — they never needed anyone's validation to begin with.</p>
+  <p class="doc-p strong" lang-zh>有缘人，意思就是不强求。等待本身不是失败的证据。</p>
+  <p class="doc-p strong" lang-en>"The right person, in time" means not forcing it. Waiting itself is not evidence of failure.</p>
+
+  <div class="doc-h2" lang-zh>五、记得更大的方向</div>
+  <div class="doc-h2" lang-en>5. Remember the larger direction</div>
+  <p class="doc-p" lang-zh>这一切練習，最终指向的不是订阅数、不是护持金额，是灭苦，是证果，是涅槃——这是真正不会因为任何外境（有没有人看、有没有人资助、今天状态好不好）而动摇的依靠。</p>
+  <p class="doc-p" lang-en>All of this practice ultimately points not to subscriber counts or donation amounts, but to the cessation of suffering, to realization, to nibbāna — a refuge that truly cannot be shaken by any external condition: viewers or none, support or none, a good day or a bad one.</p>
+  <p class="doc-p" lang-zh>外面的事情会起会落，直播会有人看也会没人看，求职会有回应也会没回应——这些都是无常的，本来就会变化。但觉知本身这件事，每一次"知道"，都已经是完整的，不需要等到任何外在结果出现才算数。</p>
+  <p class="doc-p" lang-en>External things rise and fall — viewers come and go, job applications get answered or don't. These are impermanent by nature. But awareness itself, each act of "knowing," is already complete — it doesn't need any external result to count.</p>
+  <p class="doc-p strong" lang-zh>如果今天什么都没有发生、什么都没有改变——只要今天还有觉知到一个动作，这一天就不是空过的。</p>
+  <p class="doc-p strong" lang-en>If nothing happened today, nothing changed — as long as one movement was known today, the day was not wasted.</p>
+
+  <div class="doc-h2" lang-zh>六、如果真的撑不住了</div>
+  <div class="doc-h2" lang-en>6. If you truly can't go on</div>
+  <p class="doc-p" lang-zh>暂停不是放弃。调整时段、缩短直播、甚至下播休息几天，都可以。</p>
+  <p class="doc-p" lang-en>Pausing is not giving up. Adjusting hours, shortening streams, even taking days off — all of this is allowed.</p>
+  <p class="doc-p" lang-zh>唯一不需要做的事，是因为一时的疲惫或挫折，就把这五年的修行和这件事本来的价值，全部一笔推翻。情绪会过去，不要在情绪最浓的当下做最终的决定。</p>
+  <p class="doc-p" lang-en>The one thing not to do: let a moment of fatigue or frustration erase five years of practice and its inherent worth. The feeling will pass — don't make final decisions in its strongest moment.</p>
+  <p class="doc-p" lang-zh>给自己一晚，知道这个想放弃的念头，让它自己来、自己去。明天再看一次。</p>
+  <p class="doc-p en" lang-en>Give it one night. Know the thought of giving up, let it come and go on expansive own. Look again tomorrow.</p>
+
+  <hr class="doc-divider-sm">
+  <p class="doc-p" style="text-align:center; font-style:italic; color:var(--bronze);" lang-zh>动一次，知道一次。这就够了。</p>
+  <p class="doc-p" style="text-align:center; font-style:italic; color:var(--bronze);" lang-en>One movement, one knowing. That is enough.</p>
+  <button class="doc-back" onclick="goHome()"><span lang-zh>← 回到首页</span><span lang-en>← Back to home</span></button>
+</section>
+</div><!-- /page-doc-self -->
+
+<!-- ============================================================ -->
+<!-- 文档四：觉知作为时代焦虑的抵抗 -->
+<!-- ============================================================ -->
+<div class="page" id="page-doc-essay" hidden>
+<section class="doc-section" id="doc-essay">
+  <div class="doc-kicker" lang-zh>完整文档 · 之四</div>
+  <div class="doc-kicker" lang-en>FULL DOCUMENT · FOUR</div>
+  <h2 class="doc-title serif"><span lang-zh>觉知作为时代焦虑的抵抗</span><span lang-en>Awareness as Resistance to the Anxieties of Our Time</span></h2>
+  <p class="doc-subtitle" lang-zh>动中禅修行，及其在 AI 冲击、失业、孤独与意义危机中的位置</p>
+  <p class="doc-subtitle" lang-en>Mahasati practice, and its place amid AI disruption, job loss, loneliness, and the crisis of meaning</p>
+
+  <div class="doc-callout moss">
+    <p lang-zh><strong>摘要：</strong>本文论证，个人持续的禅修练习——具体而言是动中禅（隆波田传承）配合隆波帕默尊者的观心教导——在结构上能够回应当代三种相互交织的焦虑来源：AI 自动化引发的就业不安、流行病学意义上的孤独危机，以及传统意义来源弱化后的存在性空虚。这一论证并非诉诸宗教权威，而是从这三种焦虑各自的结构性根源出发，说明为何一种不依赖外部结果验证的内在练习，能够提供其他应对方式所缺乏的稳定性。</p>
+    <p lang-en><strong>Abstract:</strong> This essay argues that sustained personal meditation practice — specifically Mahasati (Luangpor Teean lineage) alongside Luangpor Pramote's mind-watching teachings — can structurally address three intertwined sources of contemporary anxiety: job insecurity from AI automation, the epidemiological loneliness crisis, and existential emptiness from the erosion of traditional sources of meaning. The argument rests not on religious authority but on the structural roots of each anxiety, showing why a practice independent of external validation offers a stability other coping strategies lack.</p>
+  </div>
+
+  <div class="doc-h2" lang-zh>一、问题的提出：三重焦虑的共同结构</div>
+  <div class="doc-h2" lang-en>1. Framing the problem: a shared structure across three anxieties</div>
+  <p class="doc-p" lang-zh>当代人普遍经历的焦虑，往往被分别讨论——AI 失业焦虑归类为经济议题，孤独归类为公共健康议题，意义感缺失归类为心理或哲学议题。但这三者有一个共同的结构性特征：它们都源于"自我价值依附于外部、不可控、且正在变得更不稳定的事物"。</p>
+  <p class="doc-p" lang-en>Contemporary anxieties are usually discussed separately — AI job anxiety as economic, loneliness as public health, meaninglessness as psychological or philosophical. But all three share a structural feature: self-worth tethered to something external, uncontrollable, and increasingly unstable.</p>
+  <p class="doc-p" lang-zh>本文的论证路径是：先分别检视三者的实证证据，再说明为何一种以"觉知本身即是完整的"为核心的修行练习，在结构上能够提供这三重焦虑都缺乏的东西——一个不会因外部结果浮动而跟着浮动的稳定点。</p>
+  <p class="doc-p en" lang-en>This essay first examines the evidence behind each, then argues why a practice centered on "awareness itself as already complete" can structurally provide what all three lack: a stable point that doesn't fluctuate with external outcomes.</p>
+
+  <div class="doc-h2" lang-zh>二、AI 冲击与就业焦虑的结构</div>
+  <div class="doc-h2" lang-en>2. AI disruption and the structure of job anxiety</div>
+  <div class="doc-h3" lang-zh>证据</div>
+  <div class="doc-h3" lang-en>Evidence</div>
+  <p class="doc-p" lang-zh>2026 年的数据显示，这种焦虑有充分的现实基础，而非单纯的过度反应。Oracle 在 2026 年成为首家在美国证券交易委员会文件中明确将 AI 列为裁员原因的大型科技公司，当年共削减约 21,000 个职位。截至 2026 年 6 月，已有 267 起裁员事件、累计 185,894 个职位流失，平均每个工作日超过一千人失业，其中 56% 的事件明确提及 AI 或自动化为原因。调查显示，43% 的员工担心使用 AI 反而会让自己的工作变得多余，约一半受访者认为 AI 消灭的工作将多于创造的工作。</p>
+  <p class="doc-p" lang-en>2026 data shows this anxiety is well-founded rather than mere overreaction. Oracle became the first major tech company to name AI as a layoff cause in an SEC filing, cutting roughly 21,000 positions that year. As of June 2026, 267 layoff events had eliminated 185,894 jobs — over 1,000 per working day — with 56% explicitly citing AI or automation. 43% of workers fear AI could make their own jobs redundant, and roughly half believe AI will eliminate more jobs than it creates.</p>
+  <div class="doc-h3" lang-zh>结构性分析</div>
+  <div class="doc-h3" lang-en>Structural analysis</div>
+  <p class="doc-p" lang-zh>值得注意的是，这一轮自动化浪潮与历史上的工业自动化有本质差异：以往的机器取代体力劳动，但仍需要大量人力操作，技术本身创造了对其无法替代的人类技能的新需求；而生成式 AI 直接作用于阅读、写作、编程、分析、综合这类"心智劳动"本身。当替代的对象从"双手能做的事"变成"头脑能做的事"，过去那种"被取代的同时又被需要"的补偿机制，是否还能以同样的比例运作，目前并无定论。</p>
+  <p class="doc-p" lang-en>This wave differs fundamentally from past industrial automation: machines once replaced manual labor while still requiring human operators, creating demand for irreplaceable human skills. Generative AI instead acts directly on reading, writing, coding, analysis, and synthesis — "mind work" itself. Whether the old compensation mechanism still holds when what's displaced shifts from "what hands do" to "what minds do" remains unresolved.</p>
+  <p class="doc-p" lang-zh>这种不确定性本身，恰恰是焦虑的核心来源：不是"我的工作一定会消失"，而是"我无法确知我赖以建立自我价值的那套能力，会不会在不可预期的时间点突然失去市场价值"。这是一种对自我价值评估标准本身的动摇，而不只是对收入的担忧。</p>
+  <p class="doc-p en" lang-en>This uncertainty itself is the core anxiety: not "my job will definitely disappear," but "I cannot know whether the very abilities I built my self-worth on will suddenly lose market value." It's a destabilization of the standard of self-worth, not merely a fear about income.</p>
+
+  <div class="doc-h2" lang-zh>三、孤独的流行病学证据</div>
+  <div class="doc-h2" lang-en>3. The epidemiological evidence on loneliness</div>
+  <div class="doc-h3" lang-zh>证据</div>
+  <div class="doc-h3" lang-en>Evidence</div>
+  <p class="doc-p" lang-zh>美国卫生总署（U.S. Surgeon General）于 2023 年发布的专题报告，将孤独正式定性为公共健康议题，指出社会孤立使过早死亡风险增加 29%，其对死亡率的影响相当于每天吸 15 支香烟，甚至超过肥胖与缺乏运动的影响。报告指出，即便在新冠疫情之前，美国已有近半数成年人报告经历孤独；孤独还使心脏病风险增加 29%、中风风险增加 32%，并使老年群体的失智症风险提高约 50%。另一项研究发现，81% 报告孤独的成年人同时伴有焦虑或抑郁症状，相对未感孤独者的 29%。</p>
+  <p class="doc-p" lang-en>The 2023 U.S. Surgeon General's advisory formally classified loneliness as a public health issue: social isolation raises premature death risk by 29%, a mortality impact comparable to smoking 15 cigarettes a day, exceeding even obesity and physical inactivity. Even pre-pandemic, nearly half of U.S. adults reported loneliness; it raises heart disease risk by 29%, stroke risk by 32%, and dementia risk in older adults by roughly 50%. A separate study found 81% of lonely adults also report anxiety or depression, versus 29% of those not lonely.</p>
+  <div class="doc-h3" lang-zh>结构性分析</div>
+  <div class="doc-h3" lang-en>Structural analysis</div>
+  <p class="doc-p" lang-zh>报告中一个关键的概念区分值得注意：社会孤立（social isolation）是客观状态，孤独（loneliness）是主观感受，两者并不等同——有人身边人很多却仍感孤独，因为"不被理解"或"不被欣赏"。这意味着，单纯增加社交数量或被关注的程度（例如直播获得观看），并不必然解决孤独本身；孤独的核心结构，是"实际连接"与"期待中的连接"之间的落差，而这个落差本身，是一种持续变化、依赖他人反应的不稳定状态。</p>
+  <p class="doc-p en" lang-en>A key distinction in the report matters here: social isolation is objective, loneliness subjective — they aren't equivalent. Someone surrounded by people can still feel lonely if unappreciated or misunderstood. So simply increasing social quantity or visibility (e.g., livestream viewership) doesn't necessarily resolve loneliness; its core structure is a gap between actual and desired connection — a gap that itself fluctuates, dependent on others' responses.</p>
+
+  <div class="doc-h2" lang-zh>四、意义危机：传统意义来源的弱化</div>
+  <div class="doc-h2" lang-en>4. The meaning crisis: erosion of traditional sources</div>
+  <p class="doc-p" lang-zh>哈佛大学教育学院"关怀共同体"（Making Caring Common）项目的全国调查发现，缺乏意义与目标感，是当代年轻成年人情绪困境的核心驱动因素之一；该调查同时指出技术（73%）、工作过度或疲于奔命（62%）、社会过度个人化（58%）等因素，被受访者普遍认为是孤独与意义缺失的成因。</p>
+  <p class="doc-p" lang-en>A Harvard Graduate School of Education national survey (Making Caring Common) found a lack of meaning and purpose to be a core driver of emotional struggle among young adults, with technology (73%), overwork/exhaustion (62%), and excessive individualism (58%) cited as contributing causes of loneliness and meaninglessness.</p>
+  <p class="doc-p" lang-zh>这里的论证关键是：以上三种焦虑——就业、孤独、意义——之所以会同时加剧、彼此强化，是因为现代人高度依赖一组共同的、外部的意义支柱：稳定的职业身份、可预期的社会角色、被他人持续看见和回应。当这组支柱因为 AI、社会结构变迁、技术中介的人际关系而同时变得不稳定，焦虑不会被分散，反而会叠加。</p>
+  <p class="doc-p en" lang-en>The key point: these three anxieties intensify together because modern people lean on a shared set of external pillars of meaning — stable career identity, predictable social roles, sustained visibility and response from others. When these pillars all destabilize together — through AI, social change, technologically mediated relationships — anxiety doesn't disperse; it compounds.</p>
+
+  <div class="doc-h2" lang-zh>五、觉知练习作为结构性回应</div>
+  <div class="doc-h2" lang-en>5. Awareness practice as a structural response</div>
+
+  <div class="doc-h3" lang-zh>对就业焦虑：不可自动化的价值基础</div>
+  <div class="doc-h3" lang-en>For job anxiety: a value base that cannot be automated</div>
+  <p class="doc-p" lang-zh>动中禅训练的核心——对当下身体动作的纯粹觉知——在性质上与可被自动化、可被效率比较的"产出型"能力完全不同。它不产生可被市场定价的输出，因此也不可能被任何模型的进步所淘汰。这并非对就业问题的解决方案，而是一种价值来源上的对冲：如果一个人将全部自我价值都押注在"产出是否还被市场需要"这一件事上，那么这件事的不稳定，会直接转化为自我价值感的不稳定。而若同时持有一个不依赖市场评价的价值来源，外部冲击造成的心理冲击幅度，在结构上会被缓冲。</p>
+  <p class="doc-p en" lang-en>Mahasati's core — pure awareness of present bodily movement — is categorically different from output-based skills subject to automation or efficiency comparison. It produces nothing market-priceable, so no model's progress can render it obsolete. This isn't a solution to unemployment, but a hedge in the source of value: if all self-worth rests on whether one's output remains market-needed, that instability transfers directly into self-worth instability. Holding a value source independent of market judgment structurally buffers the psychological impact of external shocks.</p>
+
+  <div class="doc-h3" lang-zh>对孤独：处理感受的结构，而非填补连接的数量</div>
+  <div class="doc-h3" lang-en>For loneliness: addressing the structure of the feeling, not the quantity of connection</div>
+  <p class="doc-p" lang-zh>如前述区分，孤独的核心是"主观感受到的落差"，而不是连接数量的不足。这意味着单纯增加曝光度（例如透过直播被更多人看见）未必能解决孤独，因为落差感可能依然存在，甚至因为期待被进一步推高而扩大。隆波帕默尊者教导的观心法门，处理的恰恰是这个落差感本身——观察"感到孤独"这个念头如何生起、如何变化、如何灭去，而不是依赖外部连接的增加来抵消这种感受。这是对孤独结构本身的直接处理，而非绕过结构、寄望于外部填补。</p>
+  <p class="doc-p en" lang-en>As above, loneliness's core is a subjective gap, not a deficit of connection quantity. Increasing exposure (e.g., more livestream viewers) may not resolve it — the gap can persist, even widen as expectations rise. Luangpor Pramote's mind-watching method addresses this gap directly: observing how the thought "I feel lonely" arises, changes, and passes, rather than relying on more external connection to offset the feeling. This treats loneliness's structure directly, rather than bypassing it in hope of external filling.</p>
+
+  <div class="doc-h3" lang-zh>对意义危机：一个不会随外部结构崩塌而消失的锚点</div>
+  <div class="doc-h3" lang-en>For the meaning crisis: an anchor that doesn't collapse with external structures</div>
+  <p class="doc-p" lang-zh>若意义感系于职业身份、社会角色、被持续关注——这些恰恰是本文第二、三节证据显示正在变得不稳定的事物——那么意义感的基础本身就是脆弱的。将修行（灭苦、培养觉知，最终趋向证果）作为意义的主要来源，提供的是一个结构上的优势：它不依赖任何特定的外部结果是否出现，每一次"觉知到一个动作"，作为练习行为本身即已完整，不需要等待订阅数、护持金额、求职结果等外部验证才能成立。这并不是逃避这些现实问题，而是确保自我价值评估不会完全绑定在这些本来就充满不确定性的外部指标上。</p>
+  <p class="doc-p en" lang-en>If meaning is tethered to career identity, social roles, sustained attention — precisely what Sections 2 and 3 show destabilizing — its foundation is inherently fragile. Making practice (the cessation of suffering, cultivating awareness, ultimately toward realization) the primary source of meaning offers a structural advantage: it doesn't depend on any specific external outcome. Each act of "knowing a movement" is already complete as practice, with no need to wait for subscriber counts, support, or job outcomes to validate it. This isn't avoidance of real problems — it ensures self-worth isn't entirely bound to inherently uncertain external metrics.</p>
+
+  <div class="doc-h2" lang-zh>六、需要诚实指出的局限</div>
+  <div class="doc-h2" lang-en>6. Limitations that must be honestly acknowledged</div>
+  <p class="doc-p" lang-zh>为使论证保持平衡，几个局限需要诚实承认：</p>
+  <p class="doc-p" lang-en>For a balanced argument, several limitations must be acknowledged:</p>
+  <ul class="doc-list">
+    <li lang-zh>修行练习不能替代收入。本文第二节所引证据显示的是实际的失业风险，觉知练习能缓冲的是这种风险带来的心理冲击，不能消除风险本身——求职、技能转型等现实行动仍是必要的，不可被修行取代；</li>
+    <li lang-en>Practice cannot replace income. The evidence in Section 2 shows real unemployment risk; awareness practice buffers the psychological impact of that risk, not the risk itself — job hunting and reskilling remain necessary and cannot be substituted by practice;</li>
+    <li lang-zh>孤独感的处理，临床上仍建议结合实际的人际连接（如卫生总署报告所建议的社会连接框架），单纯的内在观照练习，不应被当作孤独问题的唯一或完整的解法，而是其中一个有证据支持、值得纳入的成分；</li>
+    <li lang-en>Clinically, addressing loneliness still recommends real interpersonal connection (per the Surgeon General's social connection framework); inward observation alone shouldn't be treated as the sole or complete solution, but as one evidence-supported component;</li>
+    <li lang-zh>公开直播这件事本身，与修行练习的内在逻辑并非完全一致——直播引入了"被看见""被认同"等外部变量，这些变量如果处理不当，反而可能重新引入本文试图缓冲的那种"依赖外部结果"的焦虑结构，需要练习者对此保持自觉。</li>
+    <li lang-en>The livestream itself isn't fully consistent with the internal logic of practice — it introduces external variables like "being seen" and "being recognized," which, if mishandled, could reintroduce the very "dependence on external outcomes" anxiety structure this essay tries to buffer. Practitioners must stay self-aware about this.</li>
+  </ul>
+
+  <div class="doc-h2" lang-zh>结语</div>
+  <div class="doc-h2" lang-en>Conclusion</div>
+  <p class="doc-p" lang-zh>AI 冲击、孤独、意义危机这三重焦虑，共同的根源是现代生活将自我价值的评估，过度集中地交付给了一组正在变得不稳定的外部结构。觉知练习提供的不是对这些现实问题的解决方案，而是一个结构上独立、不随外部结果浮动的价值锚点——它不能让 AI 不取代某个职位，不能让孤独的人立刻获得理想的陪伴，也不能让求职立刻成功，但它能确保，当这些外部结果不如预期时，一个人的自我价值不会随之整体崩塌。</p>
+  <p class="doc-p" lang-en>AI disruption, loneliness, and the meaning crisis share a root: modern life over-concentrates the evaluation of self-worth into a set of external structures now destabilizing. Awareness practice isn't a solution to these real problems, but a structurally independent value anchor — it can't stop AI from replacing a job, can't give a lonely person ideal companionship, can't make a job search succeed. But it can ensure that when these outcomes disappoint, a person's self-worth doesn't collapse along with them.</p>
+  <p class="doc-p strong" style="color:var(--moss);" lang-zh>在一个意义来源加速不稳定的时代，拥有至少一个不会动摇的锚点，本身就是一种切实的、可论证的抵抗。</p>
+  <p class="doc-p strong" style="color:var(--moss);" lang-en>In an age where sources of meaning are destabilizing faster, holding at least one unshakeable anchor is itself a real, arguable form of resistance.</p>
+
+  <div class="doc-h2" lang-zh>参考来源</div>
+  <div class="doc-h2" lang-en>References</div>
+  <ul class="doc-refs">
+    <li>TechTimes (2026). AI Job Displacement 2026: Oracle Names AI In SEC Filing, Career Tier Risk Guide.</li>
+    <li>WeAreTenet (2026). 60+ Shocking AI Job Replacing Statistics Relevant for 2026.</li>
+    <li>U.S. Department of Health and Human Services, Office of the Surgeon General (2023). Our Epidemic of Loneliness and Isolation.</li>
+    <li>Harvard Graduate School of Education, Making Caring Common Project (2024). What is Causing Our Epidemic of Loneliness and How Can We Fix It?</li>
+    <li>Brown University Health (2023). An Epidemic of Loneliness and Isolation.</li>
+  </ul>
+
+  <button class="doc-back" onclick="goHome()"><span lang-zh>← 回到首页</span><span lang-en>← Back to home</span></button>
+</section>
+
+<div class="divider"><div class="line"></div><div class="line"></div></div>
+
+<footer>
+  <div class="tally"><span></span><span></span><span></span><span></span><span></span></div>
+  <p style="margin:0;" lang-zh>每一次重复，都是一次新的开始。</p>
+  <p style="margin:0;" lang-en>Every repetition is its own beginning.</p>
+</footer>
+</div><!-- /page-doc-essay -->
+
+<!-- ============================================================ -->
+<!-- 文档五：近期体悟（独立新页面） -->
+<!-- ============================================================ -->
+<div class="page" id="page-doc-logs" hidden>
+<section class="doc-section" id="doc-logs">
+  <div class="doc-kicker" lang-zh>修行动态</div>
+  <div class="doc-kicker" lang-en>PRACTICE LOGS</div>
+  <h2 class="doc-title serif"><span lang-zh>近期体悟</span><span lang-en>Recent Insights</span></h2>
+  <p class="doc-subtitle" lang-zh>个人的修行记录与体悟</p>
+  <p class="doc-subtitle" lang-en>Personal practice logs and reflections</p>
+
+  <div class="log-card">
+    <span class="log-date" id="t-log-date-1"></span>
+    <p class="log-text" id="t-log-text-1"></p>
+  </div>
+  
+  <button class="doc-back" onclick="goHome()"><span lang-zh>← 回到首页</span><span lang-en>← Back to home</span></button>
+</section>
+</div><!-- /page-doc-logs -->
+
 <script>
-  var FAQ_KEYS = ['real', 'meaning', 'monk', 'precepts', 'livestream', 'method', 'job', 'family', 'escape'];
+  // 更新了 FAQ 键值列表，包含新增的 method2，保证旧版不会覆盖。
+  var FAQ_KEYS = ['real', 'meaning', 'monk', 'precepts', 'livestream', 'method', 'method2', 'job', 'family', 'escape'];
 
   function render(lang){
     var c = window.CONTENT[lang];
@@ -758,9 +1384,11 @@ window.CONTENT = {
     document.getElementById('t-title2').textContent = c.title_line2;
     document.getElementById('t-subtitle').textContent = c.subtitle;
     
+    // YouTube
     document.getElementById('t-btn-youtube').textContent = c.btn_youtube;
     document.getElementById('t-welcome-msg').textContent = c.welcome_msg;
 
+    // About
     document.getElementById('t-about-label').textContent = c.section_about_label;
     document.getElementById('t-about-title').textContent = c.section_about_title;
     document.getElementById('t-about-lead').textContent = c.about_lead;
@@ -768,8 +1396,8 @@ window.CONTENT = {
     document.getElementById('t-purpose-title').textContent = c.about_purpose_title;
     document.getElementById('t-purpose-body').innerHTML = c.about_purpose_body;
     document.getElementById('t-about-notice').innerHTML = c.about_notice;
-
-    // ---- Schedule Data Binding ----
+    
+    // Schedule
     document.getElementById('t-schedule-label').textContent = c.section_schedule_label;
     document.getElementById('t-schedule-title').textContent = c.section_schedule_title;
     document.getElementById('t-schedule-lead').textContent = c.schedule_lead;
@@ -780,23 +1408,21 @@ window.CONTENT = {
       '<li>' + c.schedule_3 + '</li>' +
       '<li>' + c.schedule_4 + '</li>';
 
-    document.getElementById('t-logs-label').textContent = c.section_logs_label;
-    document.getElementById('t-logs-title').textContent = c.section_logs_title;
-    document.getElementById('t-log-date-1').textContent = c.log_date_1;
-    document.getElementById('t-log-text-1').textContent = c.log_text_1;
-
+    // Journey
     document.getElementById('t-journey-label').textContent = c.section_journey_label;
     document.getElementById('t-journey-title').textContent = c.section_journey_title;
     document.getElementById('t-journey-years-val').textContent = c.journey_years_value;
     document.getElementById('t-journey-years-lbl').textContent = c.journey_years_label;
     document.getElementById('t-journey-full').innerHTML = c.journey_full_text;
 
+    // Pramote
     document.getElementById('t-pramote-label').textContent = c.section_pramote_label;
     document.getElementById('t-pramote-title').textContent = c.section_pramote_title;
     document.getElementById('t-pramote-body1').textContent = c.pramote_body1;
     document.getElementById('t-pramote-body2').textContent = c.pramote_body2;
     document.getElementById('t-pramote-body3').textContent = c.pramote_body3;
 
+    // Support
     document.getElementById('t-support-label').textContent = c.section_support_label;
     document.getElementById('t-support-title').textContent = c.section_support_title;
     document.getElementById('t-support-body1').textContent = c.support_body1;
@@ -804,6 +1430,7 @@ window.CONTENT = {
     document.getElementById('t-support-contact-label').textContent = c.support_contact_label;
     document.getElementById('t-support-contact-value').textContent = c.support_contact_value;
 
+    // FAQ
     document.getElementById('t-faq-label').textContent = c.section_faq_label;
     document.getElementById('t-faq-title').textContent = c.section_faq_title;
 
@@ -820,10 +1447,9 @@ window.CONTENT = {
     });
     document.getElementById('faq-list').innerHTML = faqHtml;
 
+    // Rules (Updated to 5 rules)
     document.getElementById('t-rules-label').textContent = c.section_rules_label;
     document.getElementById('t-rules-title').textContent = c.section_rules_title;
-    
-    // Binding the 5 rules
     document.getElementById('rules-list').innerHTML =
       '<li>' + c.rule1 + '</li>' +
       '<li>' + c.rule2 + '</li>' +
@@ -831,9 +1457,46 @@ window.CONTENT = {
       '<li>' + c.rule4 + '</li>' +
       '<li>' + c.rule5 + '</li>';
 
+    // Footer & Top Navigation
     document.getElementById('t-footer').textContent = c.footer_line;
+    
+    document.getElementById('t-docnav-logs').textContent = c.docnav_logs;
+    document.getElementById('t-docnav-support').textContent = c.docnav_support;
+    document.getElementById('t-docnav-family').textContent = c.docnav_family;
+    document.getElementById('t-docnav-self').textContent = c.docnav_self;
+    document.getElementById('t-docnav-essay').textContent = c.docnav_essay;
+
+    // "近期体悟" Logs text binding for the new independent page
+    document.getElementById('t-log-date-1').textContent = c.log_date_1;
+    document.getElementById('t-log-text-1').textContent = c.log_text_1;
 
     document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh' : 'en');
+    document.documentElement.setAttribute('data-lang', lang === 'zh' ? 'zh' : 'en');
+  }
+
+  // 更新了 PAGE_IDS，将新增的 page-doc-logs 包含进去
+  var PAGE_IDS = ['page-home', 'page-doc-logs', 'page-doc-support', 'page-doc-family', 'page-doc-self', 'page-doc-essay'];
+
+  function showPage(pageId){
+    PAGE_IDS.forEach(function(id){
+      var el = document.getElementById(id);
+      if (!el) return;
+      if (id === pageId) el.removeAttribute('hidden');
+      else el.setAttribute('hidden', '');
+    });
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+    document.querySelectorAll('.docs-link').forEach(function(btn){
+      btn.classList.toggle('active', btn.dataset.page === pageId);
+    });
+    try { sessionStorage.setItem('site-page', pageId); } catch(e){}
+  }
+
+  function goToDoc(docKey){
+    showPage('page-' + docKey);
+  }
+
+  function goHome(){
+    showPage('page-home');
   }
 
   function setLang(l){
@@ -849,6 +1512,10 @@ window.CONTENT = {
     try { saved = localStorage.getItem('site-lang'); } catch(e){}
     var lang = saved || 'zh';
     setLang(lang);
+
+    var savedPage = null;
+    try { savedPage = sessionStorage.getItem('site-page'); } catch(e){}
+    showPage(savedPage && PAGE_IDS.indexOf(savedPage) !== -1 ? savedPage : 'page-home');
   })();
 </script>
 
