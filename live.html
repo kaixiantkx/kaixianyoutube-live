@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <!-- 手机：按真实屏幕宽度排版，禁止缩放，并铺满刘海/圆角区域 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Live">
+    <meta name="format-detection" content="telephone=no">
+    <title>Live Inner Observation Overlay - OBS / Mobile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+           QUICK SETTINGS
+           ============================================================ */
+        :root {
+            --accent: #ffd866;
+            --accent-glow: #ffd86633;
+            --live-red: #e6453c;
+            --text: #f3ecdf;
+            --btn-bg: rgba(255, 216, 102, 0.12);
+            --btn-border: rgba(255, 216, 102, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: transparent; /* 透明：叠在摄像头画面上 */
+            font-family: 'Inter', Arial, sans-serif;
+            color: var(--text);
+            overflow: hidden;
+            /* ---- 手机防误触：不滚动、不下拉刷新、不缩放、不选中文字 ---- */
+            overscroll-behavior: none;
+            touch-action: manipulation;
+            touch-action: none;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 网址加 ?bg=dark 时：不透明深色底 (没有摄像头画面垫在下面时用) */
+        .dark-bg,
+        .dark-bg body {
+            background: #080705;
+        }
+
+        /* 安全区：避开刘海、圆角和底部横条 */
+        #safe-frame {
+            position: fixed;
+            top: env(safe-area-inset-top, 0px);
+            right: env(safe-area-inset-right, 0px);
+            bottom: env(safe-area-inset-bottom, 0px);
+            left: env(safe-area-inset-left, 0px);
+        }
+
+        /* ============================================================
+           舞台 (STAGE)
+           横屏按 1920×1080 设计，竖屏按 1080×1920 设计，
+           再由脚本整体等比缩放到当前画面 —— 电脑 OBS 里就是 1:1。
+           ============================================================ */
+        .main-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 1920px;
+            height: 1080px;
+            display: flex;
+            transform: translate(-50%, -50%);
+            transform-origin: center center;
+        }
+
+        /* ---------- LEFT AREA ---------- */
+        .left-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 50px 0 50px 60px;
+            position: relative;
+            min-width: 0;
+        }
+
+        .left-area::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(10, 9, 7, 0.30) 0%, rgba(10, 9, 7, 0.05) 100%);
+            -webkit-backdrop-filter: blur(3px);
+            backdrop-filter: blur(3px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 12px;
+            padding-top: 10px;
+        }
+
+        /* ---------- TOP BADGE ---------- */
+        .live-row {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            font-size: 44px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            white-space: nowrap;
+        }
+
+        .live-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--live-red);
+            box-shadow: 0 0 0 0 rgba(230, 69, 60, 0.7);
+            animation: pulse 1.6s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(230, 69, 60, 0.55); }
+            70% { box-shadow: 0 0 0 36px rgba(230, 69, 60, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(230, 69, 60, 0); }
+        }
+
+        #clock {
+            font-size: 56px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #ffffff;
+            text-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
+            margin-top: 4px;
+            white-space: nowrap;
+        }
+
+        /* ---------- TIMER SECTION (Hover-Reveal for OBS) ---------- */
+        .timer-section {
+            background: rgba(0, 0, 0, 0.50);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 24px 34px;
+            border: 1px solid rgba(255, 216, 102, 0.12);
+            display: inline-flex;
+            align-items: center;
+            margin-top: 6px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+
+        .timer-display {
+            font-size: 52px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+        }
+
+        .timer-display span {
+            color: var(--accent);
+            font-weight: 700;
+            text-shadow: 0 0 30px rgba(255, 216, 102, 0.15);
+            font-variant-numeric: tabular-nums; /* 数字等宽，计时框不会每秒忽宽忽窄 */
+        }
+
+        /* 隐藏的控制按钮，仅在鼠标悬停时展开 (电脑 / OBS Interact) */
+        .timer-controls {
+            display: flex;
+            gap: 12px;
+            opacity: 0;
+            max-width: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            pointer-events: none;
+        }
+
+        .timer-section:hover .timer-controls {
+            opacity: 1;
+            max-width: 300px; /* 展开足够的宽度 */
+            margin-left: 24px;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        /* 一旦检测到手指触屏，就改用底部的大按钮，这组小按钮不再出现 */
+        .touch-mode .timer-controls {
+            display: none;
+        }
+
+        .timer-controls button,
+        #touch-bar button {
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            color: #fff;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', Arial, sans-serif;
+            white-space: nowrap;
+        }
+
+        .timer-controls button {
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-size: 20px;
+        }
+
+        .timer-controls button:hover {
+            background: rgba(255, 216, 102, 0.25);
+            border-color: var(--accent);
+        }
+
+        .timer-controls button.reset-btn {
+            border-color: rgba(230, 69, 60, 0.25);
+        }
+
+        .timer-controls button.reset-btn:hover {
+            background: rgba(230, 69, 60, 0.25);
+            border-color: var(--live-red);
+        }
+
+        /* ---------- WEBSITE LINE ---------- */
+        #website-line {
+            font-size: 32px;
+            opacity: 0.9;
+            margin-top: 6px;
+            color: #ffffff;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+            white-space: nowrap;
+        }
+
+        #website-line .url {
+            font-weight: 600;
+            color: var(--accent);
+            text-shadow: 0 0 30px rgba(255, 216, 102, 0.15);
+        }
+
+        /* ---------- STATUS INDICATOR ---------- */
+        .status-indicator {
+            font-size: 20px;
+            opacity: 0.6;
+            margin-top: 4px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-indicator .status-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .status-dot.running { background: #4caf50; }
+        .status-dot.paused { background: #ff9800; }
+
+        /* ---------- RIGHT: VERTICAL TICKER ---------- */
+        .right-ticker {
+            width: 480px;
+            flex-shrink: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+            background: linear-gradient(180deg, rgba(10, 9, 7, 0.60) 0%, rgba(10, 9, 7, 0.30) 100%);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            border-left: 1px solid rgba(255, 216, 102, 0.08);
+        }
+
+        .right-ticker::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(255, 216, 102, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .ticker-track-vertical {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+            mask-image: linear-gradient(180deg, transparent 0, black 60px, black calc(100% - 60px), transparent 100%);
+            -webkit-mask-image: linear-gradient(180deg, transparent 0, black 60px, black calc(100% - 60px), transparent 100%);
+        }
+
+        .ticker-content-vertical {
+            display: flex;
+            flex-direction: column;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 40px;
+            line-height: 1.9;
+            padding: 60px 0;
+            gap: 32px;
+            will-change: transform;
+        }
+
+        .ticker-content-vertical .seg {
+            padding: 6px 0;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.85);
+            color: #f0ece6;
+            letter-spacing: 0.5px;
+            word-break: break-word;
+            white-space: normal;
+            will-change: transform, opacity;
+        }
+
+        .ticker-content-vertical .seg .src {
+            font-family: 'Inter', Arial, sans-serif;
+            font-size: 26px;
+            opacity: 0.55;
+            margin-left: 14px;
+            font-weight: 400;
+            display: inline-block;
+        }
+
+        .ticker-content-vertical .pali-seg {
+            font-size: 38px;
+            color: #ffd866;
+            text-shadow: 0 0 40px rgba(255, 216, 102, 0.12);
+            letter-spacing: 1px;
+        }
+
+        .ticker-content-vertical .pali-seg .src {
+            color: #ccc;
+            opacity: 0.7;
+        }
+
+        /* 句子进入动画：放缓至2秒，更加舒缓 */
+        @keyframes slideInUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .slide-in {
+            animation: slideInUp 2s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        }
+
+        /* ============================================================
+           竖屏排版 (画面直立时自动启用，设计尺寸 1080×1920)
+           上：LIVE / 时钟 / 计时 / 网址　中：留空给摄像头　下：语录
+           ============================================================ */
+        .portrait .main-container {
+            width: 1080px;
+            height: 1920px;
+            flex-direction: column;
+        }
+
+        .portrait .left-area {
+            flex: 0 0 auto;
+            padding: 50px 60px 44px;
+        }
+
+        .portrait #website-line {
+            font-size: 30px;
+        }
+
+        .portrait .right-ticker {
+            width: 100%;
+            height: 620px;
+            margin-top: auto; /* 贴在画面底部 */
+            padding: 20px 56px;
+            border-left: none;
+            border-top: 1px solid rgba(255, 216, 102, 0.08);
+            background: linear-gradient(180deg, rgba(10, 9, 7, 0.35) 0%, rgba(10, 9, 7, 0.65) 100%);
+        }
+
+        .portrait .ticker-track-vertical {
+            mask-image: linear-gradient(180deg, transparent 0, black 40px, black calc(100% - 40px), transparent 100%);
+            -webkit-mask-image: linear-gradient(180deg, transparent 0, black 40px, black calc(100% - 40px), transparent 100%);
+        }
+
+        .portrait .ticker-content-vertical {
+            padding: 40px 0;
+            gap: 28px;
+        }
+
+        /* ============================================================
+           触屏控制条 (只在手机/平板上、轻点屏幕后出现，4 秒后自动隐藏)
+           用真实像素绘制，不随舞台缩小，手指好按
+           ============================================================ */
+        #touch-bar {
+            position: fixed;
+            left: 50%;
+            bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+            transform: translate(-50%, 14px);
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 20px;
+            background: rgba(8, 7, 5, 0.78);
+            border: 1px solid var(--btn-border);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 10;
+            max-width: calc(100vw - 16px);
+        }
+
+        #touch-bar.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+            pointer-events: auto;
+        }
+
+        #touch-bar button {
+            min-width: 104px;
+            min-height: 50px;
+            padding: 0 16px;
+            border-radius: 14px;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            touch-action: manipulation;
+        }
+
+        #touch-bar button:active { background: rgba(255, 216, 102, 0.3); border-color: var(--accent); }
+        #touch-bar button.reset-btn { border-color: rgba(230, 69, 60, 0.35); }
+        #touch-bar button.reset-btn.armed {
+            background: rgba(230, 69, 60, 0.35);
+            border-color: var(--live-red);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="safe-frame">
+        <div class="main-container" id="stage">
+            <!-- LEFT AREA -->
+            <div class="left-area">
+                <div class="left-content">
+                    <!-- LIVE badge -->
+                    <div class="live-row">
+                        <div class="live-dot"></div>
+                        <span>LIVE · INNER OBSERVATION</span>
+                    </div>
+
+                    <!-- Clock -->
+                    <div id="clock"></div>
+
+                    <!-- Timer Section -->
+                    <!-- 在 OBS 里右键 -> 交互 (Interact) -> 鼠标移入此框即可弹出按钮 -->
+                    <div class="timer-section" title="OBS Interact: 悬停显示按钮">
+                        <div class="timer-display">
+                            Today's Live · <span id="timer-value">00:00:00</span>
+                        </div>
+                        <div class="timer-controls">
+                            <button id="btn-toggle">⏸ Pause</button>
+                            <button class="reset-btn" id="btn-reset">↻ Reset</button>
+                        </div>
+                    </div>
+
+                    <!-- Website -->
+                    <div id="website-line">
+                        Website： <span class="url" id="website-url">https://kaixiantkx.github.io/kaixianyoutube-live/</span>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="status-indicator">
+                        <span class="status-dot running" id="status-dot"></span>
+                        <span id="status-text">Running</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT AREA (竖屏时变成底部语录栏) -->
+            <div class="right-ticker">
+                <div class="ticker-track-vertical">
+                    <div class="ticker-content-vertical" id="ticker-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 触屏控制条：轻点屏幕任意位置呼出 -->
+    <div id="touch-bar">
+        <button id="touch-btn-toggle">⏸ Pause</button>
+        <button class="reset-btn" id="touch-btn-reset">↻ Reset</button>
+        <button id="touch-btn-full">Fullscreen</button>
+    </div>
+
+    <audio id="bg-audio" preload="auto" autoplay loop></audio>
+
+    <script>
+        // ============================================================
+        // 网址参数 (全部可选) —— 给 PRISM 等手机推流 App 的「Web 小工具」用：
+        // 那里只能填一个网址，而且多半点不到页面里的按钮，所以用网址来设定。
+        //
+        //   ?layout=landscape   强制横屏排版 (portrait = 强制竖屏)；不写就按画面形状自动判断
+        //   ?bg=dark            不透明深色底；不写就是透明 (叠在摄像头画面上)
+        //   ?quote=15           每条语录停留的秒数 (默认 15)
+        //
+        //   可以组合，例如： .../live.html?layout=landscape&quote=20
+        // ============================================================
+        const root = document.documentElement;
+        const params = new URLSearchParams(window.location.search);
+        const FORCED_LAYOUT = (params.get('layout') || '').toLowerCase(); // 'landscape' | 'portrait' | ''
+        if ((params.get('bg') || '').toLowerCase() === 'dark') root.classList.add('dark-bg');
+        const quoteSecs = parseFloat(params.get('quote'));
+        const QUOTE_INTERVAL_MS = (quoteSecs >= 3 && quoteSecs <= 600 ? quoteSecs : 15) * 1000;
+
+        // ============================================================
+        // 自适应缩放 (电脑 OBS、手机横屏、手机竖屏 共用同一个文件)
+        // ============================================================
+        const frame = document.getElementById('safe-frame');
+        const stage = document.getElementById('stage');
+
+        function fitStage() {
+            const w = frame.clientWidth || window.innerWidth;
+            const h = frame.clientHeight || window.innerHeight;
+            const portrait = FORCED_LAYOUT === 'portrait' ? true
+                           : FORCED_LAYOUT === 'landscape' ? false
+                           : h > w;
+            root.classList.toggle('portrait', portrait);
+
+            const designW = portrait ? 1080 : 1920;
+            const designH = portrait ? 1920 : 1080;
+            const scale = Math.min(w / designW, h / designH);
+            stage.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+            trimTicker(); // 语录栏大小变了：放不下的旧语录直接收掉
+        }
+
+        // ==========================================
+        // QUOTES DATA
+        // ==========================================
+        const chineseQuotes = [
+            // ---- 保留部分 ----
+            { text: "诸比丘，任何人如此修习四念处七年，可望得到两种成果之一：今生证得阿罗汉果（究竟智）；若烦恼未尽，则证得阿那含果（不还果）。", source: "——《大念处经》" }, 
+            { text: "别说七年，六年、五年、四年，三年、二年、一年，乃至七月、六月、五月，四月、三月、二月、一月、半月——", source: "" },
+            { text: "乃至仅仅七天，如此修习四念处者，同样可望得到这两种成果之一。", source: "——《大念处经》" },
+            { text: "念头跑了，知道跑了，那一刻，就是觉知", source: "" },
+            
+            // ---- 隆波帕默尊者 核心法语精华 ----
+            { text: "有觉性，以安住且中立的心，了知身心现象的实相。", source: "——隆波帕默尊者" }, // 尊者最核心的一句总结
+            { text: "我们不需要去寻找一颗宁静的心，只需要去知道那颗不宁静的心。", source: "——隆波帕默尊者" },
+            { text: "觉知的秘诀在于：不要只执着于一次长时间的练习，而要在生活中频繁地培养觉知。", source: "——隆波帕默尊者" },
+            { text: "修行不是去改变什么，而是去看见什么。如实看见了，心自己会放下。", source: "——隆波帕默尊者" },
+            { text: "不要试图去控制或消灭烦恼，只要如实地知道它的存在，它自然会灭去。", source: "——隆波帕默尊者" },
+            { text: "无论生起的是快乐还是痛苦，都要以中立的心去知道，不欢迎，也不抗拒。", source: "——隆波帕默尊者" },
+            { text: "迷失在念头里很久没关系，最重要的是，一旦迷失了，要立刻知道。", source: "——隆波帕默尊者" },
+            { text: "修行一定要带着轻松、自然的心态。如果感到憋闷、紧绷，那就是修错了。", source: "——隆波帕默尊者" },
+            { text: "就像坐在台下看戏，心是观众，身心的感受和念头只是台上的演员。", source: "——隆波帕默尊者" },
+            { text: "身体不是我，心也不是我。它们只是因缘和合而生灭的现象。", source: "——隆波帕默尊者" },
+            
+            // ---- 修正与保留的优质禅修短语 ----
+            { text: "每一次的「知道」，都是觉性的生起。", source: "" }, // 修正了原来的“苏醒”
+            { text: "一切生起的，终将灭去；不必抓紧，也不必推开。", source: "" },
+            { text: "只有现在这一刻，才是唯一可以修行的真实时间。", source: "" },
+            { text: "吃饭、走路、呼吸，只要带着觉知，就都是禅修。", source: "" }
+        ];
+
+        const paliQuotes = [
+            { text: "Idam me puññam āsavakkhaya-vahaṃ hotu", source: "愿我所造的善业（功德），成为断除一切烦恼（漏）的助缘。", type: "pali" }
+        ];
+
+        const englishQuotes = [
+            // ---- 对应保留部分 ----
+            { text: "Bhikkhus, whoever develops the four foundations of mindfulness for seven years, can expect one of two fruits: final knowledge in this very life, or if there is a trace of clinging left, non-return.", source: "——Satipaṭṭhāna Sutta" },
+            { text: "Not just seven years, but six, five, four, three, two, one year, or even seven months, six months, five, four, three, two, one month, half a month——", source: "" },
+            { text: "Even just seven days, one who develops the four foundations of mindfulness can expect one of these two fruits.", source: "——Satipaṭṭhāna Sutta" },
+            { text: "When a thought wanders, knowing that it has wandered — in that moment, awareness is present.", source: "" },
+            
+            // ---- 对应 隆波帕默尊者 ----
+            { text: "Have mindfulness to know the reality of body and mind in the present moment, with a mind that is settled and neutral.", source: "——Luang Por Pramote Pamojjo" }, // Official translation of his core teaching
+            { text: "We do not need to search for a peaceful mind; we only need to know the mind that is not peaceful.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "The secret to awareness is this: do not practice for a long time at once, but practice frequently.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "Practice is not about changing anything, but seeing things as they are. Once seen, the mind lets go on its own.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "Do not try to control or eliminate defilements. Just know them as they are, and they will pass away naturally.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "Whether happiness or suffering arises, know it with a neutral mind — without welcoming it, and without resisting it.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "It doesn't matter if you have been lost in thought for a long time. What matters most is to know immediately once you realize you were lost.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "Practice must be done with a relaxed and natural state of mind. If you feel tense or heavily focused, you are practicing wrongly.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "It's like sitting in the audience watching a play: the mind is the spectator, while physical sensations and thoughts are merely actors on the stage.", source: "——Luang Por Pramote Pamojjo" },
+            { text: "The body is not 'me', and the mind is not 'me'. They are merely phenomena arising and passing away according to causes and conditions.", source: "——Luang Por Pramote Pamojjo" },
+            
+            // ---- 对应 修正与保留的禅修短语 ----
+            { text: "Every single moment of 'knowing' is the arising of awareness (Sati).", source: "" },
+            { text: "All that arises will eventually pass away; there is no need to cling, nor to push away.", source: "" },
+            { text: "The present moment is the only real time we have to practice.", source: "" },
+            { text: "Eating, walking, breathing — as long as there is awareness, it is all meditation.", source: "" }
+        ];
+
+        // 合并语录顺序
+        const allQuotes = [];
+        chineseQuotes.forEach(q => allQuotes.push({ ...q, type: 'cn' }));
+        paliQuotes.forEach(q => allQuotes.push(q));
+        englishQuotes.forEach(q => allQuotes.push({ ...q, type: 'en' }));
+
+        // ==========================================
+        // TIME & CLOCK
+        // ==========================================
+        const clockEl = document.getElementById('clock');
+        function pad(n) { return String(n).padStart(2, '0'); }
+        function updateClock() {
+            const now = new Date();
+            const text = `${now.getFullYear()}年${pad(now.getMonth() + 1)}月${pad(now.getDate())}日  ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+            if (clockEl.textContent !== text) clockEl.textContent = text;
+        }
+
+        // ==========================================
+        // ROBUST ACCUMULATIVE TIMER FOR OBS / MOBILE
+        // ==========================================
+        const timerEl = document.getElementById('timer-value');
+        const statusDot = document.getElementById('status-dot');
+        const statusText = document.getElementById('status-text');
+        const btnToggle = document.getElementById('btn-toggle');
+        const touchToggle = document.getElementById('touch-btn-toggle');
+
+        // 个别手机浏览器 / App 内嵌网页禁用 localStorage，这时退回内存保存，页面照常工作
+        const store = (() => {
+            try {
+                localStorage.setItem('__probe', '1');
+                localStorage.removeItem('__probe');
+                return localStorage;
+            } catch (e) {
+                const mem = {};
+                return {
+                    getItem: k => (k in mem ? mem[k] : null),
+                    setItem: (k, v) => { mem[k] = String(v); }
+                };
+            }
+        })();
+
+        // 使用当天的日期作为 Key，过午夜 12 点自动计算为新的一天
+        const todayKey = new Date().toDateString();
+
+        // 检查 localStorage
+        if (store.getItem('live_date') !== todayKey) {
+            store.setItem('live_date', todayKey);
+            store.setItem('live_acc', '0');
+            store.setItem('live_paused', 'false');
+        }
+
+        let accumulatedTime = parseInt(store.getItem('live_acc')) || 0;
+        let isPaused = store.getItem('live_paused') === 'true';
+        let lastTimestamp = Date.now();
+        let lastSavedAt = 0;
+
+        // 页面被冻结 (手机锁屏、App 切到后台、图层被收起) 超过这么久：
+        // 这段空档不算进直播时间 —— 和「OBS 关闭期间不计时」是同一个道理
+        const MAX_GAP_MS = 90 * 1000;
+
+        // 初始化状态显示 (︎ = 强制用文字符号，避免手机把它画成彩色 emoji)
+        function updateStatusUI() {
+            const label = isPaused ? '▶︎ Resume' : '⏸︎ Pause';
+            statusDot.className = isPaused ? 'status-dot paused' : 'status-dot running';
+            statusText.textContent = isPaused ? 'Paused' : 'Running';
+            btnToggle.textContent = label;
+            touchToggle.textContent = label;
+        }
+        updateStatusUI();
+
+        // 核心计时逻辑：只计算循环时的差值，完美忽略 OBS 关闭期间的时间
+        function tickTimer() {
+            const now = Date.now();
+            const delta = now - lastTimestamp;
+            lastTimestamp = now;
+            if (!isPaused && delta > 0 && delta <= MAX_GAP_MS) {
+                accumulatedTime += delta;
+                if (now - lastSavedAt >= 1000) { // 每秒存一次就够了
+                    store.setItem('live_acc', accumulatedTime.toString());
+                    lastSavedAt = now;
+                }
+            }
+
+            // 渲染时间
+            const totalSecs = Math.floor(accumulatedTime / 1000);
+            const h = Math.floor(totalSecs / 3600);
+            const m = Math.floor((totalSecs % 3600) / 60);
+            const s = totalSecs % 60;
+            const text = `${pad(h)}:${pad(m)}:${pad(s)}`;
+            if (timerEl.textContent !== text) timerEl.textContent = text;
+        }
+
+        // 按钮控制逻辑
+        function toggleTimer() {
+            tickTimer(); // 先把到这一刻为止的时间结算掉
+            isPaused = !isPaused;
+            store.setItem('live_paused', isPaused.toString());
+            store.setItem('live_acc', accumulatedTime.toString());
+            // 确保恢复时不会把暂停的时间算进去
+            lastTimestamp = Date.now();
+            updateStatusUI();
+            tickTimer();
+        }
+
+        function resetTimer() {
+            accumulatedTime = 0;
+            isPaused = false;
+            store.setItem('live_acc', '0');
+            store.setItem('live_paused', 'false');
+            lastTimestamp = Date.now();
+            updateStatusUI();
+            tickTimer();
+        }
+
+        // 电脑 / OBS Interact 的悬停按钮 (行为和原来一样)
+        btnToggle.addEventListener('click', toggleTimer);
+        document.getElementById('btn-reset').addEventListener('click', resetTimer);
+
+        // ==========================================
+        // 触屏控制条 (手机专用)
+        // 轻点屏幕 → 底部出现 Pause / Reset / Fullscreen，4 秒不碰自动隐藏
+        // Reset 要连点两次才生效，防止直播中误触归零
+        // ==========================================
+        const touchBar = document.getElementById('touch-bar');
+        const touchReset = document.getElementById('touch-btn-reset');
+        const touchFull = document.getElementById('touch-btn-full');
+        const BAR_HIDE_MS = 4000;
+        let barHideTimer = null;
+        let barShownAt = 0;
+        let resetArmed = false;
+        let resetArmTimer = null;
+
+        function disarmReset() {
+            resetArmed = false;
+            clearTimeout(resetArmTimer);
+            touchReset.classList.remove('armed');
+            touchReset.textContent = '↻ Reset';
+        }
+
+        function hideBar() {
+            touchBar.classList.remove('show');
+            disarmReset();
+        }
+
+        function showBar() {
+            if (!touchBar.classList.contains('show')) {
+                touchBar.classList.add('show');
+                barShownAt = performance.now();
+            }
+            clearTimeout(barHideTimer);
+            barHideTimer = setTimeout(hideBar, BAR_HIDE_MS);
+        }
+
+        // 呼出控制条的那一下点击不算按钮操作，避免「一点屏幕就误触 Pause」
+        function barReady() { return performance.now() - barShownAt > 350; }
+
+        function onTouch(e) {
+            if (e.pointerType === 'mouse') return; // 鼠标继续用悬停按钮
+            root.classList.add('touch-mode');
+            showBar();
+            keepAwake();
+            resumeAudio(); // 手机浏览器要先有一次触碰才允许播放声音
+        }
+        if (window.PointerEvent) {
+            document.addEventListener('pointerdown', onTouch, { passive: true });
+        } else {
+            document.addEventListener('touchstart', onTouch, { passive: true });
+        }
+
+        touchToggle.addEventListener('click', () => {
+            if (!barReady()) return;
+            disarmReset();
+            toggleTimer();
+            showBar();
+        });
+
+        touchReset.addEventListener('click', () => {
+            if (!barReady()) return;
+            if (!resetArmed) {
+                resetArmed = true;
+                touchReset.classList.add('armed');
+                touchReset.textContent = 'Tap again';
+                resetArmTimer = setTimeout(disarmReset, 3000);
+            } else {
+                disarmReset();
+                resetTimer();
+            }
+            showBar();
+        });
+
+        // --- 全屏：隐藏浏览器地址栏 (Android Chrome 支持；iPhone 请用「添加到主屏幕」) ---
+        const requestFS = root.requestFullscreen || root.webkitRequestFullscreen;
+        const exitFS = document.exitFullscreen || document.webkitExitFullscreen;
+        const fullscreenEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+
+        if (!requestFS || !exitFS) {
+            touchFull.style.display = 'none';
+        } else {
+            touchFull.addEventListener('click', () => {
+                if (!barReady()) return;
+                try {
+                    const p = fullscreenEl() ? exitFS.call(document) : requestFS.call(root, { navigationUI: 'hide' });
+                    if (p && p.catch) p.catch(() => {});
+                } catch (e) {}
+                showBar();
+            });
+            const onFSChange = () => {
+                touchFull.textContent = fullscreenEl() ? 'Exit full' : 'Fullscreen';
+                fitStage();
+            };
+            document.addEventListener('fullscreenchange', onFSChange);
+            document.addEventListener('webkitfullscreenchange', onFSChange);
+        }
+
+        // iPhone 双指缩放手势：禁用
+        document.addEventListener('gesturestart', e => e.preventDefault());
+
+        // ==========================================
+        // 屏幕常亮 (直播时手机不自动熄屏 / 锁屏)
+        // 需要 https (GitHub Pages 没问题)。切回页面时自动重新申请。
+        // ==========================================
+        let wakeLock = null;
+        async function keepAwake() {
+            if (!('wakeLock' in navigator) || document.visibilityState !== 'visible') return;
+            if (wakeLock && !wakeLock.released) return;
+            try {
+                wakeLock = await navigator.wakeLock.request('screen');
+            } catch (e) { /* 省电模式等情况下会被拒绝，忽略即可 */ }
+        }
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                keepAwake();
+                tickAll(); // 切回来立刻对表
+            }
+        });
+        keepAwake();
+
+        // ==========================================
+        // 语录栏 (TICKER)
+        // 新语录从下方进入；栏里放不下时，最上面的旧语录淡出并整体上推。
+        // 「放不放得下」按语录栏的实际高度计算，所以横屏、竖屏都能完整显示，
+        // 不会有语录被底边切掉一半。
+        // ==========================================
+        const tickerContainer = document.getElementById('ticker-content');
+        const tickerTrack = tickerContainer.parentElement;
+        let quoteIndex = 0;
+        let shifting = false;
+        let shiftTimer = null;
+        let leaving = []; // 正在被顶出去的旧语录
+
+        function createQuoteElement(quote) {
+            const div = document.createElement('div');
+            let classNames = 'seg';
+            if (quote.type === 'pali') classNames += ' pali-seg';
+            div.className = classNames;
+
+            const text = quote.text.replace(/\n/g, ' ');
+            let html = `${text}`;
+            if (quote.source) {
+                html += `<span class="src">${quote.source}</span>`;
+            }
+            div.innerHTML = html;
+            return div;
+        }
+
+        function tickerGap() {
+            return parseFloat(window.getComputedStyle(tickerContainer).rowGap) || 0;
+        }
+
+        // 个别很长的语录 (横屏窄栏里的长英文) 单独放也超高：逐级缩小字号，直到整条放得下
+        function shrinkToFit(el) {
+            const cs = window.getComputedStyle(tickerContainer);
+            const room = tickerTrack.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+            let size = parseFloat(window.getComputedStyle(el).fontSize);
+            while (el.offsetHeight > room && size > 28) {
+                size -= 2;
+                el.style.fontSize = size + 'px';
+            }
+        }
+
+        // 上推动画结束：把被顶出去的语录真正删掉，容器归位
+        function finishShift() {
+            if (!shifting) return;
+            shifting = false;
+            clearTimeout(shiftTimer);
+            tickerContainer.style.transition = 'none';
+            tickerContainer.style.transform = 'translateY(0)';
+            leaving.forEach(el => el.remove());
+            leaving = [];
+        }
+
+        // 画面大小改变时 (旋转屏幕等)：不做动画，直接收掉放不下的旧语录
+        function trimTicker() {
+            if (!tickerContainer) return;
+            finishShift();
+            while (tickerContainer.children.length > 1 && tickerContainer.offsetHeight > tickerTrack.clientHeight) {
+                tickerContainer.firstElementChild.remove();
+            }
+        }
+
+        function processTicker() {
+            finishShift(); // 保险：上一轮动画如果还没收尾，先收尾
+
+            const el = createQuoteElement(allQuotes[quoteIndex]);
+            quoteIndex = (quoteIndex + 1) % allQuotes.length;
+            tickerContainer.appendChild(el);
+            shrinkToFit(el);
+
+            // 从最上面开始数：要顶走几条旧语录，新的这条才能完整放进栏里？
+            const gap = tickerGap();
+            const trackH = tickerTrack.clientHeight;
+            const contentH = tickerContainer.offsetHeight;
+            const items = Array.from(tickerContainer.children);
+            let shift = 0;
+            for (let i = 0; i < items.length - 1 && contentH - shift > trackH; i++) {
+                shift += items[i].offsetHeight + gap;
+                leaving.push(items[i]);
+            }
+
+            if (shift === 0) {
+                // 放得下：自然推入并带有上升动画
+                el.classList.add('slide-in');
+                el.addEventListener('animationend', () => el.classList.remove('slide-in'), { once: true });
+                return;
+            }
+
+            // 放不下：新语录淡入
+            el.style.opacity = '0';
+            el.style.transition = 'opacity 2s ease';
+            void el.offsetWidth; // 强制重绘
+            el.style.opacity = '1';
+
+            // 顶层语录淡出 (缓慢)
+            leaving.forEach(old => {
+                old.classList.remove('slide-in');
+                old.style.transition = 'opacity 1.5s ease';
+                old.style.opacity = '0';
+            });
+
+            // 整个容器平滑上推 (2s)
+            shifting = true;
+            tickerContainer.style.transition = 'transform 2s cubic-bezier(0.25, 0.8, 0.25, 1)';
+            tickerContainer.style.transform = `translateY(-${shift}px)`;
+            shiftTimer = setTimeout(finishShift, 2400); // transitionend 万一没触发时的保险
+        }
+
+        tickerContainer.addEventListener('transitionend', (e) => {
+            if (e.target === tickerContainer && e.propertyName === 'transform') finishShift();
+        });
+
+        // ==========================================
+        // 统一的节拍：时钟、计时器、语录轮换都由这里驱动
+        // 每 0.25 秒对一次表；另外每一帧画面也会检查一次 ——
+        // 有些 App 内嵌的网页会把 setInterval 放慢，但只要画面还在渲染，时间就照样走。
+        // ==========================================
+        let lastTick = 0;
+        let lastQuoteAt = Date.now();
+        function tickAll() {
+            lastTick = performance.now();
+            updateClock();
+            tickTimer();
+            if (Date.now() - lastQuoteAt >= QUOTE_INTERVAL_MS) {
+                lastQuoteAt = Date.now();
+                processTicker();
+            }
+        }
+
+        // ==========================================
+        // AUDIO
+        // ==========================================
+        const PLAYLIST = [
+            { name: "Track 1", file: "audio/lofi-1.mp3" },
+            { name: "Track 2", file: "audio/lofi-2.mp3" },
+            { name: "Track 3", file: "audio/lofi-3.mp3" },
+            { name: "Track 4", file: "audio/lofi-4.mp3" }
+        ];
+        const AUDIO_VOLUME = 0.18;
+
+        const audioEl = document.getElementById('bg-audio');
+        audioEl.volume = AUDIO_VOLUME;
+        audioEl.loop = false;
+
+        let order = PLAYLIST.map((_, i) => i);
+        for (let i = order.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [order[i], order[j]] = [order[j], order[i]];
+        }
+        let oi = 0;
+
+        function playTrack() {
+            if (PLAYLIST.length === 0) return;
+            const track = PLAYLIST[order[oi % order.length]];
+            audioEl.src = track.file;
+            audioEl.play().catch(() => {});
+            oi++;
+        }
+        audioEl.addEventListener('ended', playTrack);
+
+        // 手机浏览器会拦截自动播放：第一次触碰屏幕后再试一次
+        function resumeAudio() {
+            if (audioEl.src && audioEl.paused && !audioEl.error) audioEl.play().catch(() => {});
+        }
+
+        // ==========================================
+        // 启动
+        // ==========================================
+        fitStage();          // 先按当前画面摆好舞台
+        processTicker();     // 立即展示第一条语录
+        tickAll();
+        setInterval(tickAll, 250);
+        (function frameLoop() {
+            if (performance.now() - lastTick > 400) tickAll();
+            requestAnimationFrame(frameLoop);
+        })();
+        playTrack();
+
+        // 旋转 / 改变大小时自动重排
+        window.addEventListener('resize', fitStage);
+        window.addEventListener('orientationchange', () => setTimeout(fitStage, 250));
+        if (window.visualViewport) window.visualViewport.addEventListener('resize', fitStage);
+    </script>
+</body>
+</html>
