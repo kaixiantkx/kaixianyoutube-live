@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dhamma Sala 礼佛堂</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Myanmar:wght@400;600&family=Noto+Serif+Thai:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout: the whole screen is the temple, seen in first person. Words sit on top of it
+     in two quiet bands: name and language above, the rite's four actions below.
+     One visual world (candle-lit red lacquer and gold leaf), so one theme. */
+  --lacquer-deep: #1c0507;
+  --lacquer: #3d0d10;
+  --gold: #e0ad45;
+  --gold-pale: #f7e6b0;
+  --ember: #ff9a3d;
+  --ink: #2a0707;
+  --text: #f1e2c6;
+  --muted: #d6b998;
+  --hair: color-mix(in srgb, var(--gold) 45%, transparent);
+  --font-display: "Charm", "Noto Serif Myanmar", "Gentium Book Plus", "Songti SC", "Noto Serif CJK SC", serif;
+  --font-body: "Gentium Book Plus", "Noto Serif Thai", "Noto Serif Myanmar", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; margin: 0; overflow: hidden; }
+body { background: var(--lacquer-deep); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; -webkit-text-size-adjust: 100%; }
+html[lang="th"] body { line-height: 1.75; }
+html[lang="my"] body { line-height: 2; }
+
+#app { position: relative; height: 100%; overflow: hidden; }
+#gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; outline: none; }
+#gl:active { cursor: grabbing; }
+
+.top { position: absolute; inset: 0 0 auto 0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 8px 16px; padding: 12px 16px 36px; background: linear-gradient(rgba(16, 3, 5, .8), rgba(16, 3, 5, 0)); pointer-events: none; }
+.top > * { pointer-events: auto; }
+h1 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 6vw, 34px); line-height: 1.3; color: var(--gold-pale); text-shadow: 0 2px 12px #000; }
+html[lang="my"] h1 { font-weight: 600; line-height: 1.7; }
+.here { margin: 0; font-size: 13.5px; color: var(--muted); text-shadow: 0 1px 8px #000; }
+.langs { display: flex; border: 1px solid var(--hair); border-radius: 999px; padding: 3px; background: rgba(28, 5, 7, .6); }
+.langs button { font: inherit; font-size: 14px; line-height: 1.5; min-height: 34px; padding: 3px 11px; border: 0; border-radius: 999px; background: none; color: var(--text); cursor: pointer; }
+.langs button[aria-pressed="true"] { background: var(--gold); color: var(--ink); }
+
+.gate, .hud { position: absolute; inset: auto 0 0 0; display: grid; justify-items: center; background: linear-gradient(rgba(16, 3, 5, 0), rgba(16, 3, 5, .86) 60%); }
+.gate { gap: 12px; padding: 64px 16px 28px; text-align: center; }
+.gate p { margin: 0; max-width: 38ch; text-wrap: balance; text-shadow: 0 1px 10px #000; }
+.gate .tagline { color: var(--gold-pale); font-size: 17px; }
+.gate .hint { color: var(--muted); font-size: 14px; }
+.primary { font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1.4; padding: 10px 36px; border: 0; border-radius: 999px; background: var(--gold); color: var(--ink); cursor: pointer; box-shadow: 0 0 0 1px var(--gold-pale) inset, 0 6px 34px rgba(255, 170, 70, .4); }
+html[lang="my"] .primary { font-weight: 600; font-size: 19px; line-height: 1.9; }
+
+.hud { gap: 8px; padding: 48px 12px 14px; pointer-events: none; transition: opacity .6s; }
+.hud.off { opacity: 0; }
+.hud.off .acts { pointer-events: none; }
+.tip { position: absolute; inset: auto 16px 22px 16px; margin: 0; text-align: center; font-size: 14px; color: var(--muted); text-shadow: 0 1px 8px #000; opacity: 0; transition: opacity .6s; pointer-events: none; }
+.tip.on { opacity: .95; }
+.status { margin: 0; min-height: 1.7em; max-width: 44ch; text-align: center; color: var(--gold-pale); text-shadow: 0 1px 10px #000, 0 0 3px #000; text-wrap: balance; }
+.acts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%; max-width: 660px; pointer-events: auto; }
+@media (min-width: 600px) { .acts { grid-template-columns: repeat(4, 1fr); } }
+.act { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 6px 10px; font: inherit; color: var(--gold-pale); background: rgba(45, 9, 12, .8); border: 1px solid var(--hair); border-radius: 12px; cursor: pointer; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.act:hover { background: rgba(80, 18, 22, .86); }
+.act .n { font-size: 13px; line-height: 1.5; padding: 0 8px; border-radius: 999px; background: var(--gold); color: var(--ink); }
+.act .n:empty { display: none; }
+
+.bow-word { position: absolute; left: 16px; right: 16px; top: 40%; text-align: center; font-family: var(--font-display); font-size: 28px; color: var(--gold-pale); text-shadow: 0 2px 16px #000, 0 0 4px #000; opacity: 0; transition: opacity .5s; pointer-events: none; }
+.bow-word.on { opacity: 1; }
+
+.sheet { position: absolute; inset: auto 0 0 0; max-height: 62%; overflow: auto; padding: 12px 16px 22px; background: rgba(28, 5, 7, .95); border-top: 1px solid var(--gold); }
+.sheet-in { max-width: 640px; margin: 0 auto; }
+.sheet-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+h2 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 21px; line-height: 1.6; color: var(--gold); }
+html[lang="my"] h2 { font-weight: 600; line-height: 1.9; }
+.close { font: inherit; font-size: 14px; min-height: 36px; padding: 2px 14px; border: 1px solid var(--hair); border-radius: 999px; background: none; color: var(--text); cursor: pointer; }
+.verse { display: grid; gap: 6px; padding: 12px 0 14px; border-bottom: 1px solid var(--hair); }
+.verse:last-child { border-bottom: 0; }
+.times { justify-self: end; font-size: 13px; color: var(--gold); border: 1px solid var(--hair); border-radius: 999px; padding: 0 10px; }
+.pali { margin: 0; padding: 4px 10px; font-size: 20px; color: var(--gold-pale); border-inline-start: 2px solid transparent; transition: background .4s, border-color .4s; }
+.pali.now { border-color: var(--ember); background: color-mix(in srgb, var(--ember) 16%, transparent); color: #fff; }
+.roman { display: block; font-size: 14px; font-style: italic; line-height: 1.5; color: var(--muted); }
+.note, .tr { margin: 0; padding: 0 10px; font-size: 15px; }
+.note { color: var(--muted); }
+
+.fallback { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: var(--gold-pale); background: var(--lacquer-deep); }
+.fallback p { max-width: 36ch; margin: 0; }
+button:focus-visible, #gl:focus-visible { outline: 2px solid var(--gold-pale); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <canvas id="gl" tabindex="0" aria-label="3D temple"></canvas>
+
+  <header class="top">
+    <div><h1 id="t-name"></h1><p class="here" id="here" hidden></p></div>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" id="lang-th" data-lang="th">ไทย</button>
+      <button type="button" id="lang-my" data-lang="my">မြန်မာ</button>
+      <button type="button" id="lang-en" data-lang="en">EN</button>
+      <button type="button" id="lang-zh" data-lang="zh">中文</button>
+    </div>
+  </header>
+
+  <div class="gate" id="gate">
+    <p class="tagline" id="t-tagline"></p>
+    <button type="button" class="primary" id="enter"></button>
+    <p class="hint" id="t-hint"></p>
+  </div>
+
+  <div class="hud" id="hud" hidden>
+    <p class="status" id="status" aria-live="polite"></p>
+    <div class="acts">
+      <button type="button" class="act" id="act-candle" data-act="candle"><span id="l-candle"></span><span class="n" id="n-candle"></span></button>
+      <button type="button" class="act" id="act-bow" data-act="bow"><span id="l-bow"></span><span class="n" id="n-bow"></span></button>
+      <button type="button" class="act" id="act-chant" data-act="chant"><span id="l-chant"></span></button>
+      <button type="button" class="act" id="act-bell" data-act="bell"><span id="l-bell"></span></button>
+    </div>
+  </div>
+
+  <p class="tip" id="tip" aria-hidden="true"></p>
+
+  <div class="bow-word" id="bow-word" aria-hidden="true"></div>
+
+  <section class="sheet" id="sheet" hidden aria-labelledby="t-chant">
+    <div class="sheet-in">
+      <div class="sheet-head"><h2 id="t-chant"></h2><button type="button" class="close" id="close"></button></div>
+      <div id="verses"></div>
+    </div>
+  </section>
+
+  <div class="fallback" id="fallback" hidden><p id="t-nogl"></p></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ================= words ================= */
+  var DIGITS = { th: "๐๑๒๓๔๕๖๗๘๙", my: "၀၁၂၃၄၅၆၇၈၉" };
+  function num(n, lang) {
+    var d = DIGITS[lang], s = String(n);
+    return d ? s.replace(/\d/g, function (c) { return d[+c]; }) : s;
+  }
+  var L = {
+    th: {
+      name: "ศาลาธรรม",
+      tagline: "วิหารเปิดอยู่ เชิญเข้ามากราบพระ จุดเทียนบูชาได้ทุกเวลา",
+      enter: "เข้าสู่วิหาร",
+      hint: "ลากเพื่อมองรอบ ๆ แตะพื้นเพื่อเดิน แตะเบาะเพื่อนั่ง",
+      here: function (n) { return "ขณะนี้ในวิหารมี " + num(n, "th") + " คน"; },
+      candle: "จุดเทียน", bow: "กราบ", chant: "สวดมนต์", bell: "ตีระฆัง",
+      close: "ปิด", chantTitle: "บทสวดมนต์",
+      bows: ["กราบพระพุทธ", "กราบพระธรรม", "กราบพระสงฆ์"],
+      times: "๓ จบ",
+      repeat: "ทุติยัมปิ… ตะติยัมปิ… (กล่าวซ้ำครั้งที่ ๒ และครั้งที่ ๓)",
+      trNamo: "ขอนอบน้อมแด่พระผู้มีพระภาคเจ้าพระองค์นั้น ซึ่งเป็นผู้ไกลจากกิเลส ตรัสรู้ชอบได้โดยพระองค์เอง",
+      trTi: "ข้าพเจ้าขอถึงพระพุทธเจ้า พระธรรม และพระสงฆ์ เป็นที่พึ่ง",
+      trMetta: "ขอสัตว์ทั้งหลายทั้งปวง จงเป็นผู้ถึงความสุขเถิด",
+      sCandle: function (n) { return "ท่านจุดเทียนบูชาแล้ว " + num(n, "th") + " เล่ม"; },
+      sFull: "เทียนบนโต๊ะบูชาสว่างครบทุกเล่มแล้ว",
+      sBowDone: "กราบครบสามครั้งแล้ว",
+      sSettle: "วางเทียนลง นั่งให้สบาย ตั้งกายตรง เตรียมภาวนา",
+      tip: "แตะหน้าจอเพื่อแสดงตัวเลือก",
+      sChanting: "ค่อย ๆ สวดตามบรรทัดที่สว่างขึ้น",
+      sChant: "สวดมนต์จบแล้ว",
+      sMerit: "ขออุทิศบุญกุศลนี้แด่สรรพสัตว์ทั้งหลาย สาธุ สาธุ สาธุ",
+      nogl: "อุปกรณ์นี้แสดงวิหารสามมิติไม่ได้ ลองเปิดด้วยเบราว์เซอร์อื่น"
+    },
+    my: {
+      name: "ဓမ္မာရုံ",
+      tagline: "ကျောင်းတော်တံခါး ဖွင့်ထားပါသည်။ အချိန်မရွေး ဝင်ရောက်ဖူးမြော်၍ ဖယောင်းတိုင် ပူဇော်နိုင်ပါသည်။",
+      enter: "ဝင်ရောက်ဖူးမြော်ရန်",
+      hint: "လက်ဖြင့်ဆွဲ၍ ပတ်ပတ်လည် ကြည့်ပါ။ ကြမ်းပြင်ကို နှိပ်၍ လျှောက်ပါ။ ဖျာကို နှိပ်၍ ထိုင်ပါ။",
+      here: function (n) { return "ယခု ကျောင်းတော်အတွင်း " + num(n, "my") + " ဦး ရှိပါသည်"; },
+      candle: "ဖယောင်းတိုင် ထွန်းရန်", bow: "ဦးချရန်", chant: "ဘုရားရှိခိုး", bell: "ခေါင်းလောင်းထိုးရန်",
+      close: "ပိတ်ရန်", chantTitle: "ဘုရားရှိခိုး",
+      bows: ["ဘုရားကို ရှိခိုးပါ၏", "တရားကို ရှိခိုးပါ၏", "သံဃာကို ရှိခိုးပါ၏"],
+      times: "၃ ကြိမ်",
+      repeat: "ဒုတိယမ္ပိ… တတိယမ္ပိ… (ဒုတိယအကြိမ်၊ တတိယအကြိမ် ထပ်မံရွတ်ဆိုပါ)",
+      trNamo: "ဘုန်းတော်ကြီးတော်မူသော၊ ရဟန္တာဖြစ်တော်မူသော၊ သမ္မာသမ္ဗုဒ္ဓဖြစ်တော်မူသော ထိုမြတ်စွာဘုရားအား ရှိခိုးပါ၏။",
+      trTi: "ဘုရားကို ကိုးကွယ်ပါ၏။ တရားကို ကိုးကွယ်ပါ၏။ သံဃာကို ကိုးကွယ်ပါ၏။",
+      trMetta: "သတ္တဝါအားလုံး ချမ်းသာကြပါစေ။",
+      sCandle: function (n) { return "ဖယောင်းတိုင် " + num(n, "my") + " တိုင် ထွန်းညှိပူဇော်ပြီးပါပြီ။"; },
+      sFull: "ပူဇော်ပွဲပေါ်ရှိ ဖယောင်းတိုင်အားလုံး ထွန်းညှိပြီးပါပြီ။",
+      sBowDone: "သုံးကြိမ် ဦးချပြီးပါပြီ။",
+      sSettle: "ဖယောင်းတိုင်ကို ချထား၍ ကိုယ်ကို ဖြောင့်ဖြောင့်ထားကာ သက်တောင့်သက်သာ ထိုင်ပါ။",
+      tip: "ရွေးချယ်စရာများ ပြရန် မျက်နှာပြင်ကို နှိပ်ပါ။",
+      sChanting: "အလင်းပြထားသော စာကြောင်းအတိုင်း ဖြည်းဖြည်း ရွတ်ဆိုပါ။",
+      sChant: "ရွတ်ဆိုပြီးပါပြီ။",
+      sMerit: "ဤကုသိုလ်ကို သတ္တဝါအားလုံးအား အမျှပေးဝေပါ၏။ အမျှ အမျှ အမျှ ယူတော်မူကြပါကုန်လော့။ သာဓု သာဓု သာဓု",
+      nogl: "ဤစက်တွင် 3D ကျောင်းတော်ကို ပြသ၍မရပါ။ အခြားဘရောက်ဇာဖြင့် စမ်းကြည့်ပါ။"
+    },
+    en: {
+      name: "Dhamma Sala",
+      tagline: "The hall is open. Come in at any time to bow and to offer a candle.",
+      enter: "Enter the temple",
+      hint: "Drag to look around. Tap the floor to walk, or a mat to sit.",
+      here: function (n) { return n === 1 ? "You are the only one here now" : n + " people here now"; },
+      candle: "Light a candle", bow: "Bow", chant: "Chant", bell: "Ring the bell",
+      close: "Close", chantTitle: "Chanting",
+      bows: ["I bow to the Buddha", "I bow to the Dhamma", "I bow to the Sangha"],
+      times: "three times",
+      repeat: "Dutiyampi… Tatiyampi… (repeat a second and a third time)",
+      trNamo: "Homage to the Blessed One, the Worthy One, the Fully Self-Awakened One.",
+      trTi: "I go to the Buddha, the Dhamma and the Sangha for refuge.",
+      trMetta: "May all beings be happy.",
+      sCandle: function (n) { return n === 1 ? "You have lit 1 candle." : "You have lit " + n + " candles."; },
+      sFull: "Every candle on the offering table is lit.",
+      sBowDone: "Three bows are complete.",
+      sSettle: "Set the candle down, settle your posture, back straight.",
+      tip: "Tap the screen to show the options.",
+      sChanting: "Chant slowly along with the lit line.",
+      sChant: "The chanting is complete.",
+      sMerit: "May this merit be shared with all beings. Sādhu, sādhu, sādhu.",
+      nogl: "This device cannot show the 3D temple. Try opening it in another browser."
+    },
+    zh: {
+      name: "南传礼佛堂",
+      tagline: "殿门开着，随时进来礼佛、点一支蜡烛。",
+      enter: "进入佛殿",
+      hint: "拖动环顾四周；点地面走过去，点坐垫坐下。",
+      here: function (n) { return "现在殿内 " + n + " 人"; },
+      candle: "点蜡烛", bow: "顶礼", chant: "念诵", bell: "敲钟",
+      close: "关闭", chantTitle: "念诵文",
+      bows: ["礼敬佛", "礼敬法", "礼敬僧"],
+      times: "三遍",
+      repeat: "Dutiyampi… Tatiyampi…（第二遍、第三遍重复）",
+      trNamo: "礼敬彼世尊、阿罗汉、正自觉者。",
+      trTi: "我皈依佛，我皈依法，我皈依僧。",
+      trMetta: "愿一切众生快乐。",
+      sCandle: function (n) { return "你已点亮 " + n + " 支蜡烛。"; },
+      sFull: "供桌上的蜡烛都已点亮。",
+      sBowDone: "三拜圆满。",
+      sSettle: "放下蜡烛，调整坐姿，身体坐直，准备禅修。",
+      tip: "点一下画面，选项会再出现。",
+      sChanting: "请跟着亮起的那一行慢慢念。",
+      sChant: "念诵圆满。",
+      sMerit: "愿以此功德回向一切众生。萨度，萨度，萨度。",
+      nogl: "这台设备无法显示 3D 佛殿，请换一个浏览器打开。"
+    }
+  };
+  var VERSES = [
+    { id: "namo", tr: "trNamo", times: true, lines: [
+      { th: "นะโม ตัสสะ ภะคะวะโต อะระหะโต สัมมาสัมพุทธัสสะ", my: "နမော တဿ ဘဂဝတော အရဟတော သမ္မာသမ္ဗုဒ္ဓဿ", ro: "Namo tassa bhagavato arahato sammāsambuddhassa" } ] },
+    { id: "ti", tr: "trTi", repeat: true, lines: [
+      { th: "พุทธัง สะระณัง คัจฉามิ", my: "ဗုဒ္ဓံ သရဏံ ဂစ္ဆာမိ", ro: "Buddhaṃ saraṇaṃ gacchāmi" },
+      { th: "ธัมมัง สะระณัง คัจฉามิ", my: "ဓမ္မံ သရဏံ ဂစ္ဆာမိ", ro: "Dhammaṃ saraṇaṃ gacchāmi" },
+      { th: "สังฆัง สะระณัง คัจฉามิ", my: "သံဃံ သရဏံ ဂစ္ဆာမိ", ro: "Saṅghaṃ saraṇaṃ gacchāmi" } ] },
+    { id: "metta", tr: "trMetta", lines: [
+      { th: "สัพเพ สัตตา สุขิตา โหนตุ", my: "သဗ္ဗေ သတ္တာ သုခိတာ ဟောန္တု", ro: "Sabbe sattā sukhitā hontu" } ] }
+  ];
+  var CHANT_SEQ = ["namo-0", "namo-0", "namo-0", "ti-0", "ti-1", "ti-2", "metta-0"];
+
+  /* ================= state ================= */
+  var state, world = null, chantTimer = 0;
+  function pickLang() {
+    try { var s = localStorage.getItem("dhamma-sala-lang"); if (s && L[s]) return s; } catch (e) {}
+    var n = (navigator.language || "").toLowerCase();
+    if (n.indexOf("my") === 0) return "my";
+    if (n.indexOf("zh") === 0) return "zh";
+    if (n.indexOf("en") === 0) return "en";
+    return "th";
+  }
+  function fresh(lang) { return { lang: lang, entered: false, candles: 0, lit: false, bow: 0, bowN: 0, bell: 0, status: { k: "hint" } }; }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  function statusText() {
+    var t = L[state.lang], s = state.status;
+    if (s.k === "candle") return t.sCandle(s.n);
+    if (s.k === "full") return t.sFull;
+    if (s.k === "bow") return t.bows[s.n];
+    if (s.k === "bowdone") return t.sBowDone;
+    if (s.k === "settle") return t.sSettle;
+    if (s.k === "chanting") return t.sChanting;
+    if (s.k === "chant") return t.sChant;
+    if (s.k === "merit") return t.sMerit;
+    return t.hint;
+  }
+  function say(k, n) { state.status = { k: k, n: n }; $("status").textContent = statusText(); }
+
+  function render() {
+    var t = L[state.lang];
+    document.documentElement.lang = state.lang === "zh" ? "zh-Hans" : state.lang;
+    $("t-name").textContent = t.name;
+    $("t-tagline").textContent = t.tagline;
+    $("enter").textContent = t.enter;
+    $("t-hint").textContent = t.hint;
+    $("l-candle").textContent = t.candle;
+    $("l-bow").textContent = t.bow;
+    $("l-chant").textContent = t.chant;
+    $("l-bell").textContent = t.bell;
+    $("n-candle").textContent = state.candles ? num(state.candles, state.lang) : "";
+    $("n-bow").textContent = state.bow ? num(state.bow, state.lang) + " / " + num(3, state.lang) : "";
+    $("t-chant").textContent = t.chantTitle;
+    $("close").textContent = t.close;
+    $("t-nogl").textContent = t.nogl;
+    $("status").textContent = statusText();
+    renderHere();
+    Array.prototype.forEach.call(document.querySelectorAll(".langs button"), function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.lang === state.lang));
+    });
+    var box = $("verses"), native = state.lang === "th" || state.lang === "my";
+    box.textContent = "";
+    VERSES.forEach(function (v) {
+      var d = el("div", "verse");
+      if (v.times) d.appendChild(el("span", "times", t.times));
+      v.lines.forEach(function (ln, i) {
+        var p = el("p", "pali", native ? ln[state.lang] : ln.ro);
+        p.id = "ln-" + v.id + "-" + i; p.lang = "pi";
+        if (native) p.appendChild(el("span", "roman", ln.ro));
+        d.appendChild(p);
+      });
+      if (v.repeat) d.appendChild(el("p", "note", t.repeat));
+      d.appendChild(el("p", "tr", t[v.tr]));
+      box.appendChild(d);
+    });
+    $("gate").hidden = state.entered;
+    $("hud").hidden = !state.entered || !$("sheet").hidden;
+  }
+
+  /* ================= bell sound ================= */
+  var ac;
+  function bellSound() {
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      if (ac.state === "suspended") ac.resume();
+      var now = ac.currentTime, base = 330, out = ac.createGain();
+      out.gain.value = 0.5; out.connect(ac.destination);
+      [[1, 1, 6.5], [2, .5, 4.4], [2.76, .34, 3], [4.07, .18, 2], [5.4, .1, 1.2]].forEach(function (p) {
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.type = "sine"; o.frequency.value = base * p[0];
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.exponentialRampToValueAtTime(0.3 * p[1], now + 0.012);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + p[2]);
+        o.connect(g); g.connect(out); o.start(now); o.stop(now + p[2] + 0.1);
+      });
+    } catch (e) { /* no sound available: the bell still swings */ }
+  }
+
+  /* ================= chanting voice =================
+     A synthesised unison of low voices that follows the syllables of each Pali line:
+     long and heavy syllables are held longer, the vowel shapes the tone, and the last
+     syllable of a line falls. It carries no words; it is there for the feel of a chant. */
+  var FORM = { a: [700, 1100], i: [300, 2300], u: [330, 850], e: [460, 1900], o: [500, 880] };
+  function syllables(text) {
+    var out = [], s = text.toLowerCase(), V = "aāiīuūeo";
+    for (var i = 0; i < s.length; i++) {
+      var k = V.indexOf(s[i]); if (k < 0) continue;
+      var heavy = "āīūeo".indexOf(s[i]) >= 0, cons = 0;
+      for (var j = i + 1; j < s.length && V.indexOf(s[j]) < 0; j++) {
+        var c = s[j];
+        if (c === "ṃ") heavy = true;
+        else if (c !== " " && !(c === "h" && cons > 0)) cons++;
+      }
+      if (cons >= 2) heavy = true;
+      out.push({ v: "aaiiuueo"[k], d: heavy ? .5 : .3 });
+    }
+    if (out.length) out[out.length - 1].d = 1.2;
+    return out;
+  }
+  var hallNode = null, voice = null;
+  function hall() {
+    if (hallNode) return hallNode;
+    var len = Math.floor(ac.sampleRate * 2.4), buf = ac.createBuffer(2, len, ac.sampleRate);
+    for (var ch = 0; ch < 2; ch++) { var d = buf.getChannelData(ch); for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.6); }
+    var conv = ac.createConvolver(); conv.buffer = buf;
+    var wet = ac.createGain(); wet.gain.value = .22; conv.connect(wet); wet.connect(ac.destination);
+    hallNode = conv; return conv;
+  }
+  function chantStart() {
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      if (ac.state === "suspended") ac.resume();
+      var env = ac.createGain(); env.gain.value = 0;
+      var F = [[700, 9, 1], [1100, 10, .55], [2600, 12, .16]].map(function (f) {
+        var b = ac.createBiquadFilter(); b.type = "bandpass"; b.frequency.value = f[0]; b.Q.value = f[1];
+        var g = ac.createGain(); g.gain.value = f[2]; b.connect(g); g.connect(env); return b;
+      });
+      var oscs = [-9, 0, 8, -1203].map(function (cents, i) {
+        var o = ac.createOscillator(); o.type = "sawtooth"; o.frequency.value = 116; o.detune.value = cents;
+        var g = ac.createGain(); g.gain.value = i === 3 ? .5 : 1; o.connect(g); F.forEach(function (b) { g.connect(b); }); o.start(); return o;
+      });
+      var lp = ac.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 3200;
+      var out = ac.createGain(); out.gain.value = .5;
+      env.connect(lp); lp.connect(out); out.connect(ac.destination); out.connect(hall());
+      voice = { oscs: oscs, F: F, env: env, out: out };
+    } catch (e) { voice = null; }
+  }
+  function chantLine(syl) {
+    if (!voice) return;
+    try {
+      var t = ac.currentTime + .05;
+      syl.forEach(function (s, i) {
+        var last = i === syl.length - 1, f = FORM[s.v];
+        voice.F[0].frequency.setTargetAtTime(f[0], t, .03); voice.F[1].frequency.setTargetAtTime(f[1], t, .03);
+        voice.oscs.forEach(function (o) { o.frequency.setTargetAtTime(last ? 103 : 116, t, .04); });
+        voice.env.gain.setTargetAtTime(1, t, .03);
+        voice.env.gain.setTargetAtTime(last ? 0 : .4, t + s.d - (last ? .4 : .07), last ? .16 : .03);
+        t += s.d;
+      });
+    } catch (e) {}
+  }
+  function chantStop() {
+    if (!voice) return;
+    var v = voice; voice = null;
+    try {
+      v.out.gain.setTargetAtTime(0, ac.currentTime, .08);
+      setTimeout(function () { v.oscs.forEach(function (o) { try { o.stop(); } catch (e) {} }); try { v.out.disconnect(); } catch (e) {} }, 700);
+    } catch (e) {}
+  }
+
+  /* ================= the temple ================= */
+  function buildWorld(canvas) {
+    var T = THREE, V3 = T.Vector3;
+    var renderer = new T.WebGLRenderer({ canvas: canvas, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.outputEncoding = T.sRGBEncoding;
+    renderer.toneMapping = T.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.0;
+    var scene = new T.Scene();
+    scene.fog = new T.FogExp2(new T.Color(0x150b14).convertSRGBToLinear(), 0.011);
+    var camera = new T.PerspectiveCamera(60, 1, 0.08, 400);
+    camera.rotation.order = "YXZ";
+
+    var solids = [];
+    function C(hex) { return new T.Color(hex).convertSRGBToLinear(); }
+    function std(hex, rough, metal, more) {
+      var o = { color: C(hex), roughness: rough, metalness: metal || 0, envMapIntensity: .35 };
+      if (more) for (var k in more) o[k] = more[k];
+      return new T.MeshStandardMaterial(o);
+    }
+    function put(mesh, x, y, z, parent) { mesh.position.set(x, y, z); (parent || scene).add(mesh); solids.push(mesh); return mesh; }
+    function box(w, h, d, mat, x, y, z, parent) { return put(new T.Mesh(new T.BoxGeometry(w, h, d), mat), x, y, z, parent); }
+    function cyl(rt, rb, h, mat, x, y, z, parent, seg) { return put(new T.Mesh(new T.CylinderGeometry(rt, rb, h, seg || 20), mat), x, y, z, parent); }
+    function sph(r, mat, x, y, z, parent, sx, sy, sz) {
+      var m = put(new T.Mesh(new T.SphereGeometry(r, 20, 14), mat), x, y, z, parent);
+      if (sx) m.scale.set(sx, sy, sz); return m;
+    }
+    function limb(a, b, r, mat, parent, skip) {
+      var d = new V3().subVectors(b, a), len = d.length();
+      var m = new T.Mesh(new T.CylinderGeometry(r, r, len, 12), mat);
+      m.position.copy(a).addScaledVector(d, 0.5);
+      m.quaternion.setFromUnitVectors(new V3(0, 1, 0), d.normalize());
+      parent.add(m); if (!skip) solids.push(m); return m;
+    }
+    function lathe(pts, mat, parent, seg) {
+      var m = new T.Mesh(new T.LatheGeometry(pts.map(function (p) { return new T.Vector2(p[0], p[1]); }), seg || 28), mat);
+      (parent || scene).add(m); solids.push(m); return m;
+    }
+
+    /* ---- painted surfaces ---- */
+    function tex(w, h, draw, rx, ry) {
+      var c = document.createElement("canvas"); c.width = w; c.height = h;
+      draw(c.getContext("2d"), w, h);
+      var t = new T.CanvasTexture(c);
+      t.encoding = T.sRGBEncoding; t.wrapS = t.wrapT = T.RepeatWrapping; t.anisotropy = 4;
+      if (rx) t.repeat.set(rx, ry);
+      return t;
+    }
+    function rep(t, rx, ry) { var n = t.clone(); n.needsUpdate = true; n.repeat.set(rx, ry); return n; }
+    function motif(g, x, y, s) {   /* the four-petalled stencil flower of gold-on-lacquer walls */
+      g.beginPath();
+      g.moveTo(x, y - s); g.lineTo(x + s * .36, y); g.lineTo(x, y + s); g.lineTo(x - s * .36, y); g.closePath();
+      g.moveTo(x - s, y); g.lineTo(x, y - s * .36); g.lineTo(x + s, y); g.lineTo(x, y + s * .36); g.closePath();
+      g.stroke();
+      g.beginPath(); g.arc(x, y, s * .16, 0, 7); g.stroke();
+    }
+    var GOLD = "rgba(232,182,78,";
+    var wallTex = tex(256, 256, function (g) {
+      g.fillStyle = "#57131a"; g.fillRect(0, 0, 256, 256);
+      g.lineWidth = 2.5; g.strokeStyle = GOLD + ".7)";
+      motif(g, 64, 64, 36); motif(g, 192, 192, 36);
+      g.strokeStyle = GOLD + ".45)"; motif(g, 192, 64, 16); motif(g, 64, 192, 16);
+    });
+    var floorTex = tex(256, 256, function (g) {
+      for (var i = 0; i < 2; i++) for (var j = 0; j < 2; j++) {
+        g.fillStyle = (i + j) % 2 ? "#4a241a" : "#3b1b14"; g.fillRect(i * 128, j * 128, 128, 128);
+      }
+      for (var k = 0; k < 900; k++) { g.fillStyle = "rgba(255,220,170," + (Math.random() * .05) + ")"; g.fillRect(Math.random() * 256, Math.random() * 256, 2, 2); }
+      g.strokeStyle = "#160806"; g.lineWidth = 3; g.strokeRect(0, 0, 128, 128); g.strokeRect(128, 128, 128, 128);
+    }, 6, 11);
+    var ceilTex = tex(256, 256, function (g) {
+      g.fillStyle = "#450d11"; g.fillRect(0, 0, 256, 256);
+      g.strokeStyle = GOLD + ".8)"; g.lineWidth = 4; g.strokeRect(8, 8, 240, 240);
+      g.lineWidth = 2; g.strokeRect(20, 20, 216, 216);
+      g.fillStyle = GOLD + ".9)"; g.beginPath();
+      for (var i = 0; i < 16; i++) { var a = i * Math.PI / 8, r = i % 2 ? 26 : 62; g.lineTo(128 + Math.cos(a) * r, 128 + Math.sin(a) * r); }
+      g.closePath(); g.fill();
+      g.lineWidth = 2; [[52, 52], [204, 52], [52, 204], [204, 204]].forEach(function (p) { motif(g, p[0], p[1], 16); });
+    }, 4, 7);
+    var colTex = tex(128, 512, function (g) {
+      g.fillStyle = "#7a181d"; g.fillRect(0, 0, 128, 512);
+      g.fillStyle = GOLD + ".92)"; g.fillRect(0, 0, 128, 74); g.fillRect(0, 418, 128, 94);
+      g.strokeStyle = "#7a181d"; g.lineWidth = 2;
+      motif(g, 32, 37, 20); motif(g, 96, 37, 20); motif(g, 32, 465, 24); motif(g, 96, 465, 24);
+      g.strokeStyle = GOLD + ".75)";
+      for (var y = 120; y < 400; y += 64) { motif(g, 32, y, 18); motif(g, 96, y + 32, 18); }
+    }, 3, 1);
+    var carpetTex = tex(128, 256, function (g) {
+      g.fillStyle = "#8a1a1f"; g.fillRect(0, 0, 128, 256);
+      g.fillStyle = GOLD + ".9)"; g.fillRect(6, 0, 4, 256); g.fillRect(118, 0, 4, 256);
+      g.strokeStyle = GOLD + ".55)"; g.lineWidth = 2;
+      motif(g, 64, 64, 22); motif(g, 64, 192, 22);
+    }, 1, 6);
+    var roofTex = tex(128, 128, function (g) {
+      g.fillStyle = "#b5501f"; g.fillRect(0, 0, 128, 128);
+      for (var y = 0; y < 128; y += 16) {
+        g.fillStyle = "#7c2f10"; g.fillRect(0, y, 128, 2);
+        for (var x = (y / 16 % 2) * 8; x < 128; x += 16) { g.fillStyle = "rgba(60,20,5,.5)"; g.fillRect(x, y, 1.5, 16); }
+      }
+    }, 8, 6);
+    var paveTex = tex(128, 128, function (g) {
+      g.fillStyle = "#4a3b34"; g.fillRect(0, 0, 128, 128);
+      g.strokeStyle = "#2a201c"; g.lineWidth = 3; g.strokeRect(0, 0, 128, 128);
+      for (var k = 0; k < 300; k++) { g.fillStyle = "rgba(255,255,255," + (Math.random() * .04) + ")"; g.fillRect(Math.random() * 128, Math.random() * 128, 2, 2); }
+    }, 60, 60);
+    var gableTex = tex(512, 256, function (g) {
+      g.fillStyle = "#651319"; g.fillRect(0, 0, 512, 256);
+      g.strokeStyle = GOLD + ".8)"; g.lineWidth = 3;
+      for (var r = 60; r < 330; r += 30) { g.beginPath(); g.arc(256, 256, r, Math.PI, 2 * Math.PI); g.stroke(); }
+      g.lineWidth = 2;
+      for (var a = Math.PI; a <= 2 * Math.PI + .01; a += Math.PI / 20) { g.beginPath(); g.moveTo(256 + 60 * Math.cos(a), 256 + 60 * Math.sin(a)); g.lineTo(256 + 330 * Math.cos(a), 256 + 330 * Math.sin(a)); g.stroke(); }
+      g.fillStyle = GOLD + "1)"; g.beginPath(); g.arc(256, 256, 46, 0, 7); g.fill();
+    });
+    var muralTex = tex(512, 512, function (g) {
+      g.fillStyle = "#57131a"; g.fillRect(0, 0, 512, 512);
+      g.save(); g.translate(256, 290);
+      function leaf(s) { g.beginPath(); g.moveTo(0, -250 * s); g.bezierCurveTo(160 * s, -160 * s, 200 * s, 60 * s, 160 * s, 222 * s); g.lineTo(-160 * s, 222 * s); g.bezierCurveTo(-200 * s, 60 * s, -160 * s, -160 * s, 0, -250 * s); g.closePath(); }
+      var gr = g.createRadialGradient(0, -40, 10, 0, 0, 260);
+      gr.addColorStop(0, "rgba(255,226,150,.95)"); gr.addColorStop(.5, "rgba(232,182,78,.6)"); gr.addColorStop(1, "rgba(232,182,78,.1)");
+      g.fillStyle = gr; leaf(1); g.fill();
+      g.strokeStyle = "rgba(255,226,150,.95)"; g.lineWidth = 5; leaf(1); g.stroke();
+      g.lineWidth = 2; g.strokeStyle = "rgba(120,30,20,.6)";
+      for (var s = .9; s > .3; s -= .12) { leaf(s); g.stroke(); }
+      for (var a = -Math.PI; a < 0; a += Math.PI / 24) { g.beginPath(); g.moveTo(70 * Math.cos(a), -40 + 70 * Math.sin(a)); g.lineTo(230 * Math.cos(a), -40 + 230 * Math.sin(a)); g.stroke(); }
+      g.restore();
+      g.strokeStyle = GOLD + ".6)"; g.lineWidth = 2;
+      [[50, 70], [462, 70], [40, 250], [472, 250], [60, 430], [452, 430], [130, 40], [382, 40]].forEach(function (p) { motif(g, p[0], p[1], 20); });
+    });
+    var flameTex = tex(64, 128, function (g) {
+      var gr = g.createRadialGradient(32, 88, 2, 32, 76, 62);
+      gr.addColorStop(0, "#fffbe2"); gr.addColorStop(.28, "#ffd96e"); gr.addColorStop(.62, "rgba(255,140,40,.85)"); gr.addColorStop(1, "rgba(255,90,10,0)");
+      g.fillStyle = gr; g.shadowColor = "rgba(255,150,40,.9)"; g.shadowBlur = 8;
+      g.beginPath(); g.moveTo(32, 8); g.bezierCurveTo(50, 50, 54, 84, 32, 118); g.bezierCurveTo(10, 84, 14, 50, 32, 8); g.fill();
+    });
+    var glowTex = tex(128, 128, function (g) {
+      var gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+      gr.addColorStop(0, "rgba(255,205,130,1)"); gr.addColorStop(.3, "rgba(255,150,60,.38)"); gr.addColorStop(1, "rgba(255,120,40,0)");
+      g.fillStyle = gr; g.fillRect(0, 0, 128, 128);
+    });
+    var skyTex = tex(8, 256, function (g) {
+      var gr = g.createLinearGradient(0, 0, 0, 256);
+      gr.addColorStop(0, "#04050e"); gr.addColorStop(.32, "#141230"); gr.addColorStop(.45, "#43244a"); gr.addColorStop(.495, "#b0603c");
+      gr.addColorStop(.52, "#2a1716"); gr.addColorStop(1, "#090505");
+      g.fillStyle = gr; g.fillRect(0, 0, 8, 256);
+    });
+
+    /* warm surroundings for the gilding to reflect */
+    (function () {
+      function face(kind) {
+        var c = document.createElement("canvas"); c.width = c.height = 64; var g = c.getContext("2d");
+        if (kind === "side") {
+          var gr = g.createLinearGradient(0, 0, 0, 64);
+          gr.addColorStop(0, "#3a120c"); gr.addColorStop(.5, "#c98842"); gr.addColorStop(.62, "#f3c06a"); gr.addColorStop(.8, "#5a1f12"); gr.addColorStop(1, "#160605");
+          g.fillStyle = gr; g.fillRect(0, 0, 64, 64);
+        } else { g.fillStyle = kind === "top" ? "#4a1a10" : "#1c0806"; g.fillRect(0, 0, 64, 64); }
+        return c;
+      }
+      var cube = new T.CubeTexture([face("side"), face("side"), face("top"), face("bottom"), face("side"), face("side")]);
+      cube.encoding = T.sRGBEncoding; cube.needsUpdate = true;
+      scene.environment = cube;
+    })();
+
+    /* ---- materials ---- */
+    var gold = std(0xe6b450, .3, .9, { emissive: C(0x3a2205), emissiveIntensity: .7, envMapIntensity: 1.3 });
+    var goldDark = std(0xb98a2e, .38, .85, { emissive: C(0x2a1803), emissiveIntensity: .6, envMapIntensity: 1.1 });
+    var goldTrim = std(0xd9a441, .4, .8, { emissive: C(0x2a1803), emissiveIntensity: .5, envMapIntensity: .9 });
+    var bronze = std(0x8a6a2e, .45, .8, { side: T.DoubleSide, envMapIntensity: .9 });
+    var white = std(0xe8decb, .9, 0);
+    var stone = std(0xbfb3a0, .95, 0);
+    var redWood = std(0x5e1418, .55, .05);
+    var wax = std(0xf0c45a, .6, 0, { emissive: C(0x7a4a10), emissiveIntensity: .6 });
+
+    var HW = 6, HL = 22, HH = 9;
+
+    /* ---- sky and grounds ---- */
+    var sky = new T.Mesh(new T.SphereGeometry(190, 24, 16), new T.MeshBasicMaterial({ map: skyTex, side: T.BackSide, fog: false, depthWrite: false }));
+    scene.add(sky);
+    (function () {
+      var n = 420, pos = new Float32Array(n * 3);
+      for (var i = 0; i < n; i++) {
+        var a = Math.random() * 6.283, e = Math.asin(.08 + Math.random() * .92);
+        pos[i * 3] = Math.cos(a) * Math.cos(e) * 180; pos[i * 3 + 1] = Math.sin(e) * 180; pos[i * 3 + 2] = Math.sin(a) * Math.cos(e) * 180;
+      }
+      var g = new T.BufferGeometry(); g.setAttribute("position", new T.BufferAttribute(pos, 3));
+      scene.add(new T.Points(g, new T.PointsMaterial({ color: 0xfff2d0, size: 1.6, sizeAttenuation: false, fog: false, transparent: true, opacity: .8 })));
+    })();
+    var ground = new T.Mesh(new T.PlaneGeometry(140, 140), new T.MeshStandardMaterial({ map: paveTex, roughness: .95, envMapIntensity: .3 }));
+    ground.rotation.x = -Math.PI / 2; put(ground, 0, -1, 0).userData.walk = true;
+    box(3.4, .04, 20, std(0x8a7663, .9), 0, -0.98, 14).userData.walk = true;
+
+    /* ---- the hall: plinth, steps, walls ---- */
+    box(14.6, 1, 25.2, stone, 0, -0.5, -10.6).userData.walk = true;
+    for (var k = 1; k <= 4; k++) box(4.6, 1 - .2 * k, .48, stone, 0, -1 + (1 - .2 * k) / 2, 2 + .48 * (k - .5)).userData.walk = true;
+    [-2.6, 2.6].forEach(function (x) {
+      box(.5, 1.25, 2.1, white, x, -.375, 3.05);
+      cyl(.2, .26, .5, goldTrim, x, .5, 3.9);
+    });
+    function lacq(rx, ry) { return new T.MeshStandardMaterial({ map: rep(wallTex, rx, ry), roughness: .72, metalness: .05, envMapIntensity: .3 }); }
+    box(.4, HH, HL, [lacq(11, 4.5), white, white, white, white, white], -HW - .2, HH / 2, -HL / 2);
+    box(.4, HH, HL, [white, lacq(11, 4.5), white, white, white, white], HW + .2, HH / 2, -HL / 2);
+    box(2 * HW + .8, HH, .4, [white, white, white, white, white, white], 0, HH / 2, -HL - .2);
+    box(4.9, HH, .4, [white, white, white, white, white, lacq(2.5, 4.5)], -3.95, HH / 2, .2);
+    box(4.9, HH, .4, [white, white, white, white, white, lacq(2.5, 4.5)], 3.95, HH / 2, .2);
+    box(3, HH - 4.4, .4, [white, white, white, white, white, lacq(1.5, 2.3)], 0, 4.4 + (HH - 4.4) / 2, .2);
+    [-1, 1].forEach(function (s) {
+      box(.06, .14, HL, goldTrim, s * (HW - .03), 1.15, -HL / 2);
+      box(.08, .2, HL, goldTrim, s * (HW - .04), 8.55, -HL / 2);
+      box(.26, 4.6, .56, goldTrim, s * 1.63, 2.3, .2);                       /* door jambs */
+      var leaf = box(.09, 4.3, 1.5, redWood, s * 1.72, 2.15, 1.2);             /* open door leaves */
+      box(.02, 3.6, 1.1, goldTrim, s * 1.665, 2.15, 1.2);
+      leaf.rotation.y = s * .12;
+    });
+    box(3.6, .34, .56, goldTrim, 0, 4.57, .2);
+    var floor = new T.Mesh(new T.PlaneGeometry(2 * HW, HL), new T.MeshStandardMaterial({ map: floorTex, roughness: .22, metalness: .25, envMapIntensity: .55 }));
+    floor.rotation.x = -Math.PI / 2; put(floor, 0, .01, -HL / 2).userData.walk = true;
+    var runner = new T.Mesh(new T.PlaneGeometry(2.3, 14.6), new T.MeshStandardMaterial({ map: carpetTex, roughness: .9, envMapIntensity: .3 }));
+    runner.rotation.x = -Math.PI / 2; put(runner, 0, .02, -7.9).userData.walk = true;
+    var ceil = new T.Mesh(new T.PlaneGeometry(2 * HW, HL), new T.MeshStandardMaterial({ map: ceilTex, roughness: .75, metalness: .1, envMapIntensity: .25 }));
+    ceil.rotation.x = Math.PI / 2; put(ceil, 0, HH, -HL / 2);
+
+    /* columns */
+    var COLS = [];
+    var colMat = new T.MeshStandardMaterial({ map: colTex, roughness: .5, metalness: .2, envMapIntensity: .4 });
+    [-3, -6, -9, -12, -15].forEach(function (z) {
+      [-3.3, 3.3].forEach(function (x) {
+        cyl(.32, .34, HH, colMat, x, HH / 2, z, null, 24);
+        cyl(.44, .46, .3, goldTrim, x, .15, z);
+        cyl(.52, .34, .5, goldTrim, x, HH - .45, z);
+        COLS.push([x, z]);
+      });
+      box(2 * HW, .3, .3, redWood, 0, HH - .2, z);
+    });
+
+    /* ---- roof and facade ---- */
+    var roofMat = new T.MeshStandardMaterial({ map: roofTex, roughness: .7, envMapIntensity: .3 });
+    function slope(run, rise, eaveY, z0, depth) {
+      var len = Math.hypot(run, rise), ang = Math.atan2(rise, run);
+      [-1, 1].forEach(function (s) {
+        var m = box(len, .24, depth, roofMat, s * run / 2, eaveY + rise / 2, z0 - depth / 2);
+        m.rotation.z = -s * ang;
+        var edge = box(len + .3, .32, .32, goldTrim, s * run / 2, eaveY + rise / 2 + .1, z0 + .05);
+        edge.rotation.z = -s * ang;
+        var horn = put(new T.Mesh(new T.ConeGeometry(.16, 1.5, 10), goldTrim), s * (run + .15), eaveY + .55, z0 + .05);
+        horn.rotation.z = -s * .5;
+      });
+    }
+    slope(7.7, 4.9, 8.75, 2.7, 26.4);
+    slope(5.1, 3.95, 10.75, 2.2, 24.6);
+    var chofa = put(new T.Mesh(new T.ConeGeometry(.2, 2.2, 10), goldTrim), 0, 15.7, 2.3); chofa.rotation.x = .28;
+    (function () {
+      var sh = new T.Shape(); sh.moveTo(-7.3, 0); sh.lineTo(7.3, 0); sh.lineTo(0, 5.5); sh.closePath();
+      var t = gableTex; t.repeat.set(1 / 14.6, 1 / 5.5); t.offset.set(.5, 0);
+      var m = new T.Mesh(new T.ShapeGeometry(sh), new T.MeshStandardMaterial({ map: t, roughness: .5, metalness: .4, side: T.DoubleSide, envMapIntensity: .6 }));
+      put(m, 0, 8.95, 1.75);
+      var sh2 = new T.Shape(); sh2.moveTo(-1.95, 0); sh2.lineTo(1.95, 0); sh2.lineTo(0, 1.9); sh2.closePath();
+      put(new T.Mesh(new T.ShapeGeometry(sh2), goldTrim), 0, 4.75, .46);
+    })();
+    [-5.3, -2.3, 2.3, 5.3].forEach(function (x) {
+      cyl(.3, .32, 8.95, white, x, 4.475, 1.55);
+      cyl(.5, .3, .5, goldTrim, x, 8.7, 1.55);
+      cyl(.42, .44, .3, goldTrim, x, .15, 1.55);
+    });
+    box(14.8, .3, .5, goldTrim, 0, 8.95, 1.6);
+
+    /* ---- courtyard: stupa, tree, lanterns ---- */
+    var glowMat = new T.SpriteMaterial({ map: glowTex, blending: T.AdditiveBlending, depthWrite: false, transparent: true, opacity: .8 });
+    function glow(x, y, z, s, op) {
+      var m = glowMat;
+      if (op != null) { m = glowMat.clone(); m.opacity = op; }
+      var sp = new T.Sprite(m); sp.position.set(x, y, z); sp.scale.set(s, s, 1); scene.add(sp); return sp;
+    }
+    var stupa = lathe([[0, 0], [2.3, 0], [2.3, .5], [2, .5], [2, 1], [1.7, 1], [1.7, 1.5], [1.4, 1.6], [1.32, 2.2], [1.05, 2.9], [.62, 3.5], [.36, 3.9], [.3, 4.6], [.2, 5.4], [.1, 6.4], [0, 7.4]], gold);
+    stupa.position.set(-9.6, -1, 8);
+    [[.34, 5.2], [.28, 5.5], [.22, 5.8]].forEach(function (r) {
+      var ring = put(new T.Mesh(new T.TorusGeometry(r[0], .04, 8, 20), gold), -9.6, r[1] - 1 + .9, 8); ring.rotation.x = Math.PI / 2;
+    });
+    glow(-9.6, 1.6, 8, 9, .22);
+    cyl(.35, .5, 4, std(0x3a2a20, .95), 9.8, 1, 10, null, 10);
+    var leafMat = std(0x1f3d2b, .95, 0, { flatShading: true });
+    [[0, 4.6, 0, 2.4], [1.6, 4, .6, 1.7], [-1.5, 4.2, -.4, 1.8], [.4, 5.6, -.8, 1.6], [-.5, 3.6, 1.3, 1.5]].forEach(function (p) {
+      put(new T.Mesh(new T.IcosahedronGeometry(p[3], 1), leafMat), 9.8 + p[0], p[1], 10 + p[2]);
+    });
+    var lampMat = new T.MeshBasicMaterial({ color: C(0xd98a30) });
+    [6, 10.5, 15, 19.5].forEach(function (z) {
+      [-2.4, 2.4].forEach(function (x) {
+        box(.2, 1.1, .2, stone, x, -.45, z);
+        put(new T.Mesh(new T.BoxGeometry(.34, .34, .34), lampMat), x, .27, z);
+        box(.46, .08, .46, stone, x, .48, z);
+        glow(x, .27, z, 1.8, .55);
+      });
+    });
+
+    /* ---- altar ---- */
+    var altarRed = new T.MeshStandardMaterial({ map: rep(wallTex, 5, 1), roughness: .55, metalness: .15, envMapIntensity: .35 });
+    box(9.6, 1, 5, altarRed, 0, .5, -19.5);
+    box(9.7, .08, 5.1, goldTrim, 0, 1.0, -19.5);
+    box(6.5, .7, 4, altarRed, 0, 1.35, -20);
+    box(6.6, .08, 4.1, goldTrim, 0, 1.72, -20);
+    var mural = new T.Mesh(new T.PlaneGeometry(11.6, 8.6), new T.MeshStandardMaterial({ map: muralTex, roughness: .6, metalness: .2, emissive: C(0xffffff), emissiveMap: muralTex, emissiveIntensity: .09, envMapIntensity: .35 }));
+    put(mural, 0, 4.5, -21.98);
+
+    function buildBuddha() {
+      var g = new T.Group();
+      sph(1, gold, 0, .17, .06, g, .64, .17, .38);
+      var torso = lathe([[0, .16], [.31, .18], [.29, .42], [.3, .62], [.36, .8], [.34, .9], [.2, .975], [.08, 1], [0, 1]], gold, g);
+      torso.scale.z = .66;
+      [-1, 1].forEach(function (s) {
+        var sh = new V3(s * .355, .83, 0), elb = new V3(s * .4, .5, .1), hand = new V3(s * .1, .37, .34);
+        sph(.105, gold, sh.x, sh.y, sh.z, g);
+        limb(sh, elb, .092, gold, g); sph(.092, gold, elb.x, elb.y, elb.z, g); limb(elb, hand, .076, gold, g);
+        sph(1, gold, s * .158, 1.17, 0, g, .028, .095, .04);                       /* long ears */
+        var eye = box(.052, .008, .012, goldDark, s * .06, 1.2, .151, g); eye.rotation.z = -s * .1;
+        var brow = box(.064, .007, .012, goldDark, s * .062, 1.238, .147, g); brow.rotation.z = s * .18;
+      });
+      sph(1, gold, 0, .36, .34, g, .17, .05, .1);
+      cyl(.07, .08, .1, gold, 0, 1.03, 0, g);
+      sph(.155, gold, 0, 1.2, 0, g, 1, 1.14, 1.02);
+      var hair = new T.Mesh(new T.SphereGeometry(.164, 24, 10, 0, 6.2832, 0, 1.3), goldDark);
+      hair.scale.set(1, 1.14, 1.04); put(hair, 0, 1.215, -.004, g);
+      sph(.076, goldDark, 0, 1.4, 0, g);
+      put(new T.Mesh(new T.ConeGeometry(.04, .2, 10), gold), 0, 1.55, 0, g);
+      box(.018, .07, .03, gold, 0, 1.185, .158, g);
+      box(.05, .008, .012, goldDark, 0, 1.128, .146, g);
+      var sash = box(.09, .52, .016, std(0xf3d27a, .3, .9, { emissive: C(0x3a2205), emissiveIntensity: .8 }), .13, .68, .178, g);
+      sash.rotation.z = -.08;
+      return g;
+    }
+    var buddha = buildBuddha(); buddha.scale.setScalar(3.1); buddha.position.set(0, 2.2, -20.1); scene.add(buddha);
+    buddha.traverse(function (o) { o.userData.act = "bow"; });
+    cyl(2.0, 2.2, .5, gold, 0, 1.97, -20.1, null, 32);
+    for (var p = 0; p < 26; p++) {
+      var a = p / 26 * 6.2832, pet = sph(1, gold, Math.sin(a) * 2.06, 2.06, -20.1 + Math.cos(a) * 2.06, null, .2, .3, .06);
+      pet.rotation.order = "YXZ"; pet.rotation.set(.3, a, 0);
+    }
+    var halo = put(new T.Mesh(new T.TorusGeometry(1.05, .05, 8, 40), gold), 0, 2.2 + 1.2 * 3.1, -20.6);
+    glow(0, 2.2 + 1.2 * 3.1, -20.7, 5.5, .32);
+    [-2.65, 2.65].forEach(function (x) {
+      var b = buildBuddha(); b.scale.setScalar(.75); b.position.set(x, 1.76, -19.4); scene.add(b);
+    });
+
+    /* ---- candles ---- */
+    var flameMat = new T.SpriteMaterial({ map: flameTex, blending: T.AdditiveBlending, depthWrite: false, transparent: true });
+    var flames = [];
+    function flame(x, y, z, w, h) {
+      var s = new T.Sprite(flameMat); s.center.set(.5, .1); s.position.set(x, y, z); s.scale.set(w, h, 1); scene.add(s);
+      var f = { s: s, w: w, h: h, ph: Math.random() * 6.28, sp: 6 + Math.random() * 5 }; flames.push(f); return f;
+    }
+    var unit = new T.CylinderGeometry(1, 1, 1, 8), dummy = new T.Object3D();
+    function candleSet(list, act) {
+      var im = new T.InstancedMesh(unit, wax, list.length);
+      list.forEach(function (c, i) { dummy.position.set(c.x, c.y + c.h / 2, c.z); dummy.scale.set(c.r, c.h, c.r); dummy.updateMatrix(); im.setMatrixAt(i, dummy.matrix); });
+      im.instanceMatrix.needsUpdate = true; scene.add(im); solids.push(im);
+      if (act) im.userData.act = act;
+      return im;
+    }
+    var altarCandles = [];
+    for (var i = 0; i < 13; i++) altarCandles.push({ x: -3.9 + i * .65, y: 1.04, z: -17.3, r: .024, h: .3 });
+    for (i = 0; i < 12; i++) altarCandles.push({ x: -3.575 + i * .65, y: 1.04, z: -17.65, r: .024, h: .36 });
+    [-2.95, -2.35, 2.35, 2.95].forEach(function (x) { altarCandles.push({ x: x, y: 1.76, z: -18.25, r: .028, h: .34 }); });
+    [-2.5, 2.5].forEach(function (x) {                                           /* tall brass stands beside the table */
+      cyl(.05, .2, 1.25, bronze, x, .625, -16.3); cyl(.2, .08, .08, bronze, x, 1.28, -16.3);
+      altarCandles.push({ x: x, y: 1.32, z: -16.3, r: .05, h: .5, big: true });
+    });
+    candleSet(altarCandles);
+    altarCandles.forEach(function (c) { flame(c.x, c.y + c.h, c.z, c.big ? .2 : .1, c.big ? .44 : .23); if (c.big) glow(c.x, c.y + c.h + .15, c.z, 1.7, .5); });
+    [-3, -1, 1, 3].forEach(function (x) { glow(x, 1.6, -17.3, 3.4, .28); });
+
+    /* lotus in vases on the altar */
+    var budMat = std(0xf3a9bb, .6, 0, { emissive: C(0x5a1f2c), emissiveIntensity: .5 }), stemMat = std(0x5d7d4a, .8);
+    [-3.4, -1.5, 1.5, 3.4].forEach(function (x) {
+      lathe([[0, 0], [.12, 0], [.17, .14], [.13, .32], [.07, .4], [.1, .46]], bronze, null, 16).position.set(x, 1.04, -18.3);
+      [[0, .5, 0], [-.11, .38, .04], [.12, .4, -.03], [.04, .3, .1], [-.05, .34, -.09]].forEach(function (b) {
+        limb(new V3(x, 1.45, -18.3), new V3(x + b[0], 1.5 + b[1], -18.3 + b[2]), .008, stemMat, scene);
+        sph(1, budMat, x + b[0], 1.56 + b[1], -18.3 + b[2], null, .055, .1, .055);
+      });
+    });
+
+    /* the visitors' offering table */
+    var table = box(3.1, .08, .9, redWood, 0, .56, -16); table.userData.act = "candle";
+    box(3.16, .03, .96, goldTrim, 0, .605, -16).userData.act = "candle";
+    [[-1.4, -.35], [1.4, -.35], [-1.4, .35], [1.4, .35]].forEach(function (q) { box(.1, .52, .1, redWood, q[0], .26, -16 + q[1]); });
+    var tray = [], trayOrder = [];
+    for (var r = 0; r < 3; r++) for (i = 0; i < 9; i++) tray.push({ x: -1.2 + i * .3, y: .62, z: -16.25 + r * .25, r: .02, h: .22, lit: false });
+    candleSet(tray, "candle");
+    tray.forEach(function (c, i) { c.f = flame(c.x, c.y + c.h, c.z, .075, .17); c.f.s.visible = false; trayOrder.push(i); });
+    trayOrder.sort(function (a, b) { return (Math.abs(tray[a].x) + (tray[a].z + 16) * .4) - (Math.abs(tray[b].x) + (tray[b].z + 16) * .4); });
+    var OTHERS = [2, 7, 12, 15, 20, 24];                                        /* candles earlier visitors left burning */
+    OTHERS.forEach(function (i) { tray[i].lit = true; tray[i].f.s.visible = true; });
+    trayOrder = trayOrder.filter(function (i) { return OTHERS.indexOf(i) < 0; });
+    var trayGlow = glow(0, .95, -16, 2.2, .3);
+    /* ---- mats for lay visitors ---- */
+    var SEATS = [], seatMat = std(0x7a1a1f, .9), seatEdge = std(0xc9963a, .6, .5);
+    [-10.6, -8.9, -7.2, -5.5].forEach(function (z) {
+      [-2.4, -.8, .8, 2.4].forEach(function (x) {
+        var n = SEATS.length; SEATS.push([x, z]);
+        var e = box(.8, .03, .8, seatEdge, x, .035, z), m = box(.7, .06, .7, seatMat, x, .06, z);
+        e.userData.act = m.userData.act = "seat"; e.userData.seat = m.userData.seat = n;
+      });
+    });
+
+    /* ---- monks sit at the very front, before the Buddha; lay visitors sit behind them ---- */
+    box(7.4, .12, 1.7, redWood, 0, .06, -13.6);
+    box(7.5, .04, 1.8, goldTrim, 0, .02, -13.6);
+    function buildMonk(robeHex, skinHex) {
+      var g = new T.Group(), robe = std(robeHex, .85), skin = std(skinHex, .65);
+      cyl(.44, .46, .07, std(0x4a1014, .9), 0, .035, 0, g);
+      sph(1, robe, 0, .2, .05, g, .43, .13, .3);
+      var torso = lathe([[0, .2], [.22, .22], [.2, .45], [.21, .62], [.17, .7], [.07, .74], [0, .74]], robe, g, 20); torso.scale.z = .72;
+      var ls = new V3(.2, .66, 0), le = new V3(.27, .42, .08), lh = new V3(.06, .31, .24);
+      sph(.085, robe, ls.x, ls.y, ls.z, g); limb(ls, le, .066, robe, g); limb(le, lh, .056, robe, g);
+      var rs = new V3(-.2, .66, 0), re = new V3(-.27, .42, .08), rh = new V3(-.06, .31, .24);   /* right shoulder bare */
+      sph(.074, skin, rs.x, rs.y, rs.z, g); limb(rs, re, .054, skin, g); sph(.054, skin, re.x, re.y, re.z, g); limb(re, rh, .045, skin, g);
+      sph(1, skin, -.1, .6, .1, g, .11, .12, .05);
+      sph(1, skin, 0, .31, .25, g, .1, .04, .07);
+      cyl(.05, .056, .08, skin, 0, .77, 0, g);
+      var head = new T.Group(); head.position.set(0, .885, 0); g.add(head);
+      sph(.105, skin, 0, 0, 0, head, 1, 1.1, 1.02);
+      var cap = new T.Mesh(new T.SphereGeometry(.1075, 20, 8, 0, 6.2832, 0, 1.2), std(0x3d3028, .8));
+      cap.scale.set(1, 1.1, 1.03); put(cap, 0, .002, -.004, head);
+      var dark = std(0x2a1a12, .8);
+      [-1, 1].forEach(function (s) {
+        sph(1, skin, s * .105, -.01, 0, head, .02, .04, .028);
+        box(.032, .006, .008, dark, s * .04, .004, .103, head);
+      });
+      box(.03, .005, .008, dark, 0, -.052, .096, head);
+      return { g: g, head: head };
+    }
+    var monks = [];
+    [[-2.6, 0xc87a22, 0xb98a62], [-1.3, 0x6e1f1c, 0xa87850], [0, 0xa9621e, 0xc49a70], [1.3, 0x6e1f1c, 0xb98a62], [2.6, 0xc87a22, 0xa87850]].forEach(function (m, i) {
+      var monk = buildMonk(m[1], m[2]);
+      monk.g.position.set(m[0], .12, -13.6); monk.g.rotation.y = Math.PI; monk.g.scale.setScalar(1.08);
+      monk.ph = i * 1.3; scene.add(monk.g); monks.push(monk);
+    });
+
+    /* ---- bell ---- */
+    var BX = -4.7, BZ = -12.5;
+    box(.14, 2.3, .14, redWood, BX, 1.15, BZ - .7); box(.14, 2.3, .14, redWood, BX, 1.15, BZ + .7);
+    box(.16, .16, 1.8, redWood, BX, 2.3, BZ);
+    var bell = new T.Group(); bell.position.set(BX, 2.22, BZ); scene.add(bell);
+    lathe([[0, 0], [.07, -.02], [.17, -.13], [.21, -.38], [.24, -.62], [.31, -.74]], bronze, bell, 24);
+    sph(.05, bronze, 0, -.74, 0, bell);
+    bell.traverse(function (o) { o.userData.act = "bell"; });
+    var bellSwing = 0;
+
+    /* ---- hanging lamps and wall lights ---- */
+    [-4, -9.5, -15].forEach(function (z) {
+      cyl(.012, .012, 2.4, bronze, 0, HH - 1.2, z, null, 6);
+      put(new T.Mesh(new T.SphereGeometry(.26, 16, 12), lampMat), 0, HH - 2.5, z);
+      cyl(.3, .12, .16, bronze, 0, HH - 2.24, z);
+      glow(0, HH - 2.5, z, 2.4, .42);
+    });
+    [-4, -8, -12, -16].forEach(function (z) {
+      [-1, 1].forEach(function (s) {
+        put(new T.Mesh(new T.SphereGeometry(.07, 10, 8), lampMat), s * (HW - .12), 3.3, z);
+        glow(s * (HW - .2), 3.3, z, 1.3, .5);
+      });
+    });
+
+    /* ---- light ---- */
+    scene.add(new T.HemisphereLight(C(0x55507a), C(0x3a1c12), .36));
+    var moon = new T.DirectionalLight(C(0x9aa6ff), .55); moon.position.set(-12, 22, 18); scene.add(moon);
+    function pl(hex, int, dist, x, y, z) { var l = new T.PointLight(C(hex), int, dist, 1.5); l.position.set(x, y, z); scene.add(l); l.userData.base = int; return l; }
+    var lights = [
+      pl(0xffb060, 1.5, 16, 0, 3, 1.4),          /* light spilling from the door */
+      pl(0xffb060, 1.7, 19, -2.8, 2.5, -16.6),   /* altar candles, left and right */
+      pl(0xffb060, 1.7, 19, 2.8, 2.5, -16.6),
+      pl(0xffc070, 1.7, 12, 0, 2.6, -18.1),      /* candlelight on the Buddha image */
+      pl(0xffb060, .6, 17, 0, 6.2, -8),          /* hanging lamps */
+      pl(0xffb060, 1.0, 9, 0, 1.9, -12.3)        /* lamp over the monks */
+    ];
+    var trayLight = pl(0xffa850, .5, 7, 0, 1.1, -15.6);
+
+    /* ---- dust in the candlelight ---- */
+    var dustN = 260, dustPos = new Float32Array(dustN * 3);
+    for (i = 0; i < dustN; i++) { dustPos[i * 3] = (Math.random() - .5) * 11; dustPos[i * 3 + 1] = .3 + Math.random() * 7.5; dustPos[i * 3 + 2] = -1 - Math.random() * 20; }
+    var dustGeo = new T.BufferGeometry(); dustGeo.setAttribute("position", new T.BufferAttribute(dustPos, 3));
+    scene.add(new T.Points(dustGeo, new T.PointsMaterial({ map: glowTex, color: C(0xffd9a0), size: .07, transparent: true, opacity: .5, blending: T.AdditiveBlending, depthWrite: false })));
+
+    /* ---- the candle in your own hand ---- */
+    scene.add(camera);
+    var held = new T.Group(); held.position.set(.13, -.2, -.5); held.visible = false; camera.add(held);
+    var heldWax = new T.Mesh(new T.CylinderGeometry(.011, .011, .2, 8), wax); heldWax.position.y = .02; held.add(heldWax);
+    var heldHand = new T.Mesh(new T.SphereGeometry(1, 12, 10), std(0xb98a62, .7)); heldHand.scale.set(.036, .03, .046); heldHand.position.set(.004, -.085, .012); held.add(heldHand);
+    var heldFlame = new T.Sprite(flameMat); heldFlame.center.set(.5, .1); heldFlame.position.set(0, .12, 0); heldFlame.scale.set(.045, .1, 1); heldFlame.visible = false; held.add(heldFlame);
+    flames.push({ s: heldFlame, w: .045, h: .1, ph: 1, sp: 8 });
+    var heldGlow = new T.Sprite(glowMat.clone()); heldGlow.material.opacity = .4; heldGlow.position.set(0, .16, 0); heldGlow.scale.set(.42, .42, 1); heldGlow.visible = false; held.add(heldGlow);
+
+    /* ---- other visitors: a lay figure in white, candle in hand, with an account icon above ---- */
+    var SARONG = [0x5b2a2a, 0x2f4a3a, 0x2d3b5e, 0x6a4a1e, 0x4a2a52, 0x245058];
+    var layWhite = std(0xefe9dc, .85), hairMat = std(0x1a1410, .7), laySkin = [std(0xb98a62, .65), std(0xa87850, .65), std(0xc49a70, .65)];
+    function iconTex(hex) {
+      return tex(64, 64, function (g) {
+        g.fillStyle = "#" + ("000000" + hex.toString(16)).slice(-6); g.beginPath(); g.arc(32, 32, 28, 0, 7); g.fill();
+        g.strokeStyle = "#f7e6b0"; g.lineWidth = 4; g.stroke();
+        g.fillStyle = "#f7e6b0"; g.beginPath(); g.arc(32, 25, 9, 0, 7); g.fill();
+        g.beginPath(); g.arc(32, 53, 16, Math.PI, 2 * Math.PI); g.fill();
+      });
+    }
+    function buildLay(seed) {
+      var g = new T.Group(), color = SARONG[seed % SARONG.length], sar = std(color, .85), skin = laySkin[seed % 3];
+      function add(m, x, y, z, parent) { m.position.set(x, y, z); parent.add(m); return m; }
+      var standLower = add(new T.Mesh(new T.CylinderGeometry(.17, .2, .85, 14), sar), 0, .425, 0, g);
+      var sitLower = add(new T.Mesh(new T.SphereGeometry(1, 16, 10), sar), 0, .13, -.04, g); sitLower.scale.set(.36, .13, .32);
+      var up = new T.Group(); up.position.y = .85; g.add(up);
+      var torso = new T.Mesh(new T.LatheGeometry([[0, 0], [.19, .02], [.17, .25], [.19, .42], [.15, .5], [.06, .54], [0, .54]].map(function (q) { return new T.Vector2(q[0], q[1]); }), 18), layWhite);
+      torso.scale.z = .7; up.add(torso);
+      var hold = new T.Group(), lap = new T.Group(); up.add(hold); up.add(lap); lap.visible = false;
+      [-1, 1].forEach(function (s) {
+        add(new T.Mesh(new T.SphereGeometry(.075, 12, 10), layWhite), s * .18, .46, 0, up);
+        limb(new V3(s * .18, .46, 0), new V3(s * .2, .25, .1), .055, layWhite, hold, true);
+        limb(new V3(s * .2, .25, .1), new V3(s * .03, .31, .26), .042, skin, hold, true);
+        limb(new V3(s * .18, .46, 0), new V3(s * .23, .2, .05), .055, layWhite, lap, true);
+        limb(new V3(s * .23, .2, .05), new V3(s * .04, .1, .2), .042, skin, lap, true);
+      });
+      add(new T.Mesh(new T.SphereGeometry(.05, 10, 8), skin), 0, .31, .27, hold);
+      add(new T.Mesh(new T.CylinderGeometry(.012, .012, .2, 8), wax), 0, .43, .28, hold);
+      var palms = add(new T.Mesh(new T.SphereGeometry(1, 10, 8), skin), 0, .1, .21, lap); palms.scale.set(.085, .035, .055);
+      var fl = new T.Sprite(flameMat); fl.center.set(.5, .1); fl.position.set(0, .53, .28); fl.scale.set(.06, .13, 1); fl.visible = false; hold.add(fl);
+      add(new T.Mesh(new T.CylinderGeometry(.045, .05, .07, 10), skin), 0, .57, 0, up);
+      add(new T.Mesh(new T.SphereGeometry(.1, 16, 12), skin), 0, .69, 0, up);
+      var hair = add(new T.Mesh(new T.SphereGeometry(.105, 16, 8, 0, 6.2832, 0, 1.5), hairMat), 0, .695, -.008, up); hair.rotation.x = -.35;
+      var icon = new T.Sprite(new T.SpriteMaterial({ map: iconTex(color), transparent: true, depthWrite: false }));
+      icon.scale.set(.24, .24, 1); icon.position.set(0, 1, 0); up.add(icon);
+      return { g: g, up: up, hold: hold, lap: lap, standLower: standLower, sitLower: sitLower, flame: fl, icon: icon, f: { s: fl, w: .06, h: .13, ph: seed, sp: 7 + seed % 4 } };
+    }
+    var avatars = {};
+    function setPeers(list) {
+      var seen = {};
+      list.forEach(function (q) {
+        seen[q.id] = 1;
+        var a = avatars[q.id];
+        if (!a) {
+          var seed = 0; for (var ch = 0; ch < q.id.length; ch++) seed = (seed * 31 + q.id.charCodeAt(ch)) % 9973;
+          a = avatars[q.id] = buildLay(seed); a.x = q.x; a.z = q.z; a.yaw = q.yaw; a.bow = q.bow; a.bowT = 1; a.sit = q.sit; a.settle = 9;
+          a.up.position.y = q.sit ? .16 : .85;
+          scene.add(a.g); flames.push(a.f);
+        }
+        if (q.bow !== a.bow) { a.bow = q.bow; a.bowT = 0; }
+        if (q.sit && !a.sit) a.settle = 0;                                   /* just sat down: adjust the posture */
+        a.tx = q.x; a.tz = q.z; a.tyaw = q.yaw; a.sit = q.sit; a.lit = q.lit;
+      });
+      Object.keys(avatars).forEach(function (id) {
+        if (seen[id]) return;
+        var a = avatars[id]; scene.remove(a.g); flames.splice(flames.indexOf(a.f), 1);
+        a.icon.material.map.dispose(); a.icon.material.dispose(); delete avatars[id];
+      });
+    }
+
+    /* ================= moving through it ================= */
+    var cam = { x: 0, z: 21, yaw: 0, pitch: .2, eye: 1.6, eyeT: 1.6 };
+    var tween = null, sitting = false, entering = false, bowA = null, keys = {}, settle = null, heldY = -.2, heldShown = false;
+    function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+    function groundY(z) { return z <= 2 ? 0 : z >= 3.92 ? -1 : -(z - 2) / 1.92; }
+    function clampPos(x, z) {
+      z = clamp(z, -12, 25);                                                  /* lay visitors stay behind the monks */
+      if (z < -.7) {
+        x = clamp(x, -5.2, 5.2);
+        COLS.forEach(function (c) { var dx = x - c[0], dz = z - c[1], d = Math.hypot(dx, dz); if (d < .8 && d > 0) { x = c[0] + dx / d * .8; z = c[1] + dz / d * .8; } });
+        if (x < -3.9 && z < -11.2 && z > -13.8) x = -3.9;                          /* the bell frame */
+      } else if (z < .7) x = clamp(x, -1.05, 1.05);
+      else if (z < 4.3) x = clamp(x, -1.9, 1.9);
+      else x = clamp(x, -6.8, 6.8);
+      return { x: x, z: z };
+    }
+    function glide(x, z, o) {
+      o = o || {};
+      var q = clampPos(x, z), d = Math.hypot(q.x - cam.x, q.z - cam.z);
+      var dur = o.dur != null ? o.dur : clamp(d / 2.5, .5, 7);
+      if (reduced) dur = .01;
+      var yaw1 = o.yaw;
+      if (yaw1 != null) { var diff = (yaw1 - cam.yaw) % 6.2832; if (diff > Math.PI) diff -= 6.2832; if (diff < -Math.PI) diff += 6.2832; yaw1 = cam.yaw + diff; }
+      tween = { x0: cam.x, z0: cam.z, x1: q.x, z1: q.z, yaw0: cam.yaw, yaw1: yaw1, p0: cam.pitch, p1: o.pitch, t: 0, dur: dur, done: o.done };
+    }
+    function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+    function faceBuddha(x, z) { var dx = -x, dz = -20 - z; return { yaw: Math.atan2(-dx, -dz), pitch: Math.atan2(3.2, Math.hypot(dx, dz)) }; }
+    function sitDown(x, z, cb) {
+      var q = clampPos(x, z), f = faceBuddha(q.x, q.z);
+      if (Math.hypot(q.x - cam.x, q.z - cam.z) > .5) stand();
+      glide(q.x, q.z, { yaw: f.yaw, pitch: f.pitch, done: function () {
+        sitting = true; api.onSeat(true);
+        if (cb) { cam.eyeT = 1.1; cb(); } else { cam.eyeT = 1.02; settle = { t: 0 }; api.onSit(); }
+      } });
+    }
+    function kneel(cb) { if (sitting) cb(); else sitDown(cam.x, cam.z, cb); }
+    function stand() { if (sitting) api.onSeat(false); sitting = false; settle = null; cam.eyeT = 1.6; }
+
+    function syncTray() {
+      var n = 0; tray.forEach(function (c) { if (c.lit) n++; });
+      trayLight.userData.base = .25 + n * .075; trayGlow.scale.setScalar(1.6 + n * .1); trayGlow.material.opacity = .2 + n * .012;
+    }
+    var TRAY_FREE = trayOrder.length;
+    function setTray(n, pop) {                                                /* n candles offered by everyone here */
+      var changed = false;
+      while (trayOrder.length && TRAY_FREE - trayOrder.length < n) {
+        var c = tray[trayOrder.shift()]; c.lit = true; c.f.s.visible = true; if (pop) c.f.pop = 1; changed = true;
+      }
+      if (changed) syncTray();
+    }
+    syncTray();
+
+    var ray = new T.Raycaster(), ndc = new T.Vector2();
+    function tap(px, py) {
+      var r = canvas.getBoundingClientRect();
+      ndc.set((px - r.left) / r.width * 2 - 1, -(py - r.top) / r.height * 2 + 1);
+      if (api.onTap()) return;                                                  /* the tap only brought the options back */
+      ray.setFromCamera(ndc, camera);
+      var hit = ray.intersectObjects(solids, false)[0];
+      if (!hit) return;
+      for (var o = hit.object; o; o = o.parent) if (o.userData.act) { api.onAct(o.userData.act, o); return; }
+      if (hit.object.userData.walk) { stand(); glide(hit.point.x, hit.point.z); }
+    }
+    var ptr = null;
+    canvas.addEventListener("pointerdown", function (e) {
+      ptr = { id: e.pointerId, x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY, t: performance.now(), drag: false };
+      try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    canvas.addEventListener("pointermove", function (e) {
+      if (!ptr || e.pointerId !== ptr.id) return;
+      var dx = e.clientX - ptr.x, dy = e.clientY - ptr.y;
+      ptr.x = e.clientX; ptr.y = e.clientY;
+      /* a finger never holds perfectly still: only a real move away from where it landed is a drag */
+      if (!ptr.drag && Math.hypot(e.clientX - ptr.x0, e.clientY - ptr.y0) > 12) { ptr.drag = true; return; }
+      if (ptr.drag) {
+        cam.yaw += dx * .0045; cam.pitch = clamp(cam.pitch + dy * .0045, -1.2, 1.2);
+        if (tween) { tween.yaw1 = null; tween.p1 = null; }
+      }
+    });
+    function up(e) {
+      if (!ptr || e.pointerId !== ptr.id) return;
+      var wasTap = !ptr.drag && performance.now() - ptr.t < 800; ptr = null;
+      if (wasTap && e.type === "pointerup" && api.canWalk() && !entering) tap(e.clientX, e.clientY);
+    }
+    canvas.addEventListener("pointerup", up);
+    canvas.addEventListener("pointercancel", up);
+    canvas.addEventListener("keydown", function (e) { keys[e.key.toLowerCase()] = true; });
+    canvas.addEventListener("keyup", function (e) { keys[e.key.toLowerCase()] = false; });
+    canvas.addEventListener("blur", function () { keys = {}; });
+
+    function resize() {
+      var w = canvas.clientWidth || 1, h = canvas.clientHeight || 1;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h; camera.fov = w / h < .8 ? 78 : 60; camera.updateProjectionMatrix();
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    var last = 0, clock = 0;
+    function frame(ms) {
+      requestAnimationFrame(frame);
+      if (document.hidden) { last = ms; return; }
+      var dt = Math.min(.05, (ms - last) / 1000 || 0); last = ms; clock += dt;
+
+      if (tween) {
+        tween.t = Math.min(1, tween.t + dt / tween.dur);
+        var k = ease(tween.t);
+        cam.x = tween.x0 + (tween.x1 - tween.x0) * k; cam.z = tween.z0 + (tween.z1 - tween.z0) * k;
+        if (tween.yaw1 != null) cam.yaw = tween.yaw0 + (tween.yaw1 - tween.yaw0) * k;
+        if (tween.p1 != null) cam.pitch = tween.p0 + (tween.p1 - tween.p0) * k;
+        if (tween.t >= 1) { var done = tween.done; tween = null; if (done) done(); }
+      } else if (api.canWalk() && !entering && !bowA) {
+        var f = (keys.w || keys.arrowup ? 1 : 0) - (keys.s || keys.arrowdown ? 1 : 0);
+        var s = (keys.d ? 1 : 0) - (keys.a ? 1 : 0);
+        var turn = (keys.arrowleft ? 1 : 0) - (keys.arrowright ? 1 : 0);
+        if (turn) cam.yaw += turn * dt * 1.6;
+        if (f || s) {
+          stand();
+          var sp = 2.6 * dt, q = clampPos(cam.x + (-Math.sin(cam.yaw) * f + Math.cos(cam.yaw) * s) * sp, cam.z + (-Math.cos(cam.yaw) * f - Math.sin(cam.yaw) * s) * sp);
+          cam.x = q.x; cam.z = q.z;
+        }
+      }
+      cam.eye += (cam.eyeT - cam.eye) * Math.min(1, dt * 4);
+      var bowK = 0;
+      if (bowA) {
+        bowA.t += dt / (reduced ? .9 : 2.4);
+        var t = bowA.t; bowK = t < .4 ? ease(t / .4) : t < .6 ? 1 : ease(Math.max(0, (1 - t) / .4));
+        if (reduced) bowK = 0;
+        if (t >= 1) { var cb = bowA.done; bowA = null; bowK = 0; if (cb) cb(); }
+      }
+      var roll = 0, nod = 0;
+      if (settle) {                                                             /* sway, lean, then sit up straight */
+        settle.t += dt; var u = settle.t / 3.4;
+        if (u > .55) cam.eyeT = 1.1;
+        if (u >= 1) settle = null;
+        else if (!reduced) { roll = .045 * Math.sin(settle.t * 4.2) * Math.pow(1 - u, 1.5); nod = -.12 * Math.sin(Math.PI * Math.min(1, u * 1.6)); }
+      }
+      var breath = sitting && !reduced ? .006 * Math.sin(clock * 1.2) : 0;
+      heldY += ((sitting ? -.56 : -.2) - heldY) * Math.min(1, dt * 4);
+      held.position.y = heldY; held.visible = heldShown && heldY > -.5;
+      camera.position.set(cam.x, groundY(cam.z) + cam.eye + breath - .68 * bowK, cam.z);
+      camera.rotation.set((cam.pitch + nod) * (1 - bowK) - 1.15 * bowK, cam.yaw, roll * (1 - bowK));
+
+      if (!reduced) {
+        flames.forEach(function (fl) {
+          if (!fl.s.visible) return;
+          var v = 1 + .09 * Math.sin(clock * fl.sp + fl.ph) + .05 * Math.sin(clock * fl.sp * 2.7 + fl.ph * 2);
+          if (fl.pop) { fl.pop = Math.max(0, fl.pop - dt * 1.6); v *= 1 + fl.pop * .9; }
+          fl.s.scale.set(fl.w * (1.5 - v * .5), fl.h * v, 1);
+        });
+        lights.forEach(function (l, i) { l.intensity = l.userData.base * (.93 + .05 * Math.sin(clock * (7 + i)) + .03 * Math.sin(clock * (13.7 + i * 2))); });
+        for (var d = 0; d < dustN; d++) {
+          dustPos[d * 3 + 1] += dt * .05; dustPos[d * 3] += Math.sin(clock * .3 + d) * dt * .02;
+          if (dustPos[d * 3 + 1] > 8) dustPos[d * 3 + 1] = .3;
+        }
+        dustGeo.attributes.position.needsUpdate = true;
+        monks.forEach(function (m) {
+          m.g.scale.y = 1.08 * (1 + .008 * Math.sin(clock * 1.1 + m.ph));
+          m.head.rotation.x = api.chanting() ? .1 + .05 * Math.sin(clock * 1.9 + m.ph) : .06;
+        });
+      }
+      for (var id in avatars) {
+        var a = avatars[id], kk = reduced ? 1 : Math.min(1, dt * 6);
+        a.x += (a.tx - a.x) * kk; a.z += (a.tz - a.z) * kk;
+        var dyaw = (a.tyaw - a.yaw) % 6.2832; if (dyaw > Math.PI) dyaw -= 6.2832; if (dyaw < -Math.PI) dyaw += 6.2832; a.yaw += dyaw * kk;
+        a.g.position.set(a.x, groundY(a.z), a.z); a.g.rotation.y = a.yaw + Math.PI;
+        a.standLower.visible = !a.sit; a.sitLower.visible = !!a.sit;
+        a.up.position.y += ((a.sit ? .16 : .85) - a.up.position.y) * kk;
+        var bend = 0;
+        if (a.bowT < 1) { a.bowT += dt / 2.4; var bt = a.bowT; bend = bt < .4 ? ease(bt / .4) : bt < .6 ? 1 : ease(Math.max(0, (1 - bt) / .4)); }
+        a.up.rotation.x = bend * (a.sit ? 1.2 : .6);
+        a.hold.visible = !a.sit; a.lap.visible = !!a.sit; a.flame.visible = !!a.lit && !a.sit;
+        var sway = 0;
+        if (a.settle < 3) { a.settle += dt; sway = .08 * Math.sin(a.settle * 4.2) * Math.pow(Math.max(0, 1 - a.settle / 3), 1.5); }
+        a.up.rotation.z = reduced ? 0 : sway;
+      }
+      trayLight.intensity += (trayLight.userData.base - trayLight.intensity) * Math.min(1, dt * 3);
+      if (bellSwing > 0) { bellSwing = Math.max(0, bellSwing - dt); bell.rotation.x = reduced ? 0 : .32 * Math.sin((3.2 - bellSwing) * 5.2) * (bellSwing / 3.2); }
+      renderer.render(scene, camera);
+    }
+
+    var api = {
+      onAct: function () {}, onSit: function () {}, onSeat: function () {}, onTap: function () { return false; }, canWalk: function () { return true; }, chanting: function () { return false; },
+      start: function () { requestAnimationFrame(frame); },
+      enter: function (done) {
+        entering = true;
+        glide((Math.random() - .5) * 2, -3.4, { yaw: 0, pitch: .14, dur: 8, done: function () { entering = false; done(); } });
+      },
+      placeInside: function () { cam.x = 0; cam.z = -3.4; cam.yaw = 0; cam.pitch = .14; },
+      placeOutside: function () { cam.x = 0; cam.z = 21; cam.yaw = 0; cam.pitch = .2; },
+      kneel: kneel,
+      sitAt: function (n) { var st = SEATS[n]; if (st) sitDown(st[0], st[1]); },
+      setTray: setTray,
+      trayFull: function () { return !trayOrder.length; },
+      setPeers: setPeers,
+      holdCandle: function (show, lit) { heldShown = show; heldFlame.visible = heldGlow.visible = !!lit; },
+      pose: function () { return { x: Math.round(cam.x * 100) / 100, z: Math.round(cam.z * 100) / 100, yaw: Math.round(cam.yaw * 100) / 100, sit: sitting }; },
+      bow: function (done) { bowA = { t: 0, done: done }; },
+      busy: function () { return !!bowA || entering; },
+      ring: function () { bellSwing = 3.2; }
+    };
+    return api;
+  }
+
+  /* ================= the rite ================= */
+  /* While seated the four options fade away, leaving the hall clear; a tap brings them back. */
+  var seated = false, hudOff = false, hudTimer = 0, tips = 0;
+  function setHud(off) {
+    hudOff = off; $("hud").classList.toggle("off", off);
+    var tip = $("tip");
+    if (off && tips < 2) {
+      tips++; tip.textContent = L[state.lang].tip; tip.classList.add("on");
+      setTimeout(function () { tip.classList.remove("on"); }, 3600);
+    } else if (!off) tip.classList.remove("on");
+  }
+  function armHide(ms) {
+    clearTimeout(hudTimer); hudTimer = 0;
+    if (!seated) return;
+    hudTimer = setTimeout(function () {
+      hudTimer = 0;
+      if (!seated) return;
+      if ($("sheet").hidden && world && !world.busy()) setHud(true); else armHide(2000);
+    }, ms);
+  }
+  function onSeat(v) {
+    seated = v;
+    if (v) armHide(4200); else { clearTimeout(hudTimer); hudTimer = 0; setHud(false); }
+  }
+
+  function act(k, obj) {
+    if (!world || world.busy()) return;
+    if (seated) { setHud(false); armHide(6000); }
+    if (k === "seat") { world.sitAt(obj.userData.seat); }
+    else if (k === "candle") {
+      state.lit = true; world.holdCandle(true, true);                 /* the candle in your hand is lit, and one is set on the table */
+      if (world.trayFull()) say("full");
+      else { state.candles++; world.setTray(state.candles + othersCandles, true); say("candle", state.candles); }
+      render();
+    } else if (k === "bow") {
+      world.kneel(function () {
+        var n = state.bow >= 3 ? 0 : state.bow;         /* a fourth bow starts a new set of three */
+        state.bow = n + 1; state.bowN++; say("bow", n); render();
+        var w = $("bow-word"); w.textContent = L[state.lang].bows[n]; w.classList.add("on");
+        world.bow(function () { w.classList.remove("on"); if (state.bow >= 3) { say("bowdone"); } });
+      });
+    } else if (k === "bell") {
+      state.bell++; world.ring(); bellSound(); say("merit");
+    } else if (k === "chant") { world.kneel(openChant); }
+  }
+
+  /* ================= other people in the hall ================= */
+  var room = null, others = 0, othersCandles = 0, lastSent = "", bellSeen = {};
+  function renderHere() {
+    var h = $("here"), show = !!room && state.entered;
+    h.hidden = !show;
+    if (show) h.textContent = L[state.lang].here(others + 1);
+  }
+  function fin(v, a, b, d) { return typeof v === "number" && isFinite(v) ? Math.min(b, Math.max(a, v)) : d; }
+  function onPeers(change) {
+    var list = [], total = 0, count = 0;
+    change.peers.forEach(function (p) {
+      if (p.kind !== "viewer" || p.sameTab) return;
+      var s = p.presence || {};
+      if (s.in !== 1) return;
+      count++; total += fin(s.n, 0, 27, 0);
+      var bell = fin(s.bell, 0, 1e9, 0);
+      if (p.peer in bellSeen && bell > bellSeen[p.peer] && world) { world.ring(); bellSound(); }
+      bellSeen[p.peer] = bell;
+      if (list.length < 40) list.push({ id: String(p.peer), x: fin(s.x, -9, 9, 0), z: fin(s.z, -12, 25, -3), yaw: fin(s.yaw, -1e4, 1e4, 0), sit: s.sit === 1, lit: s.lit === 1, bow: fin(s.bow, 0, 1e9, 0) });
+    });
+    others = count; othersCandles = total;
+    if (world) { world.setPeers(list); world.setTray(state.candles + total, true); }
+    renderHere();
+  }
+  function publish() {
+    if (!room || !world || !state.entered) return;
+    var q = world.pose();
+    var patch = { in: 1, x: q.x, z: q.z, yaw: q.yaw, sit: q.sit ? 1 : 0, lit: state.lit ? 1 : 0, n: state.candles, bow: state.bowN, bell: state.bell };
+    var s = JSON.stringify(patch);
+    if (s === lastSent) return;
+    lastSent = s;
+    room.presence(patch).catch(function () {});
+  }
+  function joinRoom() {
+    if (!window.claude || !window.claude.use) return;
+    window.claude.use("room").then(function (r) {
+      if (!r) return;
+      room = r;
+      r.onPeers(onPeers, function () { room = null; others = 0; othersCandles = 0; if (world) world.setPeers([]); renderHere(); });
+      setInterval(publish, 120);
+      renderHere();
+    }).catch(function () {});
+  }
+
+  function openChant() {
+    if (chantTimer) return;
+    $("sheet").hidden = false; render();
+    var i = 0;
+    state.status = { k: "chanting" };
+    chantStart();
+    function step() {
+      Array.prototype.forEach.call(document.querySelectorAll(".pali.now"), function (p) { p.classList.remove("now"); });
+      var badge = document.querySelector(".times");
+      if (i >= CHANT_SEQ.length) { chantTimer = 0; chantStop(); if (badge) badge.textContent = L[state.lang].times; state.status = { k: "chant" }; render(); return; }
+      var ref = CHANT_SEQ[i].split("-"), verse = VERSES.filter(function (v) { return v.id === ref[0]; })[0];
+      var syl = syllables(verse.lines[+ref[1]].ro), dur = syl.reduce(function (a, s) { return a + s.d; }, 0);
+      chantLine(syl);
+      var p = $("ln-" + CHANT_SEQ[i]);
+      if (p) { p.classList.add("now"); if (p.scrollIntoView) p.scrollIntoView({ block: "nearest", behavior: reduced ? "auto" : "smooth" }); }
+      if (badge) badge.textContent = i < 3 ? num(i + 1, state.lang) + " / " + num(3, state.lang) : L[state.lang].times;
+      i++;
+      chantTimer = setTimeout(step, (dur + .7) * 1000);                 /* the line lasts as long as its chant */
+    }
+    step();
+    $("close").focus({ preventScroll: true });
+  }
+  function closeChant() {
+    if (chantTimer) { clearTimeout(chantTimer); chantTimer = 0; if (state.status.k === "chanting") state.status = { k: "hint" }; }
+    chantStop();
+    $("sheet").hidden = true; render();
+    armHide(5000);
+    $("act-chant").focus({ preventScroll: true });
+  }
+
+  /* ================= wiring ================= */
+  document.querySelector(".acts").addEventListener("click", function (e) {
+    var b = e.target.closest ? e.target.closest(".act") : null;
+    if (b) act(b.dataset.act);
+  });
+  document.querySelector(".langs").addEventListener("click", function (e) {
+    var b = e.target.closest ? e.target.closest("button") : null;
+    if (!b || !L[b.dataset.lang]) return;
+    if (chantTimer) { clearTimeout(chantTimer); chantTimer = 0; chantStop(); $("sheet").hidden = true; state.status = { k: "hint" }; }
+    state.lang = b.dataset.lang;
+    try { localStorage.setItem("dhamma-sala-lang", state.lang); } catch (err) {}
+    render();
+  });
+  $("enter").addEventListener("click", function () {
+    if (!world) return;
+    state.entered = true; $("gate").hidden = true;
+    world.holdCandle(true, state.lit); renderHere();
+    world.enter(function () { say("hint"); render(); $("gl").focus({ preventScroll: true }); });
+  });
+  $("close").addEventListener("click", closeChant);
+  document.querySelector(".acts").addEventListener("focusin", function () { if (hudOff) { setHud(false); armHide(6000); } });
+
+  function start(saved) {
+    state = fresh(pickLang());
+    if (saved && typeof saved === "object") {
+      ["lang", "entered", "candles", "lit", "bow"].forEach(function (k) { if (k in saved) state[k] = saved[k]; });
+      if (!L[state.lang]) state.lang = "th";
+    }
+    try {
+      if (!window.THREE) throw new Error("three.js did not load");
+      world = buildWorld($("gl"));
+      world.onAct = act;
+      world.onSit = function () { say("settle"); };
+      world.onSeat = onSeat;
+      world.onTap = function () { if (!hudOff) return false; setHud(false); armHide(6000); return true; };
+      world.canWalk = function () { return state.entered && $("sheet").hidden; };
+      world.chanting = function () { return !!chantTimer; };
+      if (state.entered) { world.placeInside(); world.setTray(state.candles, false); world.holdCandle(true, state.lit); } else world.placeOutside();
+      world.start();
+    } catch (err) {
+      world = null; $("fallback").hidden = false; $("gate").hidden = true;
+    }
+    render();
+    if (!world) { $("gate").hidden = true; $("hud").hidden = true; }
+    else joinRoom();
+  }
+  var hot = window.claude && window.claude.hot;
+  if (hot && hot.snapshot) hot.snapshot(function () { return { lang: state.lang, entered: state.entered, candles: state.candles, lit: state.lit, bow: state.bow }; });
+  if (hot && hot.ready) hot.ready(start); else start((hot && hot.data) || {});
+})();
+</script>
+</body>
+</html>
